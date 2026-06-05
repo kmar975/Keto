@@ -1,0 +1,6 @@
+{
+  "name": "Keto dla Mózgu",
+  "description": "Przewodnik po biochemii mózgu i wpływie diety ketogenicznej na zdrowie psychiczne, na podstawie książki dr Georgii Ede.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
