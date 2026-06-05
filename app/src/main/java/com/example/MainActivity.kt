@@ -45,15 +45,84 @@ class MainActivity : ComponentActivity() {
     enableEdgeToEdge()
     setContent {
       MyApplicationTheme {
+        var currentScreen by remember { mutableStateOf(MainScreen.HOME) }
+        var showInfoDialog by remember { mutableStateOf(false) }
+
         Scaffold(
           modifier = Modifier.fillMaxSize(),
-          bottomBar = { BottomNavigationBar() }
+          topBar = {
+            SharedTopBar(
+              onMenuClick = { showInfoDialog = true }
+            )
+          },
+          bottomBar = {
+            BottomNavigationBar(
+              currentScreen = currentScreen,
+              onScreenChange = { currentScreen = it }
+            )
+          }
         ) { innerPadding ->
-          KetoBrainHandbookScreen(modifier = Modifier.padding(innerPadding))
+          Box(modifier = Modifier.padding(innerPadding)) {
+            when (currentScreen) {
+              MainScreen.HOME -> KetoBrainHandbookScreen()
+              MainScreen.LABS -> LabsScreen()
+              MainScreen.TRACK -> TrackScreen()
+              MainScreen.PROFILE -> ProfileScreen()
+            }
+          }
+
+          if (showInfoDialog) {
+            AlertDialog(
+              onDismissRequest = { showInfoDialog = false },
+              confirmButton = {
+                TextButton(
+                  onClick = { showInfoDialog = false },
+                  modifier = Modifier.testTag("dialog_confirm_btn")
+                ) {
+                  Text("Rozumiem", fontWeight = FontWeight.Bold, color = EnergyAmber)
+                }
+              },
+              title = {
+                Text(
+                  "Dr. Georgia Ede — O Programie",
+                  fontSize = 18.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = CleanWhite
+                )
+              },
+              text = {
+                Column {
+                  Text(
+                    "Dr. Georgia Ede to wybitna lekarka psychiatra wyszkolona na Harvardzie, która pioniersko bada wpływ spektrum metabolicznego i żywienia na zdrowie psychiczne.",
+                    fontSize = 13.sp,
+                    color = CleanWhite,
+                    lineHeight = 18.sp
+                  )
+                  Spacer(modifier = Modifier.height(8.dp))
+                  Text(
+                    "Ważna informacja medyczna:\nTego typu aplikacja ma walor wyłącznie edukacyjno-informacyjny. Przed podjęciem jakichkolwiek decyzji terapeutycznych, dietetycznych bądź modyfikacji leków, skonsultuj się ze swoim lekarzem prowadzącym.",
+                    fontSize = 12.sp,
+                    color = BrainPink,
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 16.sp
+                  )
+                }
+              },
+              shape = RoundedCornerShape(20.dp),
+              containerColor = Color.White
+            )
+          }
         }
       }
     }
   }
+}
+
+enum class MainScreen {
+  HOME,
+  LABS,
+  TRACK,
+  PROFILE
 }
 
 enum class NavigationTab {
@@ -73,6 +142,72 @@ data class DetailSection(
   val bulletPoints: List<String>,
   val shockingTakeaway: String
 )
+
+@Composable
+fun SharedTopBar(onMenuClick: () -> Unit) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .background(Color.White)
+      .statusBarsPadding()
+      .padding(horizontal = 20.dp, vertical = 14.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.SpaceBetween
+  ) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+      Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+          .size(40.dp)
+          .clip(RoundedCornerShape(50))
+          .background(EnergyAmber)
+      ) {
+        Text(
+          text = "GE",
+          fontSize = 15.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = Color.White
+        )
+      }
+      Spacer(modifier = Modifier.width(12.dp))
+      Column {
+        Text(
+          text = "Mind Fuel",
+          fontSize = 18.sp,
+          fontWeight = FontWeight.Bold,
+          color = CleanWhite,
+          modifier = Modifier.testTag("app_title")
+        )
+        Text(
+          text = "PROTOKÓŁ DR. EDE",
+          fontSize = 9.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = SoftGray,
+          letterSpacing = 1.sp
+        )
+      }
+    }
+
+    Box(
+      contentAlignment = Alignment.Center,
+      modifier = Modifier
+        .size(40.dp)
+        .clip(RoundedCornerShape(50))
+        .background(Color(0xFFF1F5F9))
+        .clickable { onMenuClick() }
+        .testTag("top_menu_button")
+    ) {
+      Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+      ) {
+        Box(modifier = Modifier.size(width = 16.dp, height = 2.dp).background(SoftGray))
+        Spacer(modifier = Modifier.height(3.dp))
+        Box(modifier = Modifier.size(width = 16.dp, height = 2.dp).background(SoftGray))
+      }
+    }
+  }
+}
 
 @Composable
 fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
@@ -99,7 +234,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
         title = "2. Neurony, Glej i Izolacja Kabli",
         subtitle = "Anatomia komórkowa według dr Ede",
         bulletPoints = listOf(
-          "Mózg składa się z ok. 85 miliardów neuronów i co najmniej tylu samo ochronnych komórek glejowych.",
+          "Mózg składa się z ok. 85 miliardów neuronów i co najmniej tylu samo ochronnych komólek glejowych.",
           "Oligodendrocyty owijają aksony neuronów osłonkami mielinowymi (aż do 80 warstw tłuszczu i cholesterolu), zapewniając przepływ prądu z prędkością do 320 km/h.",
           "Astrocyty działają jak systemy logistyczne – bezpośrednio karmią neurony, wychwytują odpady i kształtują połączenia (synapsy).",
           "Mikroglej to armia odpornościowa mózgu. Pod wpływem reaktywnych form tlenu i wysokiej glukozy ulega aktywacji, uwalniając zapalne cytokiny uszkadzające komórki."
@@ -128,7 +263,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
           "Transport glukozy do mózgu drastycznie spada. Powstaje mózgowy hipometabolizm glukozy (cerebral glucose hypometabolism).",
           "Wolne rodniki utworzone z nadmiaru glukozy wywołują niszczący stany zapalne proces glikacji (powstają cząsteczki AGEs doprowadzające do atrofii hipokampa i Alzheimera - cukrzycy typu 3)."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Pacjent z insulinoopornością mózgu może mieć optymalny lub nawet wysoki cukier we krwi, ale jego neurony dosłownie głodują z powodu blokady transportu. Mózg woła o energię wzmagając stany lekowe i depresyjne."
+        shockingTakeaway = "SZOKUJĄCY FAKT: Pacjent z insulinoopornością mógu może mieć optymalny lub nawet wysoki cukier we krwi, ale jego neurony dosłownie głodują z powodu blokady transportu. Mózg woła o energię wzmagając stany lękowe i depresyjne."
       ),
       DetailSection(
         id = "bio_5",
@@ -180,7 +315,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
           "Sir Austin Hill stworzył w 1965 roku kryteria analizy przyczynowej. Pierwszym warunkiem jest siła korelacji (Relative Risk - RR).",
           "W badaniach nad paleniem tytoniu i rakiem płuc ryzyko względne (RR) wynosi od 8.0 do 32.0 (palacz choruje 3200% częściej). Związek jest oczywisty.",
           "Nauka przyjmuje, że badanie obserwacyjne powinno wykazać RR powyżej 2.0 (czyli wzrost ryzyka o 100%), aby brać je pod uwagę pod kątem przyczynowym.",
-          "Większość harvardzkich badań żywieniowych wykazuje RR na poziomie zaleznie 1.1 do 1.3 (np. czerwone mięso i serce to RR na poziomie... 1.03!)."
+          "Większość harvardzkich badań żywieniowych wykazuje RR na poziomie zaledwie 1.1 do 1.3 (np. czerwone mięso i serce to RR na poziomie... 1.03!)."
         ),
         shockingTakeaway = "SZOKUJĄCY FAKT: Ryzyko rzędu 1.03 (3% wzrostu) jest w statystyce zwykłym szumem pomiarowym, niemożliwym do oddzielenia od błędu ankiety. Mimo to mądrze brzmiące nagłówki krzyczą o zabójczej diecie."
       ),
@@ -191,7 +326,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
         bulletPoints = listOf(
           "W 1913 r. Nikołaj Aniczkow wywołał miażdżycę u królików, karmiąc je czystym, wyizolowanym cholesterolem zwierzęcym.",
           "Eksperyment stał się fundamentem teorii, że cholesterol zatyka tętnice.",
-          "Problem: Króliki są ścisłymi roślinożercami (herbivores). Ich układ pokarmowy i enzymy nigdy nie ewoluowały do metabolizowania pokarmów zwierzęcych.",
+          "Problem: Króliki są ścisłymi roślinożercami (herbivores). Układ pokarmowy i enzymy nigdy nie ewoluowały do metabolizowania pokarmów zwierzęcych.",
           "Gdy badanie powtórzono na psach, szczurach i innych wszystkożercach (takich jak my), ich organizmy poradziły sobie z nadmiarem bez problemów, a naczynia pozostały całkowicie czyste."
         ),
         shockingTakeaway = "SZOKUJĄCY FAKT: Cała krucjata przeciwko jajkom i nasyconym tłuszczom zwierzęcym opiera się na fakcie, że roślinożerny królik zachorował po jedzeniu pokarmu dla drapieżników!"
@@ -217,70 +352,6 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
       .fillMaxSize()
       .background(DeepDarkBlue)
   ) {
-    // Custom App Bar Header (Matches Design HTML)
-    Row(
-      modifier = Modifier
-        .fillMaxWidth()
-        .background(Color.White)
-        .padding(horizontal = 20.dp, vertical = 16.dp),
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-      Row(verticalAlignment = Alignment.CenterVertically) {
-        // Author Badge Initials Container
-        Box(
-          contentAlignment = Alignment.Center,
-          modifier = Modifier
-            .size(40.dp)
-            .clip(RoundedCornerShape(50))
-            .background(EnergyAmber)
-        ) {
-          Text(
-            text = "GE",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.White
-          )
-        }
-        Spacer(modifier = Modifier.width(12.dp))
-        Column {
-          Text(
-            text = "Mind Fuel",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = CleanWhite,
-            modifier = Modifier.testTag("app_title")
-          )
-          Text(
-            text = "PROTOKÓŁ DR. EDE",
-            fontSize = 9.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = SoftGray,
-            letterSpacing = 1.sp
-          )
-        }
-      }
-
-      // Elegant menu button or actions placeholder
-      Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-          .size(40.dp)
-          .clip(RoundedCornerShape(50))
-          .background(Color(0xFFF1F5F9))
-          .clickable {}
-      ) {
-        Column(
-          horizontalAlignment = Alignment.CenterHorizontally,
-          verticalArrangement = Arrangement.Center
-        ) {
-          Box(modifier = Modifier.size(width = 16.dp, height = 2.dp).background(SoftGray))
-          Spacer(modifier = Modifier.height(3.dp))
-          Box(modifier = Modifier.size(width = 16.dp, height = 2.dp).background(SoftGray))
-        }
-      }
-    }
-
     // Tab Controller (Thematic switch buttons)
     Row(
       modifier = Modifier
@@ -562,7 +633,7 @@ fun MotivationHeroCard() {
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-              text = "Naprawa pomp sodowo-potasowych w błonach neuronów skutecznie wycisza chaos metaboliczny i lęki.",
+              text = "Naprawa pomp pomp/sodowo-potasowych w błonach neuronów skutecznie wycisza chaos metaboliczny i lęki.",
               fontSize = 11.sp,
               color = CleanWhite.copy(0.8f),
               lineHeight = 14.sp
@@ -761,9 +832,816 @@ fun MetricRow(
   }
 }
 
+@Composable
+fun LabsScreen() {
+  var glucose by remember { mutableStateOf(95) }
+  var insulin by remember { mutableStateOf(8) }
+  var triglycerides by remember { mutableStateOf(120) }
+  var hdl by remember { mutableStateOf(50) }
+
+  val homaIr = (glucose * insulin).toDouble() / 405.0
+  val tgHdlRatio = triglycerides.toDouble() / hdl.toDouble()
+
+  LazyColumn(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(DeepDarkBlue),
+    contentPadding = PaddingValues(20.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp)
+  ) {
+    item {
+      Column {
+        Text(
+          text = "Analizator Wyników Laboratoryjnych",
+          fontSize = 20.sp,
+          fontWeight = FontWeight.Bold,
+          color = CleanWhite
+        )
+        Text(
+          text = "Wprowadź swoje wyniki krwi za pomocą przycisków, aby odczytać stan zdrowia komórek mózgowych.",
+          fontSize = 13.sp,
+          color = SoftGray,
+          lineHeight = 18.sp
+        )
+      }
+    }
+
+    // Interactive Step Cards
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "🧪 ZESTAW WSKAŹNIKÓW METABOLICZNYCH",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(16.dp))
+
+          // Glucose Row
+          LabControlRow(
+            label = "Glukoza na czczo",
+            value = glucose,
+            unit = "mg/dl",
+            onIncrement = { if (glucose < 300) glucose += 5 },
+            onDecrement = { if (glucose > 50) glucose -= 5 },
+            helpText = "Optymalny poziom w książce: poniżej 90 mg/dl"
+          )
+
+          Spacer(modifier = Modifier.height(14.dp))
+          Divider(color = DarkCardBorder.copy(alpha = 0.4f))
+          Spacer(modifier = Modifier.height(14.dp))
+
+          // Insulin Row
+          LabControlRow(
+            label = "Insulina na czczo",
+            value = insulin,
+            unit = "uIU/ml",
+            onIncrement = { if (insulin < 80) insulin += 1 },
+            onDecrement = { if (insulin > 2) insulin -= 1 },
+            helpText = "Powyżej 8-10 uIU/ml sugeruje głód neuronów z powodu niedostępności transporterów GLUT"
+          )
+
+          Spacer(modifier = Modifier.height(14.dp))
+          Divider(color = DarkCardBorder.copy(alpha = 0.4f))
+          Spacer(modifier = Modifier.height(14.dp))
+
+          // Triglycerides Row
+          LabControlRow(
+            label = "Trójglicerydy (TG)",
+            value = triglycerides,
+            unit = "mg/dl",
+            onIncrement = { if (triglycerides < 400) triglycerides += 10 },
+            onDecrement = { if (triglycerides > 30) triglycerides -= 10 },
+            helpText = "Główny parametr informujący o wątrobowej syntezie tłuszczu z fruktozy i węglowodanów"
+          )
+
+          Spacer(modifier = Modifier.height(14.dp))
+          Divider(color = DarkCardBorder.copy(alpha = 0.4f))
+          Spacer(modifier = Modifier.height(14.dp))
+
+          // HDL Row
+          LabControlRow(
+            label = "Dobry Cholesterol (HDL)",
+            value = hdl,
+            unit = "mg/dl",
+            onIncrement = { if (hdl < 150) hdl += 5 },
+            onDecrement = { if (hdl > 15) hdl -= 5 },
+            helpText = "Niski poziom (< 50 mg/dl u kobiet, < 40 mg/dl u mężczyzn) to klasyczny element zespołu metabolicznego"
+          )
+        }
+      }
+    }
+
+    // Results Summary Card
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "📊 DYNAMICZNA OCENA METABOLICZNA",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(16.dp))
+
+          // HOMA-IR Status View
+          val (homaText, homaDesc, homaColor) = when {
+            homaIr < 1.0 -> Triple("Optymalna wrażliwość", "Komórki mózgowe bez trudu absorbują glukozę, a metabolizm działa stabilnie.", KetoneCyan)
+            homaIr < 1.9 -> Triple("Wczesna Insulinooporność", "Twoje receptory słabną. Wymaga wygaszenia nagłych skoków glukozy (Quiet Paleo).", EnergyAmber)
+            else -> Triple("Cerebralna Insulinooporność", "Poważna blokada energii! Mózg głoduje mimo obfitości cukru. Zalecane wejście w głęboką ketozę (Quiet Keto/Carnivore).", BrainPink)
+          }
+
+          MetricAnalysisBox(
+            title = "Wskaźnik HOMA-IR: ${String.format("%.2f", homaIr)}",
+            badgeText = homaText,
+            desc = homaDesc,
+            color = homaColor
+          )
+
+          Spacer(modifier = Modifier.height(16.dp))
+
+          // TG/HDL Status View
+          val (tgText, tgDesc, tgColor) = when {
+            tgHdlRatio < 1.5 -> Triple("Wyśmienity profi metaboliczny", "Świadczy o bardzo niskiej zawartości groźnych, małych gęstych cząsteczek LDL (sdLDL).", KetoneCyan)
+            tgHdlRatio < 2.5 -> Triple("Umiarkowany wskaźnik lipidowy", "Zaleca się eliminację cukrów prostych, napojów gazowanych i tłuszczów roślinnych.", EnergyAmber)
+            else -> Triple("Krytyczny stosunek TG/HDL", "Sugeruje silny proces stłuszczenia wątroby oraz wysoki wolumen zapalnych cząsteczek we krwi.", BrainPink)
+          }
+
+          MetricAnalysisBox(
+            title = "Stosunek Trójglicerydy do HDL: ${String.format("%.2f", tgHdlRatio)}",
+            badgeText = tgText,
+            desc = tgDesc,
+            color = tgColor
+          )
+        }
+      }
+    }
+  }
+}
+
+@Composable
+fun LabControlRow(
+  label: String,
+  value: Int,
+  unit: String,
+  onIncrement: () -> Unit,
+  onDecrement: () -> Unit,
+  helpText: String
+) {
+  Column {
+    Row(
+      modifier = Modifier.fillMaxWidth(),
+      horizontalArrangement = Arrangement.SpaceBetween,
+      verticalAlignment = Alignment.CenterVertically
+    ) {
+      Column(modifier = Modifier.weight(1f)) {
+        Text(
+          text = label,
+          fontSize = 14.sp,
+          fontWeight = FontWeight.Bold,
+          color = CleanWhite
+        )
+        Text(
+          text = helpText,
+          fontSize = 11.sp,
+          color = SoftGray,
+          lineHeight = 14.sp,
+          modifier = Modifier.padding(end = 6.dp)
+        )
+      }
+
+      Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+      ) {
+        // Decrement button
+        Box(
+          contentAlignment = Alignment.Center,
+          modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(50))
+            .background(Color(0xFFF1F5F9))
+            .clickable { onDecrement() }
+        ) {
+          Text("-", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+        }
+
+        // Value text
+        Text(
+          text = "$value",
+          fontSize = 15.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = EnergyAmber,
+          textAlign = TextAlign.Center,
+          modifier = Modifier.width(36.dp)
+        )
+
+        // Increment button
+        Box(
+          contentAlignment = Alignment.Center,
+          modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(50))
+            .background(Color(0xFFF1F5F9))
+            .clickable { onIncrement() }
+        ) {
+          Text("+", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+        }
+
+        Text(
+          text = unit,
+          fontSize = 10.sp,
+          color = SoftGray,
+          modifier = Modifier.width(32.dp)
+        )
+      }
+    }
+  }
+}
+
+@Composable
+fun MetricAnalysisBox(
+  title: String,
+  badgeText: String,
+  desc: String,
+  color: Color
+) {
+  Box(
+    modifier = Modifier
+      .fillMaxWidth()
+      .clip(RoundedCornerShape(16.dp))
+      .background(color.copy(alpha = 0.04f))
+      .border(BorderStroke(1.dp, color.copy(alpha = 0.15f)), RoundedCornerShape(16.dp))
+      .padding(14.dp)
+  ) {
+    Column {
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+      ) {
+        Text(
+          text = title,
+          fontSize = 13.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = CleanWhite
+        )
+        Box(
+          modifier = Modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(color.copy(alpha = 0.15f))
+            .padding(horizontal = 6.dp, vertical = 2.dp)
+        ) {
+          Text(
+            text = badgeText.uppercase(),
+            fontSize = 9.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = color
+          )
+        }
+      }
+      Spacer(modifier = Modifier.height(4.dp))
+      Text(
+        text = desc,
+        fontSize = 12.sp,
+        color = SoftGray,
+        lineHeight = 16.sp
+      )
+    }
+  }
+}
+
+@Composable
+fun TrackScreen() {
+  var selectedProtocol by remember { mutableStateOf("keto") }
+
+  val protocolFoods = mapOf(
+    "paleo" to listOf("🥑 Awokado", "🥩 Wołowina", "🐟 Dziki Łosoś", "🥦 Brokuły", "🥚 Jaja Eko", "🥕 Marchew", "🫐 Jagody"),
+    "keto" to listOf("🥑 Awokado", "🥩 Tłusta Wołowina", "🥓 Boczek Eko", "🧈 Masło Ghee", "🍳 Żółtka jaj", "🥥 Olej kokos", "🥬 Szpinak"),
+    "carnivore" to listOf("🥩 Antrykot wołowy", "🐑 Jagnięcina", "🧈 Masło Ghee", "🍳 Żółtka jaj", "🧂 Sól morska", "💧 Woda mineralna")
+  )
+
+  val mealPlans = mapOf(
+    "paleo" to listOf(
+      "Śniadanie" to "Jajecznica z 3 jaj na maśle klarowanym, plasterki świeżego awokado i garstka dzikich jagód.",
+      "Obiad" to "Pieczona pierś z kaczki ze słodkim ziemniakiem (batatem) oraz duszonym szpinakiem z czosnkiem.",
+      "Kolacja" to "Dziki łosoś na parze skropiony oliwą z oliwek, grillowane szparagi i prosta zielona sałata."
+    ),
+    "keto" to listOf(
+      "Śniadanie" to "Puszysty omlet żółtkowy z boczkiem, smażony na obfitej łyżce masła klarowanego.",
+      "Obiad" to "Mielone kotlety wołowe z łopatki, nadziewane masłem czosnkowym, podane z pieczonym kalafiorem.",
+      "Kolacja" to "Chłodny tatar wołowy z żółtkiem jaja kurzego, cebulką i oliwą z oliwek ekstra premium."
+    ),
+    "carnivore" to listOf(
+      "Śniadanie" to "Smażony stek z antrykotu wołowego (Ribeye) z roztopionym masłem i sporą szczyptą soli morskiej.",
+      "Obiad" to "Pieczone żeberka jagnięce (tłuste części), obficie posolone krystaliczną solą kłodawską.",
+      "Kolacja" to "Szybki posiłek z pieczonej wątróbki cielęcej w maśle klarowanym – doskonała dawka mikroelementów."
+    )
+  )
+
+  val activeFoods = protocolFoods[selectedProtocol] ?: emptyList()
+  val activePlan = mealPlans[selectedProtocol] ?: emptyList()
+
+  LazyColumn(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(DeepDarkBlue),
+    contentPadding = PaddingValues(20.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp)
+  ) {
+    item {
+      Column {
+        Text(
+          text = "Wybierz swój protokół dietetyczny",
+          fontSize = 20.sp,
+          fontWeight = FontWeight.Bold,
+          color = CleanWhite
+        )
+        Text(
+          text = "Każdy kolejny krok to silniejsza eliminacja potencjalnych alergenów i głębsza stabilizacja metaboliczna neuronów.",
+          fontSize = 13.sp,
+          color = SoftGray,
+          lineHeight = 18.sp
+        )
+      }
+    }
+
+    // Interactive Protocol Selector Buttons (Matches spec but fully active!)
+    item {
+      Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        // Quiet Paleo
+        val isPaleoSelected = selectedProtocol == "paleo"
+        CustomBorderCard(
+          shape = RoundedCornerShape(20.dp),
+          color = if (isPaleoSelected) KetoneCyan.copy(0.08f) else Color.White,
+          borderColor = if (isPaleoSelected) KetoneCyan else DarkCardBorder,
+          borderWidth = if (isPaleoSelected) 2.dp else 1.dp,
+          modifier = Modifier
+            .fillMaxWidth()
+            .clickable { selectedProtocol = "paleo" }
+            .testTag("protocol_paleo")
+        ) {
+          Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Box(
+              contentAlignment = Alignment.Center,
+              modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(KetoneCyan.copy(0.12f))
+            ) {
+              Text("🥗", fontSize = 20.sp)
+            }
+            Spacer(modifier = Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+              Text("Quiet Paleo", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              Text("KROK 1: Wstępna stabilizacja glukozy (Bez cukru, glutenu)", fontSize = 11.sp, color = SoftGray)
+            }
+            if (isPaleoSelected) {
+              Icon(Icons.Default.Check, contentDescription = "Wybrany", tint = KetoneCyan, modifier = Modifier.size(20.dp))
+            }
+          }
+        }
+
+        // Quiet Keto
+        val isKetoSelected = selectedProtocol == "keto"
+        CustomBorderCard(
+          shape = RoundedCornerShape(20.dp),
+          color = if (isKetoSelected) EnergyAmber.copy(0.08f) else Color.White,
+          borderColor = if (isKetoSelected) EnergyAmber else DarkCardBorder,
+          borderWidth = if (isKetoSelected) 2.dp else 1.dp,
+          modifier = Modifier
+            .fillMaxWidth()
+            .clickable { selectedProtocol = "keto" }
+            .testTag("protocol_keto")
+        ) {
+          Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Box(
+              contentAlignment = Alignment.Center,
+              modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(EnergyAmber.copy(0.12f))
+            ) {
+              Text("🥑", fontSize = 20.sp)
+            }
+            Spacer(modifier = Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+              Text("Quiet Keto", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              Text("KROK 2: Głęboka naprawa metaboliczna (Spalanie cyfr BHB)", fontSize = 11.sp, color = SoftGray)
+            }
+            if (isKetoSelected) {
+              Icon(Icons.Default.Check, contentDescription = "Wybrany", tint = EnergyAmber, modifier = Modifier.size(20.dp))
+            }
+          }
+        }
+
+        // Quiet Carnivore
+        val isCarnoSelected = selectedProtocol == "carnivore"
+        CustomBorderCard(
+          shape = RoundedCornerShape(20.dp),
+          color = if (isCarnoSelected) BrainPink.copy(0.08f) else Color.White,
+          borderColor = if (isCarnoSelected) BrainPink else DarkCardBorder,
+          borderWidth = if (isCarnoSelected) 2.dp else 1.dp,
+          modifier = Modifier
+            .fillMaxWidth()
+            .clickable { selectedProtocol = "carnivore" }
+            .testTag("protocol_carnivore")
+        ) {
+          Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Box(
+              contentAlignment = Alignment.Center,
+              modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(BrainPink.copy(0.12f))
+            ) {
+              Text("🥩", fontSize = 20.sp)
+            }
+            Spacer(modifier = Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+              Text("Quiet Carnivore", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              Text("KROK 3: Maksymalna eliminacja toksyn (Dla lęków i bipolar)", fontSize = 11.sp, color = SoftGray)
+            }
+            if (isCarnoSelected) {
+              Icon(Icons.Default.Check, contentDescription = "Wybrany", tint = BrainPink, modifier = Modifier.size(20.dp))
+            }
+          }
+        }
+      }
+    }
+
+    // Allowed Foods Card (Divided cleanly to avoid Experimental Flow API mismatch)
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "🛒 REKOMENDOWANA LISTA ZAKUPÓW",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+
+          Row(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+          ) {
+            activeFoods.take(3).forEach { food ->
+              Box(
+                modifier = Modifier
+                  .weight(1f)
+                  .clip(RoundedCornerShape(12.dp))
+                  .background(Color(0xFFF1F5F9))
+                  .border(BorderStroke(1.dp, Color(0xFFE2E8F0)), RoundedCornerShape(12.dp))
+                  .padding(8.dp)
+              ) {
+                Text(
+                  text = food,
+                  fontSize = 11.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = CleanWhite,
+                  textAlign = TextAlign.Center,
+                  modifier = Modifier.fillMaxWidth()
+                )
+              }
+            }
+          }
+          Spacer(modifier = Modifier.height(6.dp))
+          Row(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+          ) {
+            activeFoods.drop(3).take(4).forEach { food ->
+              Box(
+                modifier = Modifier
+                  .weight(1f)
+                  .clip(RoundedCornerShape(12.dp))
+                  .background(Color(0xFFF1F5F9))
+                  .border(BorderStroke(1.dp, Color(0xFFE2E8F0)), RoundedCornerShape(12.dp))
+                  .padding(8.dp)
+              ) {
+                Text(
+                  text = food,
+                  fontSize = 11.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = CleanWhite,
+                  textAlign = TextAlign.Center,
+                  modifier = Modifier.fillMaxWidth()
+                )
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // 1-Day Sample Meal Plan Card
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "🍽️ PRZYKŁADOWY JADŁOSPIS JEDNODNIOWY",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(14.dp))
+
+          activePlan.forEachIndexed { idx, item ->
+            val (mealTime, mealDesc) = item
+            Row(
+              verticalAlignment = Alignment.Top,
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
+            ) {
+              Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                  .size(24.dp)
+                  .clip(RoundedCornerShape(50))
+                  .background(EnergyAmber.copy(0.1f))
+              ) {
+                Text("${idx + 1}", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = EnergyAmber)
+              }
+              Spacer(modifier = Modifier.width(10.dp))
+              Column(modifier = Modifier.weight(1f)) {
+                Text(text = mealTime, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+                Text(text = mealDesc, fontSize = 12.sp, color = SoftGray, lineHeight = 16.sp)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+fun ProfileScreen() {
+  var sleepHours by remember { mutableStateOf(8) }
+  var clarityLevel by remember { mutableStateOf("Wysoka 🧠") }
+  val userGoal = remember { "Chcę wyeliminować stany zapalne i lęki, odbudowując stabilne paliwo komórkowe." }
+  var userNotes by remember { mutableStateOf("") }
+  var notesList by remember { mutableStateOf(listOf<String>()) }
+
+  LazyColumn(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(DeepDarkBlue),
+    contentPadding = PaddingValues(20.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp)
+  ) {
+    item {
+      Column {
+        Text(
+          text = "Twój Profil Metaboliczny",
+          fontSize = 20.sp,
+          fontWeight = FontWeight.Bold,
+          color = CleanWhite
+        )
+        Text(
+          text = "Monitoruj swoje codzienne parametry życiowe i obserwuj stabilizację pracy mózgu.",
+          fontSize = 13.sp,
+          color = SoftGray,
+          lineHeight = 18.sp
+        )
+      }
+    }
+
+    // Current Status Metrics Toggles
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "⚡ CODZIENNA DIAGNOSTYKA SAMOPOCZUCIA",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(14.dp))
+
+          // Sleep Hours Tweak
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Column(modifier = Modifier.weight(1f)) {
+              Text("Czas Snu (Ubiegła noc)", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              Text("Mielinizacja i detoks glejowy (układ glimfatyczny)", fontSize = 11.sp, color = SoftGray)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+              Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                  .size(32.dp)
+                  .clip(RoundedCornerShape(50))
+                  .background(Color(0xFFF1F5F9))
+                  .clickable { if (sleepHours > 4) sleepHours-- }
+              ) {
+                Text("-", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              }
+              Text("$sleepHours godz", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                  .size(32.dp)
+                  .clip(RoundedCornerShape(50))
+                  .background(Color(0xFFF1F5F9))
+                  .clickable { if (sleepHours < 12) sleepHours++ }
+              ) {
+                Text("+", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+              }
+            }
+          }
+
+          Spacer(modifier = Modifier.height(14.dp))
+          Divider(color = DarkCardBorder.copy(alpha = 0.4f))
+          Spacer(modifier = Modifier.height(14.dp))
+
+          // Clarity Selectors
+          Text("Aktywny stan jasności umysłu:", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+          Spacer(modifier = Modifier.height(8.dp))
+
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+          ) {
+            listOf("Wysoka 🧠", "Mgła 🌫️", "Lęk ⚡").forEach { clarity ->
+              val isSelected = clarityLevel == clarity
+              Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                  .weight(1f)
+                  .height(36.dp)
+                  .clip(RoundedCornerShape(10.dp))
+                  .background(if (isSelected) EnergyAmber.copy(0.12f) else Color(0xFFF1F5F9))
+                  .border(BorderStroke(1.dp, if (isSelected) EnergyAmber else Color.Transparent), RoundedCornerShape(10.dp))
+                  .clickable { clarityLevel = clarity }
+              ) {
+                Text(
+                  text = clarity,
+                  fontSize = 11.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = if (isSelected) EnergyAmber else CleanWhite
+                )
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Notes Logging Section
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "📝 DZIENNIK SAMOPOCZUCIA",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+
+          OutlinedTextField(
+            value = userNotes,
+            onValueChange = { userNotes = it },
+            placeholder = { Text("Zapisz dzisiejsze samopoczucie, reakcje na jedzenie...", fontSize = 12.sp, color = SoftGray) },
+            modifier = Modifier
+              .fillMaxWidth()
+              .testTag("user_notes_field"),
+            shape = RoundedCornerShape(14.dp)
+          )
+          Spacer(modifier = Modifier.height(8.dp))
+
+          Button(
+            onClick = {
+              if (userNotes.isNotBlank()) {
+                notesList = listOf(userNotes) + notesList
+                userNotes = ""
+              }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = EnergyAmber, contentColor = Color.White),
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier
+              .fillMaxWidth()
+              .testTag("add_note_btn")
+          ) {
+            Text("Dodaj notatkę", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+          }
+
+          if (notesList.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(14.dp))
+            Text("Zapisane logi:", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+            Spacer(modifier = Modifier.height(6.dp))
+
+            notesList.forEach { note ->
+              Box(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(vertical = 4.dp)
+                  .clip(RoundedCornerShape(12.dp))
+                  .background(Color(0xFFF8FAFC))
+                  .border(BorderStroke(1.dp, Color(0xFFF1F5F9)), RoundedCornerShape(12.dp))
+                  .padding(10.dp)
+              ) {
+                Text(text = "• $note", fontSize = 11.sp, color = CleanWhite)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Health Bio Info Card
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "🎯 TWÓJ CEL TERAPEUTYCZNY",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+
+          Text(
+            text = userGoal,
+            fontSize = 13.sp,
+            color = CleanWhite,
+            lineHeight = 18.sp
+          )
+        }
+      }
+    }
+  }
+}
+
 // Gorgeous Systemic Bottom Navigation Bar
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(
+  currentScreen: MainScreen,
+  onScreenChange: (MainScreen) -> Unit
+) {
   Surface(
     modifier = Modifier
       .fillMaxWidth()
@@ -779,22 +1657,23 @@ fun BottomNavigationBar() {
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically
     ) {
-      BottomNavTab(icon = "🏠", label = "Home", active = true)
-      BottomNavTab(icon = "🧪", label = "Labs", active = false)
-      BottomNavTab(icon = "📊", label = "Track", active = false)
-      BottomNavTab(icon = "👤", label = "Profile", active = false)
+      BottomNavTab(icon = "🏠", label = "Home", active = currentScreen == MainScreen.HOME, onClick = { onScreenChange(MainScreen.HOME) })
+      BottomNavTab(icon = "🧪", label = "Labs", active = currentScreen == MainScreen.LABS, onClick = { onScreenChange(MainScreen.LABS) })
+      BottomNavTab(icon = "📊", label = "Track", active = currentScreen == MainScreen.TRACK, onClick = { onScreenChange(MainScreen.TRACK) })
+      BottomNavTab(icon = "👤", label = "Profile", active = currentScreen == MainScreen.PROFILE, onClick = { onScreenChange(MainScreen.PROFILE) })
     }
   }
 }
 
 @Composable
-fun BottomNavTab(icon: String, label: String, active: Boolean) {
+fun BottomNavTab(icon: String, label: String, active: Boolean, onClick: () -> Unit) {
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
       .padding(vertical = 4.dp)
       .alpha(if (active) 1.0f else 0.40f)
-      .clickable(enabled = !active) {}
+      .clickable { onClick() }
+      .testTag("nav_${label.lowercase()}")
   ) {
     Text(text = icon, fontSize = 20.sp)
     Spacer(modifier = Modifier.height(2.dp))
