@@ -12,6 +12,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,7 +48,7 @@ class MainActivity : ComponentActivity() {
     enableEdgeToEdge()
     setContent {
       MyApplicationTheme {
-        var currentScreen by remember { mutableStateOf(MainScreen.HOME) }
+        var currentScreen by remember { mutableStateOf(MainScreen.SIMULATOR) }
         var showInfoDialog by remember { mutableStateOf(false) }
 
         Scaffold(
@@ -62,9 +65,11 @@ class MainActivity : ComponentActivity() {
         ) { innerPadding ->
           Box(modifier = Modifier.padding(innerPadding)) {
             when (currentScreen) {
+              MainScreen.SIMULATOR -> KetoBrainSimulatorScreen()
               MainScreen.HOME -> KetoBrainHandbookScreen()
               MainScreen.TRACK -> TrackScreen()
               MainScreen.LABS -> LabsScreen()
+              MainScreen.MOTIVATION -> MotivationScreen()
             }
           }
 
@@ -116,14 +121,19 @@ class MainActivity : ComponentActivity() {
 }
 
 enum class MainScreen {
+  SIMULATOR,
   HOME,
   TRACK,
-  LABS
+  LABS,
+  MOTIVATION
 }
 
 enum class NavigationTab {
   BIOCHEMISTRY,
-  METHODOLOGY
+  METHODOLOGY,
+  DIETS_CLINICAL,
+  FOOD_LIBRARY,
+  MED_WARN_INTEG
 }
 
 enum class SimulatorMode {
@@ -216,9 +226,38 @@ fun SharedTopBar(onMenuClick: () -> Unit) {
 }
 
 @Composable
+fun KetoBrainSimulatorScreen(modifier: Modifier = Modifier) {
+  var simMode by remember { mutableStateOf(SimulatorMode.GLUCOSE) }
+
+  Column(
+    modifier = modifier
+      .fillMaxSize()
+      .background(DeepDarkBlue)
+  ) {
+    LazyColumn(
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(1f),
+      contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+      item {
+        MotivationHeroCard()
+      }
+
+      item {
+        MetabolismSimulator(
+          mode = simMode,
+          onModeChange = { simMode = it }
+        )
+      }
+    }
+  }
+}
+
+@Composable
 fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
   var activeTab by remember { mutableStateOf(NavigationTab.BIOCHEMISTRY) }
-  var simMode by remember { mutableStateOf(SimulatorMode.GLUCOSE) }
   var expandedSectionId by remember { mutableStateOf<String?>("bio_1") }
 
   val biochemistrySections = remember {
@@ -239,7 +278,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
       DetailSection(
         id = "bio_2",
         title = "2. Neurony, Glej i Izolacja Kabli",
-        subtitle = "Zintegrowany ekosystem i rola myeliny",
+        subtitle = "Zintegrowany ekosystem i rola mieliny",
         bulletPoints = listOf(
           "W czaszce znajduje się ok. 85-86 miliardów neuronów oraz wspierająca ich potężna armia ochronnych komórek glejowych (najważniejsze to oligodendrocyty, astrocyty i mikroglej).",
           "Oligodendrocyty owijają czułe aksony neuronów osłonkami mielinowymi (do 80 warstw lipidów i cholesterolu). Ta doskonała izolacja izoluje impuls elektryczny, przyspieszając jego ruch do 320 km/h.",
@@ -257,7 +296,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
           "Silnik G (Glikoliza) zachodzi w płynie komórkowym (cytoplazmie) bez tlenu. To proces prymitywny, dający zaledwie 2 cząsteczki ATP z cząsteczki glukozy.",
           "Silnik M (Mitochondrialny) – zaawansowana praca tlenowa w mitochondriach. Elektrony przemieszczają się przez łańcuch oddechowy (ETC), generując aż 34-36 czystych cząsteczek ATP.",
           "Stabilne spalanie tlenowe w Silniku M wymaga obecności kluczowych kofaktorów: magnezu, żelaza organicznego oraz witamin z grupy B (B1, B2, B3, B5, B7).",
-          "Zdrowie błon mitochondrialnych opiera się na kardiolipinie. Spożywanie przetworzonych olejów roślinnych niszczy ten strukturę, powodując ucieczkę elektronów i załamanie Silnika M."
+          "Zdrowie błon mitochondrialnych opiera się na kardiolipinie. Spożywanie przetworzonych olejów roślinnych niszczy tę strukturę, powodując ucieczkę elektronów i załamanie Silnika M."
         ),
         shockingTakeaway = "SZOKUJĄCY FAKT: Opieranie metabolizmu mózgu wyłącznie na Silniku G (z powodu uszkodzenia mitochondriów) przypomina palenie w piecu stertą papierowych gazet – daje szybki ogień i masę popiołu, zamiast stabilnego ciepła dębowego drewna."
       ),
@@ -266,7 +305,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
         title = "4. Przekleństwo Glukozy i Blokada Insuliny",
         subtitle = "Cerebral Glucose Hypometabolism",
         bulletPoints = listOf(
-          "Aby neurony mogły skutecznie przetwarzać glukozę, niezbędna jest wysoka wrażliwość receptorów dla insuliny (IR) znajdujących się na synapsach i obrzeżach bariery krew-mózg.",
+          "Aby neurony mogły skutecznie przetrawzać glukozę, niezbędna jest wysoka wrażliwość receptorów dla insuliny (IR) znajdujących się na synapsach i obrzeżach bariery krew-mózg.",
           "Chroniczna dominacja węglowodanów w diecie (chleby, kasze, cukry proste, nadmiar fruktozy) prowadzi do ogłuszenia i redukcji tych receptorów (tzw. down-regulation).",
           "Wychwyt glukozy ulega zablokowaniu. Powstaje mózgowa insulinooporność: cukier zalega w krwi obwodowej, ale komórki mózgowe dosłownie umierają z głodu.",
           "Dodatkowo wolne rodniki z nadmiaru cukru wchodzą w reakcje glikacji z białkami, generując zabójcze cząsteczki AGEs (karmelizacja hipokampa prowadząca do Alzheimera/Cukrzycy typu 3)."
@@ -285,6 +324,18 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
           "Dodatkowo ketony nie potrzebują insuliny do wniknięcia i spalenia w komórkach mózgu, nasycając neurony stabilnym, czystym prądem."
         ),
         shockingTakeaway = "SZOKUJĄCY FAKT: Ciała ketonowe działają jak doskonały instalator biologiczny, dając natychmiastowe paliwo umysłowi omijając uszkodzone i oporne na insulinę tory glukozy!"
+      ),
+      DetailSection(
+        id = "bio_6",
+        title = "6. Porwanie Tryptofanu i Szlak Kynureninowy",
+        subtitle = "Jak neurozapalenie kradnie serotoninę i melatoninę",
+        bulletPoints = listOf(
+          "W normalnych warunkach mózg konwertuje tryptofan w serotoninę (nastrój) oraz melatoninę (głęboki sen).",
+          "Pod wpływem chronicznego zapalenia i wolnych rodników (wywołanych przez AGEs i kwas linolowy), tryptofan zostaje porwany ze szlaku serotoniny na neurotoksyczną odnogę szlaku kynureninowego (KYN).",
+          "Skutek to drastyczny niedobór serotoniny i melatoniny, połączony z uderzeniowym (nawet 100-krotnym!) wzrostem produkcji neurotoksycznego kwasu glutaminowego (glutamate).",
+          "Nadmiar glutaminianu dławi receptor NMDA (tzw. ekscytotoksyczność glutaminianu), powodując masową śmierć synaps, uszkodzenie mitochondriów i chroniczne lęki."
+        ),
+        shockingTakeaway = "SZOKUJĄCY FAKT: Stany lękowe i bezsenność w depresji to nie brak leków, lecz fizyczne porwanie tryptofanu pod wpływem diety prozapalnej (cukry i oleje nasienne)!"
       )
     )
   }
@@ -318,7 +369,7 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
       ),
       DetailSection(
         id = "met_3",
-        title = "3. Kryteria Bradforda Hilla: Co jest Nauką?",
+        title = "3. Kryteria Bradforda Hilla: Co jest Nauka?",
         subtitle = "Szum statystyczny w badaniach żywienia",
         bulletPoints = listOf(
           "W 1965 roku sir Austin Bradford Hill stworzył 9 kryteriów pozwalających rozróżnić korelację od przyczynowości. Najważniejsza jest siła powiązania (Relative Risk - RR).",
@@ -356,80 +407,261 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
     )
   }
 
+  val dietsClinicalSections = remember {
+    listOf(
+      DetailSection(
+        id = "clin_1",
+        title = "1. ZABURZENIA LĘKOWE (Anxiety)",
+        subtitle = "Jak ketony odbudowują spokój neuronów",
+        bulletPoints = listOf(
+          "Stany lękowe wynikają z nadreaktywności jądra migdałowatego (amygdala), które na chroniczne niedobory energii (ATP) odpowiada sygnałami zagrożenia.",
+          "Ketony (BHB) stymulują ekspresję enzymu GAD, który gwałtownie konwertuje kwas glutaminowy (toksyczny neuroprzekaźnik pobudzający, lękotwórczy) do uspokajającego GABA.",
+          "Dieta Keto oraz Carnivore usuwa ksenobiotyki roślinne i nadmiar glutenu, które niszczą spójność jelitową, zapobiegając uwalnianiu zapalnych lipopolisacharydów (LPS).",
+          "Samo Paleo często dopuszcza ziarna i orzechy bogate w kwas fitynowy, przez co blokuje mineralizację, dlatego stany lękowe najlepiej wycisza ścisłe Quiet Keto lub Carnivore."
+        ),
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Przy mocnych stanach lękowych nie bój się eliminacji warzyw. Quiet Carnivore w 2-3 tygodnie potrafi wygasić 90% lęków obwodowych!"
+      ),
+      DetailSection(
+        id = "clin_2",
+        title = "2. DEPRESJA I MGŁA MÓZGOWA (Depression & Fog)",
+        subtitle = "Przeciwzapalna tarcza mitochondriów",
+        bulletPoints = listOf(
+          "Współczesna psychiatria uznaje depresję kliniczną za stan zapalny tkanki nerwowej (Neuroinflammation).",
+          "Komórki glejowe obciążone cukrem generują niszczące cytokiny. Ketony blokują inflamasom NLRP3, wygaszając kaskadę zapalną w mózgu.",
+          "Cholesterol i tłuszcze nasycone dostarczane w Carnivore i Keto ratują osłonki mielinowe oligodendrocytów, umożliwiając szybki transport sygnałów i likwidując apatię.",
+          "Regularne zjazdy insulinowe po glukozie wywołują poranne wyrzuty kortyzolu (stresu), podsycając płaczliwość i brak napędu. Stała ketoza omija te wahania pętli hormonów."
+        ),
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Depresja lekooporna rewelacyjnie odpowiada na dietę Keto opartą na czerwonym mięsie, jajach i zdrowych lipidach zwierzęcych."
+      ),
+      DetailSection(
+        id = "clin_3",
+        title = "3. CHOROBA DWUBIEGUNOWA (ChAD)",
+        subtitle = "Stabilizacja ładunku błony neuronu",
+        bulletPoints = listOf(
+          "Choroba dwubiegunowa cechuje się niestabilnością poziomu elektrolitów (sodu i wapnia) po obu stronach błony neuronu, co sprzyja stanom manii i depresji.",
+          "Większość stabilizatorów nastroju (lit, kwas walproinowy) działa właśnie na pompy sodowo-potasowe oraz kanały wapniowe.",
+          "Ciała ketonowe działają naturalnie identycznie jak te leki: nasycając neurony ATP, umożliwiają bezwysiłkową pracę pomp sodowo-potasowych (Na+/K+-ATP-aza) i stabilizują elektrykę neuronów.",
+          "Charakterystyczna dla ChAD dysfunkcja Kompleksu I w mitochondrialnym łańcuchu zostaje ominięta przez ketony bezpośrednio do Kompleksu II.",
+          "Duża literatura naukowa (w tym pionierskie badania dr. Chrisa Palmera z Harvardu) opisuje spektakularne, trwałe remisje ChAD po wdrożeniu Quiet Keto."
+        ),
+        shockingTakeaway = "WSKAZÓWKA DR EDE: ChAD wymaga precyzyjnej i ścisłej kontroli ciał ketonowych na poziomie minimum 1.5 - 2.5 mmol/l we krwi."
+      ),
+      DetailSection(
+        id = "clin_4",
+        title = "4. ADHD I LABILNOŚĆ EMOCJONALNA",
+        subtitle = "Dopływ paliwa do płatów czołowych",
+        bulletPoints = listOf(
+          "Płaty czołowe osób z ADHD wykazują obniżoną aktywność metaboliczną (hypometabolism), co upośledza funkcje wykonawcze i kontrolę impulsów.",
+          "Jedzenie cukrów daje chwilowy wyrzut dopaminy, po czym następuje gwałtowny spadek glukozy i wyrzut adrenaliny, owocujący agresją, drażliwością i brakiem uwagi.",
+          "Quiet Paleo (Krok 1) eliminuje sztuczne barwniki, konserwanty, cukier i nabiał, co drastycznie zmniejsza nadpobudliwość u 50-70% pacjentów.",
+          "Quiet Keto lub Carnivore idą jeszcze dalej - zapewniają płatom czołowym stały, 24-godzinny poziom czystej energii i stabilizują dopaminowanie mózgu."
+        ),
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Zanim podasz dziecku lub sobie silne leki stymulujące (jak ritalin), wypróbuj Quiet Paleo eliminując całkowicie cukier oraz gluten na 30 dni."
+      ),
+      DetailSection(
+        id = "clin_5",
+        title = "5. SCHIZOFRENIA I CYKRZYCA TYPU 3",
+        subtitle = "Metaboliczne cofanie psychoz",
+        bulletPoints = listOf(
+          "Skrajne zaburzenia psychiczne, w tym schizofrenia, mocno korelują z insulinoopornością mózgową i niezdolnością neuronów do absorpcji glukozy.",
+          "Dr Georgia Ede leczyła z pełnym sukcesem pacjentów ze schizofrenią oporną na leki, wykorzystując wyłącznie terapeutyczne, dobrze skomponowane diety ketogenne.",
+          "Ominięcie zablokowanego receptorowo szlaku glukozy ratuje neurony przed śmiercią energetyczną i trwale uśmierza głosy oraz omamy.",
+          "Dodatkowo, wyeliminowanie wszystkich antyodżywczych substancji z roślin zapobiega autoimmunologicznym atakom na neuroreceptory."
+        ),
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Schizofrenia to patologia metaboliczna mózgu. Przywrócenie zasilania mitochondrialnego za pomocą ketonów wykazuje rewolucyjne działanie terapeutyczne."
+      )
+    )
+  }
+
+  val foodLibrarySections = remember {
+    listOf(
+      DetailSection(
+        id = "food_1",
+        title = "1. DOSKONAŁE SUPERPALIWA (Zezwolone)",
+        subtitle = "Pokarmy o najwyższej gęstości odżywczej",
+        bulletPoints = listOf(
+          "Mięsa przeżuwaczy (Wołowina, jagnięcina, dziczyzna, kozina): Królowie ludzkiego stołu. Dostarczają 100% przyswajalnego żelaza hemowego, cynku, kreatyny, karnityny oraz unikalnej witaminy B12.",
+          "Żółtka jajek: Bogactwo choliny (materiał budulcowy dla neuroprzekaźnika koncentracji i pamięci - acetylocholiny) oraz luteiny ocalającej siatkówkę.",
+          "Masło Ghee (Klarowane): Czysty tłuszcz nasycony pozbawiony kazeiny i laktozy. Zawiera maślan regenerujący nabłonek jelitowy.",
+          "Tłuste ryby dzikie (łosoś, makrela, szproty): Niezbędne źródła DHA (kwas dokozaheksaenowy), budującego 20% kory mózgowej i zapobiegającego demencji.",
+          "Awokado i oliwa z oliwek (extra virgin): Jedyne owoce/rośliny o ujemnej toksyczności, dostarczające stabilnych jednonienasyconych tłuszczów."
+        ),
+        shockingTakeaway = "SUGESTIA METABOLICZNA: Człowiek potrafi przeżyć całe życie jedząc wyłącznie wołowinę, sól i pijąc wodę. Nasz mózg ewoluował na tłuszczach zwierzęcych!"
+      ),
+      DetailSection(
+        id = "food_2",
+        title = "2. UKRYTE TOKSYNY ROŚLINNE (Unikaj lub Eliminuj)",
+        subtitle = "Naturalna broń biologiczna flory",
+        bulletPoints = listOf(
+          "Szczawiany (Oxalates - szpinak, buraki, migdały): Tworzą igiełkowate kryształy szczawianu wapnia. Odkładają się w stawach, nerkach i tkance mózgoworuchowej stymulując mikroglej.",
+          "Lektyny (Lectins - gluten, fasole, orzechy, psiankowate): Aglutyniny rozrywające barierę jelitową (Leaky Gut), ułatwiając toksynom wniknięcie do osocza krwi.",
+          "Salicylany (Salicylates - zioła, przyprawy, owoce): Bardzo wiele osób ma silną nadwrażliwość psychiczną na salicylany. Wyzwala to lęki, nocne poty, bezsenność i nadpobudliwość u dzieci.",
+          "Kwas fitynowy (Phytates - zboża, orzechy, soja): Blokuje wchłanianie krytycznych dla mózgu minerałów: cynku, magnezu, żelaza i wapnia."
+        ),
+        shockingTakeaway = "SUGESTIA METABOLICZNA: Rośliny nie mogą uciekać przed drapieżnikiem. Ich jedyną obroną są wyrafunowane toksyny chemiczne celowane w układ pokarmowy i nerwy roślinożerców!"
+      ),
+      DetailSection(
+        id = "food_3",
+        title = "3. RAFINOWANE OLEJE ROŚLINNE I CUKIER",
+        subtitle = "Mechanizm niszczenia mitochondriów",
+        bulletPoints = listOf(
+          "Oleje przemysłowe (rzepakowy, sojowy, słonecznikowy, kukurydziany) to nowość technologiczna. Powstają w drodze skomplikowanej rafinacji w 13 krokach za pomocą heksanu (petrochemicznego rozpuszczalnika), ługowania sodem i odwonienia parowego (powyżej 180°C), co zmienia wolne tłuszcze w truciznę.",
+          "Wspomniane oleje zawierają drastyczne ilości kwasu linolowego (Omega-6). Organizm człowieka potrzebuje aż 680 dni celowego unikania, by pozbyć się zaledwie połowy zmagazynowanego kwasu linolowego z tkanki tłuszczowej!",
+          "Wysokie spożycie margaryn i olejów nasiennych niszczy kardiolipinę – fosfolipid budujący wewnętrzną błonę mitochondriów, co wywołuje załamanie ETC i potężne przecieki wolnych rodników (ROS).",
+          "Z kolei cukier i fruktoza (oraz słodziki wywołujące neurotoksyczną nadwrażliwość NMDA) stale stymulują insulinę, potęgując obrzęki i proces glikacji neuronów."
+        ),
+        shockingTakeaway = "SZOKUJĄCY FAKT: Mózg i glej próbują spalać kwas linolowy jako awaryjne paliwo tłuszczowe, co drastycznie wzmaga stres oksydacyjny i uwalnia niszczycielskie produkty rozpadu (OXLAMs)."
+      ),
+      DetailSection(
+        id = "food_4",
+        title = "4. UPADEK MITÓW: Blueberries, Czekolada i Czerwone Wino",
+        subtitle = "Szokująca prawda o tzw. Antyoksydantach",
+        bulletPoints = listOf(
+          "Wielkie badania kliniczne (RCT) dowiodły, że suplementowanie rzekomych antyoksydantów (witaminy C i E, beta-karoten) nie tylko nie pomogło chorym, lecz zwiększyło rany rakowe i śmiertelność (beta-karoten u palaczy).",
+          "Słynne borówki (blueberries) mają znikomą przyswajalność polifenoli (anthocyanins). Truskawka (strawberry) deklasuje je pod każdym względem, zawierając 7 razy więcej witaminy C i tylko połowę cukru borówki!",
+          "Czerwone wino jako eliksir zdrowia to mit epidemiologiczny. Aby uzyskać terapeutyczną dawkę resweratrolu (polifenolu, będącego u roślin grzybobójczym pestycydem!), należałoby pić aż 500 butelek wina dziennie.",
+          "Brokułowy 'cud' czyli sulforafan to w rzeczywistości toksyczny insektycyd ('bomba musztardowa' chroniąca roślinę). Nie jest pokarmem, lecz ksenobiotykiem, który wątroba próbuje jak najszybciej wydalić z komórek."
+        ),
+        shockingTakeaway = "SZOKUJĄCY FAKT FIZJOLOGICZNY: W 2012 roku Departament Rolnictwa USA (USDA) oficjalnie wycofał i usunął internetową bazę danych ORAC, przyznając publicznie, że testy antyoksydacyjne w próbówce (in vitro) nie wykazują żadnego przełożenia na zdrowie żywego człowieka!"
+      ),
+      DetailSection(
+        id = "food_5",
+        title = "5. ROŻNICE MIĘDZY DIETAMI (Porównanie)",
+        subtitle = "Droga eliminacyjna: Paleo ➔ Keto ➔ Carnivore",
+        bulletPoints = listOf(
+          "Quiet Paleo (Krok 1): Dieta naturalna, bez zbóż, bez nabiału, bez cukru opartego na rafinacji. Dopuszcza warzywa, owoce i chude mięsa. Działa doskonale jako metaboliczny punkt wyjścia dla każdego.",
+          "Quiet Keto (Krok 2): Dieta wysokotłuszczowa, niskowęglowodanowa (do 20g-30g netto). Wycina owoce sadowe i sterylne skrobie. Wprowadza mózg w stałą ketozę, wygaszając lęki obwodowe.",
+          "Quiet Carnivore (Krok 3): Absolutne plant-free i egg/dairy-free. Najwyższy i najkrótszy stopień eliminacyjny dający ulgę w najgłębszych depresjach, schizofrenii i psychozach."
+        ),
+        shockingTakeaway = "REGUŁA DR EDE: Uzdrowienie mózgu to nie mądrość 'dodawania' cudownych owoców czy suplementów, lecz mądrość odejmowania i bezwzględnej SUBTRAKCJI niszczących substancji metabolicznych!"
+      )
+    )
+  }
+
+  val medWarnSections = remember {
+    listOf(
+      DetailSection(
+        id = "warn_1",
+        title = "1. OSTRZEŻENIE O LEKACH (⚠️ Przeczytaj Koniecznie)",
+        subtitle = "Hipotensja, leki psychiatryczne i rola lekarza",
+        bulletPoints = listOf(
+          "Gdy wchodzisz w ketozę, poziom insuliny spada, co powoduje intensywne usuwanie wody i sodu przez nerki (tzw. natriureza).",
+          "Osoby przyjmujące leki na nadciśnienie (np. betablokery, inhibitory ACE) mogą doświadczyć gwałtownych, groźnych dla zdrowia spadków ciśnienia (hipotensja). Dawkowanie tych leków musi być niezwłocznie dostosowane!",
+          "Mózg w ketozie staje się znacznie bardziej wrażliwy na leki neuroaktywne. Leki psychiatryczne (lit, depakine, benzodiazepiny, neuroleptyki) zaczynają działać znacznie silniej.",
+          "Poprawa wydolności mitochondriów sprawia, że dotychczasowa dawka leku może stać się toksyczna. Monitorowanie stężenia leków (szczególnie Litu) we krwi jest bezwzględnym nakazem!"
+        ),
+        shockingTakeaway = "⚠️ UWAGA: Dr Georgia Ede kładzie ogromny nacisk na to, by zmiana diety przy lekach psychotropowych odbywała się zawsze po konsultacji z lekarzem prowadzącym. Nigdy nie odstawiaj leków samowolnie!"
+      ),
+      DetailSection(
+        id = "warn_2",
+        title = "2. KETO GRYPA (Keto Flu) - Jak Uniknąć?",
+        subtitle = "Elektrolitowy spadek adaptacyjny",
+        bulletPoints = listOf(
+          "Keto grypa to zestaw przejściowych objawów trwających od 3 do 10 dni, wynikających ze spadku elektrolitów i zmiany enzymów szlaków energetycznych.",
+          "Objawy: silny ból głowy, osłabienie, skurcze mięśni, drżenie rąk, lęk, zaparcia/biegunki.",
+          "Rozwiązanie: Pij 1.5 - 2 litry osolonej wody dziennie (szczypta soli kłodawskiej / morskiej na szklankę).",
+          "Pij ciepły rosół ugotowany na kościach szpikowych (bone broth) bogaty w glicynę i minerały.",
+          "Suplementuj cytrynian magnezu (350-450mg magnezu przed snem) oraz uzupełniaj potas z dozwolonych źródeł."
+        ),
+        shockingTakeaway = "Rozwiązanie tkwi w soli! Większość objawów keto grypy to po prostu odwodnienie i spadek sodu we krwi, które można odwrócić w 15 minut szklanką słonej wody."
+      ),
+      DetailSection(
+        id = "warn_3",
+        title = "3. HARMONOGRAM ADAPTACJI (Timeline)",
+        subtitle = "Czego spodziewać się dzień po dniu i tydzień po tygodniu",
+        bulletPoints = listOf(
+          "Tydzień 1 (Dni 1-7): Wypłukiwanie glikogenu z wątroby i mięśni. Szybki spadek wagi (głównie woda). Możliwe objawy keto-flu. Ustabilizowanie pierwszych skoków glukozowych.",
+          "Tydzień 2-4: Wątroba produkuje coraz więcej BHB. Mózg uczy się korzystać z ketonów. Wyraźny zanik porannych lęków i wieczornych napadów głodu.",
+          "Miesiąc 2-3: Pełna ketoadaptacja komórkowa. Dochodzi do mitochondrialnej biogenezy (tworzenie nowych, sprawnych elektrowni w komórkach). Trwała eliminacja mgły mózgowej i pełny spokój nastroju."
+        ),
+        shockingTakeaway = "Daj sobie czas: Adaptacja mózgu do optymalnego spalania tłuszczów to maraton, a nie sprint. Prawdziwe cuda psychiczne zaczynają się wokół 8-12 tygodnia!"
+      ),
+      DetailSection(
+        id = "warn_4",
+        title = "4. KROKI ELIMINACJI WEDŁUG DR. EDE",
+        subtitle = "Quiet Paleo -> Quiet Keto -> Quiet Carnivore",
+        bulletPoints = listOf(
+          "Krok 1 (Quiet Paleo): Eliminacja zbóż, glutenu, nabiału pasteryzowanego i cukru. Skupienie na świeżym mięsie i bezpiecznych roślinach.",
+          "Krok 2 (Quiet Keto): Przejście w stan stabilnej ketozy. Drastyczne ograniczenie węglowodanów, odcięcie owoców sadowych i warzyw o wysokiej zawartości toksyn obronnych.",
+          "Krok 3 (Quiet Carnivore): Najwyższa forma terapii eliminacyjnej. Wyklucza wszystkie rośliny bez wyjątku. Dieta mięso-sól-woda, ratująca pacjentów w najcięższych psychozach i depresjach."
+        ),
+        shockingTakeaway = "Zasada Dr Ede: Zacznij od Kroku 1 lub 2. Jeśli objawy psychiczne nie ustąpią w 100%, wejdź na Krok 3 na okres 30 dni, a potem powoli reintrodukuj składniki."
+      )
+    )
+  }
+
   Column(
     modifier = modifier
       .fillMaxSize()
       .background(DeepDarkBlue)
   ) {
-    // Tab Controller
+    // Custom Horizontally Scrollable Selector
     Row(
       modifier = Modifier
         .fillMaxWidth()
+        .horizontalScroll(rememberScrollState())
         .padding(horizontal = 16.dp, vertical = 12.dp)
-        .clip(RoundedCornerShape(16.dp))
-        .background(Color.White)
-        .border(BorderStroke(1.dp, DarkCardBorder), RoundedCornerShape(16.dp))
-        .testTag("tab_container")
+        .testTag("tab_container"),
+      horizontalArrangement = Arrangement.spacedBy(8.dp),
+      verticalAlignment = Alignment.CenterVertically
     ) {
-      Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-          .weight(1f)
-          .height(44.dp)
-          .clip(RoundedCornerShape(14.dp))
-          .background(if (activeTab == NavigationTab.BIOCHEMISTRY) EnergyAmber else Color.Transparent)
-          .clickable { activeTab = NavigationTab.BIOCHEMISTRY }
-          .testTag("tab_biochemistry")
-      ) {
-        Text(
-          text = "🧬 Biochemia i Paliwo",
-          fontSize = 12.sp,
-          fontWeight = FontWeight.Bold,
-          color = if (activeTab == NavigationTab.BIOCHEMISTRY) Color.White else CleanWhite
-        )
-      }
-      Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-          .weight(1f)
-          .height(44.dp)
-          .clip(RoundedCornerShape(14.dp))
-          .background(if (activeTab == NavigationTab.METHODOLOGY) EnergyAmber else Color.Transparent)
-          .clickable { activeTab = NavigationTab.METHODOLOGY }
-          .testTag("tab_methodology")
-      ) {
-        Text(
-          text = "🔬 Krytyka Nauki",
-          fontSize = 12.sp,
-          fontWeight = FontWeight.Bold,
-          color = if (activeTab == NavigationTab.METHODOLOGY) Color.White else CleanWhite
-        )
+      val tabs = listOf(
+        Triple(NavigationTab.BIOCHEMISTRY, "🧬 Biochemia", "tab_biochemistry"),
+        Triple(NavigationTab.METHODOLOGY, "🔬 Krytyka Nauki", "tab_methodology"),
+        Triple(NavigationTab.DIETS_CLINICAL, "🥩 Diety i Wskazania", "tab_diets_clinical"),
+        Triple(NavigationTab.FOOD_LIBRARY, "🛒 Produkty i Toksyny", "tab_food_library"),
+        Triple(NavigationTab.MED_WARN_INTEG, "📋 Wdrażanie i Leki", "tab_med_warn_integ")
+      )
+
+      tabs.forEach { (tab, label, testTag) ->
+        val isSelected = activeTab == tab
+        Box(
+          contentAlignment = Alignment.Center,
+          modifier = Modifier
+            .clip(RoundedCornerShape(20.dp))
+            .background(if (isSelected) EnergyAmber else DarkCardBg)
+            .border(
+              BorderStroke(1.dp, if (isSelected) EnergyAmber else DarkCardBorder),
+              RoundedCornerShape(20.dp)
+            )
+            .clickable { activeTab = tab }
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .testTag(testTag)
+        ) {
+          Text(
+            text = label,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (isSelected) Color.White else CleanWhite
+          )
+        }
       }
     }
 
-    val currentList = if (activeTab == NavigationTab.BIOCHEMISTRY) biochemistrySections else methodologySections
+    val currentList = when (activeTab) {
+      NavigationTab.BIOCHEMISTRY -> biochemistrySections
+      NavigationTab.METHODOLOGY -> methodologySections
+      NavigationTab.DIETS_CLINICAL -> dietsClinicalSections
+      NavigationTab.FOOD_LIBRARY -> foodLibrarySections
+      NavigationTab.MED_WARN_INTEG -> medWarnSections
+    }
 
     LazyColumn(
       modifier = Modifier
         .fillMaxWidth()
         .weight(1f),
-      contentPadding = PaddingValues(bottom = 24.dp),
+      contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp),
       verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
       item {
-        MotivationHeroCard()
-      }
-
-      item {
-        MetabolismSimulator(
-          mode = simMode,
-          onModeChange = { simMode = it }
-        )
-      }
-
-      item {
         Text(
-          text = if (activeTab == NavigationTab.BIOCHEMISTRY) "🧬 DOKŁADNE ZAGADNIENIA BIOLOGICZNE:" else "🔬 ABSURDY WSPÓŁCZESNEJ METODOLOGII:",
+          text = when (activeTab) {
+            NavigationTab.BIOCHEMISTRY -> "🧬 DOKŁADNE ZAGADNIENIA BIOLOGICZNE:"
+            NavigationTab.METHODOLOGY -> "🔬 ABSURDY WSPÓŁCZESNEJ METODOLOGII:"
+            NavigationTab.DIETS_CLINICAL -> "🥩 KLINICZNE WSKAZANIA DIETETYCZNE:"
+            NavigationTab.FOOD_LIBRARY -> "🛒 DOBRE PRODUKTY I ANTY-ODŻYWIACZE:"
+            NavigationTab.MED_WARN_INTEG -> "⚠️ KLUCZOWE WSKAZÓWKI I OSTRZEŻENIA:"
+          },
           fontSize = 11.sp,
           fontWeight = FontWeight.ExtraBold,
           color = SoftGray,
@@ -773,7 +1005,7 @@ fun MetabolismSimulator(
           val textBody = if (mode == SimulatorMode.GLUCOSE) {
             "Przez insulinooporność mózg traci zdolność spalania cukru. Działa głównie powolny Silnik G (Glikoliza). Uszkodzony Kompleks I blokuje łańcuch oddechowy. Neurony głodują w chmurze niszczących wolnych rodników, destabilizując nastrój."
           } else {
-            "Ciała ketonowe (BHB) zasilają bezpośrednio Silnik M (Mitochondria), wymagając zaledwie 3 łatwych kroków (zamiast 13). Omijają Kompleks I, wchodząc przez Kompleks II. Brak potrzeby insuliny leczy chroniczne niedożywienie."
+             "Ciała ketonowe (BHB) zasilają bezpośrednio Silnik M (Mitochondria), wymagając zaledwie 3 łatwych kroków (zamiast 13). Omijają Kompleks I, wchodząc przez Kompleks II. Brak potrzeby insuliny leczy chroniczne niedożywienie."
           }
 
           Text(
@@ -815,7 +1047,7 @@ fun MetricRow(
     LinearProgressIndicator(
       progress = progress,
       color = color,
-      trackColor = Color(0xFFF1F5F9),
+      trackColor = Color(0xFF1E293B),
       modifier = Modifier
         .fillMaxWidth()
         .height(6.dp)
@@ -824,44 +1056,194 @@ fun MetricRow(
   }
 }
 
+data class ProtocolDetail(
+  val name: String,
+  val description: String,
+  val clinicalTarget: String,
+  val goldenRules: List<String>,
+  val allowedCategories: Map<String, List<String>>,
+  val forbiddenFoods: List<String>,
+  val mealPlan: List<Pair<String, String>>,
+  val physiologicalFact: String
+)
+
 @Composable
 fun TrackScreen() {
   var selectedProtocol by remember { mutableStateOf("keto") }
   var selectedTransition by remember { mutableStateOf(0) }
 
-  val protocolFoods = mapOf(
-    "paleo" to listOf("🥑 Awokado", "🥩 Wołowina", "🐟 Dziki Łosoś", "🥦 Brokuły", "🥚 Jaja Eko", "🥕 Marchew", "🫐 Jagody"),
-    "keto" to listOf("🥑 Awokado", "🥩 Tłusta Wołowina", "🥓 Boczek Eko", "🧈 Masło Ghee", "🍳 Żółtka jaj", "🥥 Olej kokos", "🥬 Szpinak"),
-    "carnivore" to listOf("🥩 Antrykot wołowy", "🐑 Jagnięcina", "🧈 Masło Ghee", "🍳 Żółtka jaj", "🧂 Sól morska", "💧 Woda mineralna")
-  )
-
-  val mealPlans = mapOf(
-    "paleo" to listOf(
-      "Śniadanie" to "Jajecznica z 3 jaj na maśle klarowanym, plasterki świeżego awokado i garstka dzikich jagód.",
-      "Obiad" to "Pieczona pierś z kaczki ze słodkim ziemniakiem (batatem) oraz duszonym szpinakiem z czosnkiem.",
-      "Kolacja" to "Dziki łosoś na parze skropiony oliwą z oliwek, grillowane szparagi i prosta zielona sałata."
-    ),
-    "keto" to listOf(
-      "Śniadanie" to "Puszysty omlet żółtkowy z boczkiem, smażony na obfitej łyżce masła klarowanego.",
-      "Obiad" to "Mielone kotlety wołowe z łopatki, nadziewane masłem czosnkowym, podane z pieczonym kalafiorem.",
-      "Kolacja" to "Chłodny tatar wołowy z żółtkiem jaja kurzego, cebulką i oliwą z oliwek ekstra premium."
-    ),
-    "carnivore" to listOf(
-      "Śniadanie" to "Smażony stek z antrykotu wołowego (Ribeye) z roztopionym masłem i sporą szczyptą soli morskiej.",
-      "Obiad" to "Pieczone żeberka jagnięce (tłuste części), obficie posolone krystaliczną solą kłodawską.",
-      "Kolacja" to "Szybki posiłek z pieczonej wątróbki cielęcej w maśle klarowanym – doskonała dawka mikroelementów."
+  // Interactive Checklist State to support user compliance tracking
+  var habitsChecklist by remember {
+    mutableStateOf(
+      mapOf(
+        "sol_woda" to false,
+        "tluste_proteiny" to false,
+        "zero_olejow" to false,
+        "zero_cukru" to false,
+        "sen_regeneracja" to false
+      )
     )
-  )
+  }
 
-  val protocolClinicalLogic = mapOf(
-    "paleo" to "Etap przygotowawczy wykluczający sztuczne, przetworzone pożywienie, cukry proste, nabiał pasteryzowany oraz toksyczne oleje nasienne. To reset układu pokarmowego i eliminacja lektyn zbożowych bez wprowadzania organizmu w stan głębokiej ketozy.",
-    "keto" to "Paliwo ratunkowe dla wygłodzonych neuronów. Poprzez redukcję węglowodanów do minimum, wątroba przekształca tłuszcze w ciała ketonowe (BHB), które z łatwością przekraczają barierę krew-mózg bez udziału insuliny.",
-    "carnivore" to "Absolutne ultimatum dla układu immunologicznego. Wyklucza 100% roślinnych antynutrientów, szczawianów, salicylanów oraz błonnika, który może drażnić nieszczelne jelita. Doskonałe narzędzie kliniczne przy ciężkich zaburzeniach nastroju."
-  )
+  val protocols = remember {
+    mapOf(
+      "paleo" to ProtocolDetail(
+        name = "Quiet Paleo (Krok 1)",
+        description = "Etap przygotowawczy wykluczający sztuczne, przetworzone pożywienie, cukry proste, nabiał pasteryzowany oraz toksyczne oleje nasienne. To reset układu pokarmowego i eliminacja lektyn zbożowych bez wprowadzania organizmu w stan głębokiej ketozy.",
+        clinicalTarget = "ZALECENIA KLINICZNE: Idealny dla osób z łagodną mgłą mózgową, bólami głowy, kłopotami trawiennymi i początkiem spadku koncentracji. Służy jako bezpieczny punkt startowy (reboot metaboliczny).",
+        goldenRules = listOf(
+          "Wyeliminuj 100% zbóż (w tym gluten) i kukurydzy",
+          "Całkowity zakaz tłuszczów trans i rafinowanych olejów roślinnych (rzepak, słonecznik)",
+          "Wyrzuć cukier rafinowany i sztuczne słodziki słabej jakości",
+          "Wybieraj tylko jaja z wolnego wybiegu (klasa 0) i wysokiej jakości mięso",
+          "Ogranicz owoce do jagodowych i unikaj warzyw psiankowatych w nadmiarze"
+        ),
+        allowedCategories = mapOf(
+          "🥩 Mięsa z Pewnego Źródła" to listOf(
+            "Czysta wołowina (łopatka, rostbef, antrykot)",
+            "Dziczyzna leśna (sarnina, dzik, jeleń)",
+            "Zagrodowy kurczak i wolnowybiegowy indyk",
+            "Mięso z kaczki, gęsi lub przepiórki ze skórą"
+          ),
+          "🐟 Ryby z Dzikich Łowów" to listOf(
+            "Dziki łosoś sockeye (źródło czystych kwasów omega-3)",
+            "Świeży pstrąg potokowy z czystych rzek",
+            "Morska makrela pacyficzna",
+            "Dzikie sardynki w czystej oliwie z oliwek"
+          ),
+          "🍳 Najlepsze Tłuszcze Klasy Premium" to listOf(
+            "Żółtka ekologicznych jaj (klasa 0)",
+            "Oliwa extra virgin tłoczona na zimno (bogata w polifenole)",
+            "Czysty olej z awokado (niepodgrzewany do wysokich temperatur)",
+            "Olej kokosowy tłoczony na zimno (dziewiczy)"
+          ),
+          "🥦 Bezpieczne Warzywa & Owoce o Niskiej Toksyczności" to listOf(
+            "Gotowane słodkie ziemniaki (bataty - bez skóry)",
+            "Gotowana marchew, dynia hokkaido (łatwo przyswajalna skrobia)",
+            "Świeże borówki, maliny, jagody leśne (bomba antyoksydacyjna)",
+            "Szparagi oraz sałata rzymska (łagodne dla jelit)"
+          )
+        ),
+        forbiddenFoods = listOf(
+          "Wszelkie pieczywo i wypieki (chleb pszenny, żytni, tostowy, drożdżówki)",
+          "Zwykły biały ziemniak (zawiera silne, drażniące lektyny i solaninę)",
+          "Pasteryzowane mleko krowie, sery przemysłowe i jogurty słodzone",
+          "Oleje przemysłowe (rzepakowy, słonecznikowy, sojowy, kukurydziany, margaryny)",
+          "Nasiona roślin strączkowych: fasola, soja, groch i kwas fitynowy z orzechów"
+        ),
+        mealPlan = listOf(
+          "Śniadanie 🌄" to "Jajecznica z 3-4 ekologicznych jaj smażona na gęsim smalcu z dodatkiem drobno pokrojonej pieczonej dziczyzny. Do tego połówka dojrzałego awokado obficie posypana czarnym sezamem i solą kłodawską oraz miseczka świeżych borówek leśnych, które dostarczają polifenoli zapobiegających starzeniu mikrogla.",
+          "Obiad ☀️" to "Wielka pieczona pierś z dzikiej kaczki podana z aksamitnym purée z batatów (gotowanych z dodatkiem łyżki oleju kokosowego tłoczonego na zimno). Jako dodatek lekkostrawny: szparagi pieczone w piecu z odrobiną czosnku i gruboziarnistej soli himalajskiej.",
+          "Kolacja 🌌" to "Grillowany filet z dzikiego pstrąga potokowego skropiony świeżym sokiem z cytryny i oliwą z oliwek extra virgin. Podawany ze świeżą sałatą rzymską, obranym ze skórki i pozbawionym toksycznych gniazd nasiennych ogórkiem oraz garścią czarnych oliwek drylowanych."
+        ),
+        physiologicalFact = "SZOKUJĄCY FAKT FIZJOLOGICZNY: Gluten jest budową strukturalną zbliżony do niektórych białek w mózgu. Przez nieszczelną barierę jelitową (Leaky Gut) przeciwciała antyglutenowe potrafią bezpośrednio atakować komórki móżdżku, wywołując tzw. glutenową ataksję i głębokie, przewlekłe lęki bez uchwytnej przyczyny."
+      ),
+      "keto" to ProtocolDetail(
+        name = "Quiet Keto (Krok 2)",
+        description = "Paliwo ratunkowe dla wygłodzonych neuronów. Poprzez redukcję węglowodanów do minimum, wątroba przekształca tłuszcze w ciała ketonowe (BHB), które z łatwością przekraczają barierę krew-mózg bez udziału insuliny. Omija to uszkodzony szlak glikolizy neuronów.",
+        clinicalTarget = "ZALECENIA KLINICZNE: Kluczowa pomoc przy depresji, stanach lękowych, chorobie dwubiegunowej (ChAD), insulinooporności mózgowej i chronicznym zmęczeniu psychicznym. Generuje nieskazitelną, stabilną sygnaturę energetyczną.",
+        goldenRules = listOf(
+          "Ogranicz węglowodany netto do maksymalnie 20-30g dziennie",
+          "Skoncentruj się na tłuszczach nasyconych i jednonienasyconych zwierzęcych",
+          "Wprowadź czysty kwas kaprylowy (olej MCT C8) dla błyskawicznej ketogenezy w wątrobie",
+          "Uzupełniaj sód, potas i magnez z uwagi na zwiększoną natriurezę nerkową w ketozie",
+          "Wyeliminuj nabiał krowi, jeśli po jego spożyciu czujesz mgłę mózgową"
+        ),
+        allowedCategories = mapOf(
+          "🥩 Tłuste Mięsa & Podroby" to listOf(
+            "Marmurkowa wołowina (antrykot, zrazy, karkówka wołowa)",
+            "Wieprzowina o wysokiej zawartości tłuszczu (boczek tradycyjny bez chemii)",
+            "Tłuste żeberka, pieczona kaczka, gęś ze skórą",
+            "Wątróbki wołowe, serca i ozory (najbogatsze naturalne źródła makroelementów)"
+          ),
+          "🐟 Czyste Tłuste Ryby Oceaniczne" to listOf(
+            "Tłusty dziki łosoś sockeye (połów z zimnych wód)",
+            "Wątroba dorsza we własnym tłuszczu (bomba witamin A i D3)",
+            "Morska tłusta makrela wędzona lub pieczona",
+            "Szproty wędzone w oleju kokosowym"
+          ),
+          "🧈 Najzdrowsze Lipidy Ketogeniczne" to listOf(
+            "Masło klarowane ghee o zerowej zawartości laktozy i kazeiny",
+            "Łój wołowy lub domowy smalec wieprzowy/gęsi",
+            "Olej MCT C8 (czysty kwas kaprylowy - ultra szybka energia dla neuronów)",
+            "Awokado tłoczone zimno lub oliwa z oliwek najwyższej jakości"
+          ),
+          "🥑 Dozwolone Zielone Low-Carb" to listOf(
+            "Całe czyste awokado (doskonała podaż potasu i magnezu)",
+            "Ogórek świeży obrany bez toksycznych gniazd nasiennych",
+            "Ograniczone ilości młodego szpinaku (blanszowanego gorącą wodą)",
+            "Liście świeżej sałaty rzymskiej jako baza miski tłuszczowej"
+          )
+        ),
+        forbiddenFoods = listOf(
+          "Wszystkie zboża, mąki, makarony, ryż, pieczywo bezglutenowe",
+          "Warzywa korzeniowe o dużej ilości skrobi (marchew gotowana, buraki, bataty, ziemniaki)",
+          "Owoce sadowe i słodkie (jabłka, gruszki, banany, winogrona, czereśnie)",
+          "Oleje przemysłowe (rzepakowy, słonecznikowy, sojowy, kukurydziany i margaryny kuchenne)",
+          "Słodziki chemiczne i aspartam w nadmiarze (drastycznie zaburzają mikrobiotę jelitową)"
+        ),
+        mealPlan = listOf(
+          "Śniadanie 🌄" to "Puszysty, złocisty omlet przygotowany wyłącznie z 4 samych żółtek i 1 całego jajka, smażony wolno na 2 dużych łyżkach prawdziwego masła ghee, przełożony chrupiącą porcją ekologicznego boczku bez dodatków chemicznych. Do picia: Kawa kuloodporna (Bulletproof Coffee) z dodatkiem 15ml czystego oleju MCT C8 oraz łyżką masła klarowanego, co drastycznie podbija stężenie acetylocholiny w mózgu.",
+          "Obiad ☀️" to "Mielona łopatka wołowa uformowana w grube kotlety i upieczona w piecu, nadziewana w środku prawdziwym chłodnym masłem czosnkowym. Jako dodatek: połówka dużego awokado oprószona krystaliczną solą z kopalni Kłodawa i świeżym szczypiorkiem.",
+          "Kolacja 🌌" to "Wykwintny tatar ze świeżo skrobanej polędwicy wołowej, obficie zalany oliwą z oliwek extra virgin najwyższej jakości, podany z dwoma surowymi żółtkami jaj eko, odrobiną puszystego masła i cebulki dymki dla smaku."
+        ),
+        physiologicalFact = "SZOKUJĄCY FAKT FIZJOLOGICZNY: Mózg osoby z depresją lub chorobą Alzheimera jest w stanie patologicznej insulinoporności (tzw. cukrzyca typu 3). Neurony dosłownie umierają z głodu obok wysokiego stanu glukozy we krwi, ponieważ nie potrafią jej spalić. Ciała ketonowe (BHB) przenikają barierę krew-mózg bez udziału insuliny, ratując komórki przed śmiercią energetyczną i neurodegeneracją!"
+      ),
+      "carnivore" to ProtocolDetail(
+        name = "Quiet Carnivore (Krok 3)",
+        description = "Absolutne i bezkompromisowe ultimatum dla układu immunologicznego i nerwowego. Wyklucza 100% roślinnych antynutrientów, szczawianów niszczących stawy i nerki, salicylanów pobudzających oraz błonnika, który drażni zniszczone nieszczelne jelita.",
+        clinicalTarget = "ZALECENIA KLINICZNE: Ekstremalne wyciszenie układu immunologicznego. Zastosuj w ciężkich depresjach lekoopornych, psychozach, schizofrenii, autyzmie u dzieci oraz przewlekłych lękach panicznych z agorafobią.",
+        goldenRules = listOf(
+          "Jedz wyłącznie produkty pochodzenia odzwierzęcego",
+          "Nie spożywaj żadnych warzyw, owoców, przypraw roślinnych ani pieprzu (anty-nutrienty)",
+          "Pij obficie sól kłodawską lub morską celtycką z porządną wodą mineralną bogatą w magnez",
+          "Unikaj białka jaj - spożywaj wyłącznie żółtka (białko silnie gasi enzymy trawienne i może uczulać)",
+          "Bazuje głównie na czerwonym mięsie przeżuwaczy (wołowina, jagnięcina, baranina)"
+        ),
+        allowedCategories = mapOf(
+          "🥩 Czerwień Mięsa Przeżuwaczy (Podstawa)" to listOf(
+            "Tłuste steki z wołowego antrykotu (steaki Ribeye klasy premium)",
+            "Żeberka i tłusty szponder wołowy do pieczenia",
+            "Marmurkowa jagnięcina, gulasz barani i koźlina",
+            "Dziczyzna leśna o wyższej, naturalnej zawartości tłuszczów nasyconych"
+          ),
+          "🍳 Żółtka & Masła Klarowane" to listOf(
+            "Żółtka ekologicznych jajek (klasa 0 - bez immunogennych białek)",
+            "Prawdziwe domowe masło klarowane ghee bez śladów białka mleka",
+            "Czysty łój wołowy (najlepsze źródło kwasu stearynowego dla mitochondriów)",
+            "Smalec gęsi tłoczony tradycyjnie na zimno"
+          ),
+          "🧬 Podroby o Gigantycznej Gęstości Odżywczej" to listOf(
+            "Wątroba wołowa (prawdziwa ewolucyjna multiwitamina biologiczna)",
+            "Szpik kostny z kości wołowych pieczony piecowo",
+            "Nerki cielęce i ozory wołowe (niezrównane bogactwo żelaza heme)",
+            "Kremowo-delikatne serce wołowe bogate w koenzym Q10"
+          ),
+          "🧂 Niezbędne Minerały i Płyny Elektrolitowe" to listOf(
+            "Sól kłodawska kamienna nieoczyszczona (sód z minerałami towarzyszącymi)",
+            "Sól celtycka szara bogata w drogocenne pierwiastki śladowe",
+            "Czysta woda głębinowa niegazowana o wysokiej mineralizacji",
+            "Prawdziwy, długo warzony rosół na kościach szpikowych (bomba kolagenowa)"
+          )
+        ),
+        forbiddenFoods = listOf(
+          "Wszystkie warzywa, w tym sałata rzymska, szpinak, awokado (ponieważ zawierają substancje obronne roślin)",
+          "Wszystkie owoce, jagody leśne, orzechy, nasiona",
+          "Wszelkie przyprawy ziołowe, pieprz czarny, pieprz cayenne (substancje drażniące)",
+          "Kawa, herbata zielona, czarna, herbatki ziołowe (główne źródła rażących szczawianów)",
+          "Białka jaj, nabiał krowi płynny, sery (mogą wywoływać silną kaskadę zapalną)"
+        ),
+        mealPlan = listOf(
+          "Śniadanie 🌄" to "Śniadanie Wojownika: Królewski stek z antrykotu wołowego (Ribeye, ok. 350-400g) z pięknym marmurkowatym tłuszczem, posypany wyłącznie gruboziarnistą solą kłodawską, usmażony na krwisto/średnio na stopionej porcji tłuszczu wołowego (łoju). Do popicia szklanka letniej wody mineralnej z plasterkiem lodu i szczyptą soli sodowej.",
+          "Obiad ☀️" to "Pieczone w piekarniku kości szpikowe wołowe (3 duże sztuki), podawane na gorąco z chrupiącą solą morską. Szpik wyjada się łyżeczką – to najbogatsze ewolucyjnie, nieskażone źródło kwasów DHA oraz fosfolipidów budujących osłonki mielinowe ludzkiego mózgu.",
+          "Kolacja 🌌" to "Smakowita duszona wątróbka cielęca przygotowana na obfitym maśle ghee z dodatkiem plasterków pieczonego boczku krojonego grubo, uwieńczona surowym żółtkiem jaja kurzego dodanym tuż przed podaniem, by nie ścinać cennych enzymów."
+        ),
+        physiologicalFact = "SZOKUJĄCY FAKT FIZJOLOGICZNY: Dieta Carnivore jest jedyną dietą na świecie, która wyklucza 100% obronnych toksyn roślinnych. Rośliny nie mogą uciec przed zjedzeniem, przez co wyewoluowały złożoną broń chemiczną likwidującą ich wrogów. Wyłączenie tych neurotoksyn potrafi cofnąć psychozy schizofreniczne i napadowe lęki wegetatywne w 3-4 tygodnie!"
+      )
+    )
+  }
 
-  val activeFoods = protocolFoods[selectedProtocol] ?: emptyList()
-  val activePlan = mealPlans[selectedProtocol] ?: emptyList()
-  val activeLogic = protocolClinicalLogic[selectedProtocol] ?: ""
+  val activeProtocol = protocols[selectedProtocol] ?: protocols["keto"]!!
 
   LazyColumn(
     modifier = Modifier
@@ -879,7 +1261,7 @@ fun TrackScreen() {
           color = CleanWhite
         )
         Text(
-          text = "Poznaj stopnie eliminacji pokarmowej. Każdy kolejny krok wyklucza więcej potencjalnych toksyn roślinnych, dając ulgę neuronom.",
+          text = "Poznaj kliniczne poziomy eliminacji pokarmowej z książki 'Change Your Diet, Change Your Mind'. Każdy stopień wyklucza więcej antynutrientów, dając ulgę neuronom.",
           fontSize = 13.sp,
           color = SoftGray,
           lineHeight = 18.sp
@@ -989,7 +1371,7 @@ fun TrackScreen() {
             Spacer(modifier = Modifier.width(14.dp))
             Column(modifier = Modifier.weight(1f)) {
               Text("Quiet Carnivore", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
-              Text("KROK 3: Maksymalna eliminacja (Dla stanów lękowych)", fontSize = 11.sp, color = SoftGray)
+              Text("KROK 3: Maksymalna eliminacja (Dla stanów lękowych i ChAD)", fontSize = 11.sp, color = SoftGray)
             }
             if (isCarnoSelected) {
               Icon(Icons.Default.Check, contentDescription = "Wybrany", tint = BrainPink, modifier = Modifier.size(20.dp))
@@ -1017,16 +1399,24 @@ fun TrackScreen() {
           )
           Spacer(modifier = Modifier.height(10.dp))
           Text(
-            text = activeLogic,
+            text = activeProtocol.description,
             fontSize = 13.sp,
             color = CleanWhite,
             lineHeight = 18.sp
+          )
+          Spacer(modifier = Modifier.height(12.dp))
+          Text(
+            text = activeProtocol.clinicalTarget,
+            fontSize = 12.sp,
+            color = EnergyAmber,
+            fontWeight = FontWeight.Bold,
+            lineHeight = 16.sp
           )
         }
       }
     }
 
-    // Allowed Foods Card
+    // Active Golden Rules
     item {
       CustomBorderCard(
         shape = RoundedCornerShape(24.dp),
@@ -1034,74 +1424,127 @@ fun TrackScreen() {
         borderColor = DarkCardBorder,
         borderWidth = 1.dp
       ) {
-        Column(modifier = Modifier.padding(18.dp)) {
+        Column(modifier = Modifier.padding(20.dp)) {
           Text(
-            text = "🛒 REKOMENDOWANA LISTA ZAKUPÓW",
+            text = "👑 ZŁOTE ZASADY PROTOKOŁU",
             fontSize = 11.sp,
             fontWeight = FontWeight.ExtraBold,
             color = SoftGray,
             letterSpacing = 0.5.sp
           )
           Spacer(modifier = Modifier.height(10.dp))
-
-          Row(
-            modifier = Modifier
-              .fillMaxWidth()
-              .padding(vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-          ) {
-            activeFoods.take(3).forEach { food ->
-              Box(
-                modifier = Modifier
-                  .weight(1f)
-                  .clip(RoundedCornerShape(12.dp))
-                  .background(Color(0xFFF1F5F9))
-                  .border(BorderStroke(1.dp, Color(0xFFE2E8F0)), RoundedCornerShape(12.dp))
-                  .padding(8.dp)
-              ) {
-                Text(
-                  text = food,
-                  fontSize = 11.sp,
-                  fontWeight = FontWeight.Bold,
-                  color = CleanWhite,
-                  textAlign = TextAlign.Center,
-                  modifier = Modifier.fillMaxWidth()
-                )
-              }
-            }
-          }
-          Spacer(modifier = Modifier.height(6.dp))
-          Row(
-            modifier = Modifier
-              .fillMaxWidth()
-              .padding(vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-          ) {
-            activeFoods.drop(3).take(4).forEach { food ->
-              Box(
-                modifier = Modifier
-                  .weight(1f)
-                  .clip(RoundedCornerShape(12.dp))
-                  .background(Color(0xFFF1F5F9))
-                  .border(BorderStroke(1.dp, Color(0xFFE2E8F0)), RoundedCornerShape(12.dp))
-                  .padding(8.dp)
-              ) {
-                Text(
-                  text = food,
-                  fontSize = 11.sp,
-                  fontWeight = FontWeight.Bold,
-                  color = CleanWhite,
-                  textAlign = TextAlign.Center,
-                  modifier = Modifier.fillMaxWidth()
-                )
-              }
+          activeProtocol.goldenRules.forEach { rule ->
+            Row(
+              verticalAlignment = Alignment.Top,
+              modifier = Modifier.padding(vertical = 4.dp)
+            ) {
+              Text("⭐", fontSize = 12.sp, modifier = Modifier.padding(end = 8.dp, top = 2.dp))
+              Text(text = rule, fontSize = 12.sp, color = CleanWhite, lineHeight = 16.sp)
             }
           }
         }
       }
     }
 
-    // Sample Meal Plan Card
+    // Interactive Compliance Checklist
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = EnergyAmber,
+        borderWidth = 1.dp,
+        modifier = Modifier.testTag("habits_checklist_card")
+      ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+          Text(
+            text = "📋 CODZIENNY DZIENNIK REALIZACJI I SAMOPOCZUCIA",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = EnergyAmber,
+            letterSpacing = 0.5.sp
+          )
+          Text(
+            text = "Zweryfikuj dzisiejszy poziom zaangażowania protokołem. Zaznacz zrealizowane cele:",
+            fontSize = 11.sp,
+            color = SoftGray,
+            modifier = Modifier.padding(vertical = 4.dp)
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+
+          val checklistItems = listOf(
+            "sol_woda" to "💧 Wypito osoloną wodę lub rosół szpikowy (minimum 1.5l)",
+            "tluste_proteiny" to "🥩 Główne posiłki oparte o czyste i tłuste proteiny zwierzęce",
+            "zero_olejow" to "🚫 Całkowite unikanie olejów roślinnych i tłuszczów trans",
+            "zero_cukru" to "🚫 Zero cukru, zbóż i pasteryzowanego nabiału",
+            "sen_regeneracja" to "💤 Wygaszenie ekranów po 21:00 i dbałość o czysty sen"
+          )
+
+          checklistItems.forEach { (key, label) ->
+            val isChecked = habitsChecklist[key] ?: false
+            Row(
+              verticalAlignment = Alignment.CenterVertically,
+              modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                  val updated = habitsChecklist.toMutableMap()
+                  updated[key] = !isChecked
+                  habitsChecklist = updated
+                }
+                .padding(vertical = 6.dp)
+            ) {
+              Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                  .size(20.dp)
+                  .clip(RoundedCornerShape(4.dp))
+                  .background(if (isChecked) EnergyAmber else Color(0xFF1E293B))
+                  .border(BorderStroke(1.dp, if (isChecked) EnergyAmber else Color(0xFF475569)), RoundedCornerShape(4.dp))
+              ) {
+                if (isChecked) {
+                  Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "Zaznaczone",
+                    tint = Color.White,
+                    modifier = Modifier.size(14.dp)
+                  )
+                }
+              }
+              Spacer(modifier = Modifier.width(10.dp))
+              Text(
+                text = label,
+                fontSize = 12.sp,
+                fontWeight = if (isChecked) FontWeight.Bold else FontWeight.Normal,
+                color = if (isChecked) CleanWhite else SoftGray
+              )
+            }
+          }
+
+          val completedCount = habitsChecklist.values.count { it }
+          if (completedCount == 5) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Box(
+              modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(KetoneCyan.copy(0.12f))
+                .border(BorderStroke(1.dp, KetoneCyan.copy(0.2f)), RoundedCornerShape(12.dp))
+                .padding(12.dp)
+            ) {
+              Text(
+                text = "🎉 FANTASTYCZNY DZIEŃ METABOLICZNY! Twoje neurony i osłonki mielinowe są pod pełną obroną!",
+                fontSize = 12.sp,
+                color = KetoneCyan,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+              )
+            }
+          }
+        }
+      }
+    }
+
+    // Detailed Allowed Foods Categories
     item {
       CustomBorderCard(
         shape = RoundedCornerShape(24.dp),
@@ -1109,37 +1552,132 @@ fun TrackScreen() {
         borderColor = DarkCardBorder,
         borderWidth = 1.dp
       ) {
-        Column(modifier = Modifier.padding(18.dp)) {
+        Column(modifier = Modifier.padding(20.dp)) {
           Text(
-            text = "🍽️ PRZYKŁADOWY JADŁOSPIS JEDNODNIOWY",
+            text = "🛒 SZCZEGÓŁOWA LISTA DOZWOLONYCH PRODUKTÓW",
             fontSize = 11.sp,
             fontWeight = FontWeight.ExtraBold,
             color = SoftGray,
             letterSpacing = 0.5.sp
           )
           Spacer(modifier = Modifier.height(14.dp))
+          activeProtocol.allowedCategories.forEach { (categoryName, foodList) ->
+            Text(
+              text = categoryName,
+              fontSize = 12.sp,
+              fontWeight = FontWeight.Bold,
+              color = EnergyAmber,
+              modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+            )
+            foodList.forEach { food ->
+              Row(
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier.padding(vertical = 3.dp, horizontal = 4.dp)
+              ) {
+                Box(
+                  modifier = Modifier
+                    .padding(top = 5.dp)
+                    .size(6.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(KetoneCyan)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = food, fontSize = 12.sp, color = CleanWhite, lineHeight = 16.sp)
+              }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+          }
+        }
+      }
+    }
 
-          activePlan.forEachIndexed { idx, item ->
-            val (mealTime, mealDesc) = item
+    // Forbidden Foods List
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+          Text(
+            text = "🚫 BEZWZGLĘDNIE WYKLUCZONE ELEMENTY (Silne Toksyny)",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+          activeProtocol.forbiddenFoods.forEach { food ->
+            Row(
+              verticalAlignment = Alignment.Top,
+              modifier = Modifier.padding(vertical = 4.dp)
+            ) {
+              Text("❌", fontSize = 11.sp, modifier = Modifier.padding(end = 8.dp, top = 2.dp))
+              Text(
+                text = food,
+                fontSize = 12.sp,
+                color = CleanWhite.copy(0.9f),
+                lineHeight = 16.sp
+              )
+            }
+          }
+        }
+      }
+    }
+
+    // Detailed Samples Meal Plan
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White,
+        borderColor = DarkCardBorder,
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+          Text(
+            text = "🍽️ JADŁOSPIS TERAPEUTYCZNY (Zastosowanie Praktyczne)",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = SoftGray,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(14.dp))
+          activeProtocol.mealPlan.forEachIndexed { index, (mealName, mealDesc) ->
             Row(
               verticalAlignment = Alignment.Top,
               modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 12.dp)
+                .padding(bottom = 14.dp)
             ) {
               Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                   .size(24.dp)
                   .clip(RoundedCornerShape(50))
-                  .background(EnergyAmber.copy(0.1f))
+                  .background(EnergyAmber.copy(0.12f))
               ) {
-                Text("${idx + 1}", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = EnergyAmber)
+                Text(
+                  text = "${index + 1}",
+                  fontSize = 11.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = EnergyAmber
+                )
               }
               Spacer(modifier = Modifier.width(10.dp))
               Column(modifier = Modifier.weight(1f)) {
-                Text(text = mealTime, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
-                Text(text = mealDesc, fontSize = 12.sp, color = SoftGray, lineHeight = 16.sp)
+                Text(
+                  text = mealName,
+                  fontSize = 13.sp,
+                  fontWeight = FontWeight.Bold,
+                  color = CleanWhite
+                )
+                Text(
+                  text = mealDesc,
+                  fontSize = 12.sp,
+                  color = SoftGray,
+                  lineHeight = 16.sp
+                )
               }
             }
           }
@@ -1147,8 +1685,36 @@ fun TrackScreen() {
       }
     }
 
+    // Physiological Fact Card (Dr. Ede's voice)
+    item {
+      CustomBorderCard(
+        shape = RoundedCornerShape(24.dp),
+        color = BrainPink.copy(0.04f),
+        borderColor = BrainPink.copy(0.15f),
+        borderWidth = 1.dp
+      ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+          Text(
+            text = "🧠 GŁOS DR GEORGII EDE — FIZJOLOGIA",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = BrainPink,
+            letterSpacing = 0.5.sp
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+          Text(
+            text = activeProtocol.physiologicalFact,
+            fontSize = 12.sp,
+            color = CleanWhite.copy(0.95f),
+            fontWeight = FontWeight.Medium,
+            lineHeight = 17.sp
+          )
+        }
+      }
+    }
+
     // ==========================================
-    // NEW INTERACTIVE TRANSITION GUIDE CARD
+    // INTERACTIVE TRANSITION GUIDE CARD
     // ==========================================
     item {
       CustomBorderCard(
@@ -1175,7 +1741,7 @@ fun TrackScreen() {
 
           Spacer(modifier = Modifier.height(10.dp))
 
-          // 2x2 grid of transition buttons
+          // Transition directions selector
           Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             val directions = listOf(
               "Quiet Paleo ➔ Quiet Keto" to 0,
@@ -1192,7 +1758,7 @@ fun TrackScreen() {
                   .fillMaxWidth()
                   .clip(RoundedCornerShape(12.dp))
                   .background(if (isSelected) EnergyAmber.copy(0.08f) else Color(0xFFF1F5F9))
-                  .border(BorderStroke(1.dp, if (isSelected) EnergyAmber else Color.Transparent), RoundedCornerShape(12.dp))
+                  .border(BorderStroke(1.dp, if (isSelected) EnergyAmber else DarkCardBorder), RoundedCornerShape(12.dp))
                   .clickable { selectedTransition = idx }
                   .padding(12.dp)
               ) {
@@ -1217,7 +1783,7 @@ fun TrackScreen() {
           Spacer(modifier = Modifier.height(14.dp))
           StyledDivider(modifier = Modifier.padding(bottom = 12.dp))
 
-          // Transition advice text block
+          // Transition guidance
           val adviceTitle: String
           val advicePhysiology: String
           val adviceWarning: String
@@ -1232,15 +1798,15 @@ fun TrackScreen() {
             }
             1 -> {
               adviceTitle = "KIERUNEK: Quiet Keto do Quiet Carnivore (Maksymalna Eliminacja)"
-              advicePhysiology = "Fizjologia: Następuje 100% odcięcie substancji roślinnych. Wyeliminowane zostają wbudowane mechanizmy obronne roślin: szkodliwe lektyny, drażniący kwas fitynowy, szczawiany i salicylany. Te drobiny uszkadzają barierę jelitową i chronicznie aktywują mikroglej mózgu."
+              advicePhysiology = "Fizjologia: Następuje 100% odcięcie substancji roślinnych. Wyeliminuje zostają wbudowane mechanizmy obronne roślin: szkodliwe lektyny, drażniący kwas fitynowy, szczawian i salicylany. Te drobiny uszkadzają barierę jelitową i chronicznie aktywują mikroglej mózgu."
               adviceWarning = "Objawy/Pułapki: Przejściowy ból brzucha (zmiana flory bakteryjnej) oraz proces oxalate dumping (masowe pozbywanie się kryształków szczawianów z tkanek, co może przejściowo objawić się swędzeniem skóry lub pęcherzykami)."
               adviceSteps = "Protokół dr Ede: Bazuj wyłącznie na tłustych częściach wołowiny (antrykot, boczki), podrobach, ekologicznych żółtkach jaj i soli kamiennej. Całkowicie wyłącz kawę i herbatę (to bomby szczawianowe drażniące jelita). Pij wyłącznie czystą wodę."
             }
             2 -> {
               adviceTitle = "KIERUNEK: Quiet Carnivore do Keto/Paleo (Mądra Reintrodukcja)"
-              advicePhysiology = "Fizjologia: Po fazie czystego Carnivore neurozapalenie ulega wygaszeniu, a bariera jelitowa szczelności. Każdy nowo wprowadzany pokarm daje natychmiastowe, nieskażone i czyste sprzężenie zwrotne o reakcjach autoimmunologicznych Twojego mózgu."
+              advicePhysiology = "Fizjologia: Po fazie czystego Carnivore neurozapalenie ulega wygaszeniu, a bariera jelitowa uszczelnieniu. Każdy nowo wprowadzany pokarm daje natychmiastowe, nieskażone i czyste sprzężenie zwrotne o reakcjach autoimmunologicznych Twojego mózgu."
               adviceWarning = "Objawy/Pułapki: Wprowadzanie wielu pokarmów roślinnych naraz. Jeśli zjesz miskę sałatki z awokado, pomidorami i pestkami, nie namierzysz, który składnik (salicylany, histamina czy lektyny) wywołał powrót lęków bądź mgły."
-              adviceSteps = "Protokół dr Ede: Wybierz jeden bezpieczny element o minimalnej toksyczności (np. czysty obrany ogórek bez nasion lub awokado). Jedz go raz dziennie przez 3 dni z rzędu. Obserwuj tętno, jasność myśli, stany lękowe i sen. Dopiero po 72h wprowadź kolejny składnik."
+              adviceSteps = "Protokół dr Ede: Wybierz jeden bezpieczny element o minimalnej toksyczności (np. czysty obrany ogórek bez nasion lub awokado). Jedz go raz dziennie przez 3 dni z rzedu. Obserwuj tętno, jasność myśli, stany lękowe i sen. Dopiero po 72h wprowadź kolejny składnik."
             }
             else -> {
               adviceTitle = "KIERUNEK: Quiet Keto do Quiet Paleo (Rozszerzenie Węglowodanów)"
@@ -1558,12 +2124,14 @@ fun BottomNavigationBar(
     Row(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 24.dp, vertical = 10.dp),
-      horizontalArrangement = Arrangement.SpaceBetween,
+        .padding(horizontal = 8.dp, vertical = 10.dp),
+      horizontalArrangement = Arrangement.SpaceAround,
       verticalAlignment = Alignment.CenterVertically
     ) {
-      BottomNavTab(icon = "🏠", label = "Wiedza", active = currentScreen == MainScreen.HOME, onClick = { onScreenChange(MainScreen.HOME) }, testTagId = "nav_home")
+      BottomNavTab(icon = "🧠", label = "Symulator", active = currentScreen == MainScreen.SIMULATOR, onClick = { onScreenChange(MainScreen.SIMULATOR) }, testTagId = "nav_simulator")
+      BottomNavTab(icon = "📖", label = "Wiedza", active = currentScreen == MainScreen.HOME, onClick = { onScreenChange(MainScreen.HOME) }, testTagId = "nav_home")
       BottomNavTab(icon = "🥗", label = "Protokoły", active = currentScreen == MainScreen.TRACK, onClick = { onScreenChange(MainScreen.TRACK) }, testTagId = "nav_track")
+      BottomNavTab(icon = "🎯", label = "Motywacja", active = currentScreen == MainScreen.MOTIVATION, onClick = { onScreenChange(MainScreen.MOTIVATION) }, testTagId = "nav_motivation")
       BottomNavTab(icon = "🧪", label = "Wyniki", active = currentScreen == MainScreen.LABS, onClick = { onScreenChange(MainScreen.LABS) }, testTagId = "nav_labs")
     }
   }
@@ -1614,3 +2182,573 @@ fun CustomBorderCard(
     content()
   }
 }
+
+@Composable
+fun MotivationScreen() {
+  var activeSubTab by remember { mutableStateOf(0) }
+
+  Column(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(DeepDarkBlue)
+      .verticalScroll(rememberScrollState())
+      .padding(16.dp)
+  ) {
+    // Header
+    Text(
+      text = "NAUKA & MOTYWACJA 🎯",
+      fontSize = 11.sp,
+      fontWeight = FontWeight.ExtraBold,
+      color = BrainPink,
+      letterSpacing = 0.5.sp
+    )
+    Spacer(modifier = Modifier.height(2.dp))
+    Text(
+      text = "Metaboliczne Uwolnienie Mózgu",
+      fontSize = 20.sp,
+      fontWeight = FontWeight.ExtraBold,
+      color = CleanWhite,
+      lineHeight = 24.sp
+    )
+    Spacer(modifier = Modifier.height(6.dp))
+    Text(
+      text = "To nie brak siły woli generuje kryzys psychiczny – to Twoja biologia bije na alarm. Dr. Ede dowodzi, że zmiana paliwa glukozowego na ciała ketonowe (G-to-K Switch) wycofuje lęki obwodowe i regeneruje neurony.",
+      fontSize = 12.sp,
+      color = SoftGray,
+      lineHeight = 16.sp
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+
+    // Interactive custom tab row
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .horizontalScroll(rememberScrollState())
+        .padding(bottom = 6.dp),
+      horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+      val tabs = listOf(
+        "📖 Historie Sukcesu",
+        "🧬 Trzy Fazy Kryzysu",
+        "🍋 Pogromca Mitów",
+        "🎯 Kalkulator Subtrakcji"
+      )
+      tabs.forEachIndexed { index, title ->
+        val isSelected = activeSubTab == index
+        CustomBorderCard(
+          shape = RoundedCornerShape(12.dp),
+          color = if (isSelected) EnergyAmber else Color.White,
+          borderColor = if (isSelected) EnergyAmber else DarkCardBorder,
+          borderWidth = 1.dp,
+          modifier = Modifier.clickable { activeSubTab = index }
+        ) {
+          Text(
+            text = title,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (isSelected) Color.White else CleanWhite,
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
+          )
+        }
+      }
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    when (activeSubTab) {
+      0 -> SuccessCaseStudiesView()
+      1 -> MetabolicCrisisProgressionView()
+      2 -> MythBusterInteractiveView()
+      3 -> SubtractionInteractiveCalculatorView()
+    }
+    
+    Spacer(modifier = Modifier.height(40.dp))
+  }
+}
+
+@Composable
+fun SuccessCaseStudiesView() {
+  var selectedCase by remember { mutableStateOf(0) }
+
+  Column {
+    Text(
+      text = "AUTENTYCZNE HISTORIE KLINICZNE (Wybierz pacjenta)",
+      fontSize = 10.sp,
+      fontWeight = FontWeight.ExtraBold,
+      color = EnergyAmber,
+      letterSpacing = 0.5.sp
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+
+    // Patient horizontal tabs
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .horizontalScroll(rememberScrollState()),
+      horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+      val patients = listOf("Karl (Bipolar II)", "Fran (Demencja)", "Lisa (Ataki Paniki)", "Deanna (Depresja)")
+      patients.forEachIndexed { idx, name ->
+        val active = selectedCase == idx
+        CustomBorderCard(
+          shape = RoundedCornerShape(10.dp),
+          color = if (active) EnergyAmber.copy(0.08f) else Color.White,
+          borderColor = if (active) EnergyAmber else DarkCardBorder,
+          borderWidth = 1.dp,
+          modifier = Modifier.clickable { selectedCase = idx }
+        ) {
+          Text(
+            text = name,
+            fontSize = 11.sp,
+            fontWeight = if (active) FontWeight.Bold else FontWeight.Medium,
+            color = if (active) EnergyAmber else SoftGray,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+          )
+        }
+      }
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    val (quote, text, oldDiet, newDiet, bioImpact) = when (selectedCase) {
+      0 -> listOf(
+        "„Po 39 dniach na nowej diecie lęki nocne i bezsenność całkowicie wygasły (wynik zero!). Odstawiłem wszystkie psychotropy.”",
+        "Karl przez kilkanaście lat cierpiał na potężną bezsenność i stany maniakalne (zmuszające go do nocnych marszów po 40 kilometrów!). Przeszedł nieskuteczne terapie chłodzące głowę farmakologicznie, zdiagnozowano u niego ciężką dwubiegunowość (Bipolar II).",
+        "Standardowa Dieta Amerykańska (Chleb, drożdżówki, piwo, frytki, rafinowane oleje rzepakowe/sojowe).",
+        "Quiet Carnivore (Wyłącznie świeża tłusta wołowina, ryby, woda gazowana i sól morska bez roślinnych lektyn).",
+        "Ominięcie Kompleksu I: Poziom ciężkiego lęku (GAD-7) spadł z 17 na 0! Mitochondria odzyskały stabilne zasilanie, odrzucając potrzebę pigułek."
+      )
+      1 -> listOf(
+        "„Wróciła mi zdolność mowy, kojarzenia i wątków myślowych. Neurolog z zachwytem zdjął ze mnie diagnozę Alzheimera!”",
+        "Fran, emerytowana dietetyczka, uległa wypadkowi i doznała ucisku hipokampa. Po 60-tce traciła mowę, nie mogła nawlec maszyny do szycia i gubiła się na drodze. Lekarz kazał jej iść do domu i 'cieszyć się resztą dni'.",
+        "Wysoka w skrobie (płatki otrębowe, chudy drób, margaryny rzekomo zdrowe dla serca i tłuszcze trans).",
+        "Quiet Keto (Fasty nocne min. 16h, olej kokosowy w rosole, sałaty z oliwą, tłuste ryby bez kazeiny mlecznej).",
+        "Zasilenie przez Kompleks II: Mitochondria hipokampa obeszły uszkodzony Kompleks I. Wynik neurologiczny wzrósł do 27/28!"
+      )
+      2 -> listOf(
+        "„Byłam nękana panicznym lękiem od 17. roku życia. Zjadłam kilogramy Lexapro i Klonopinu, a przyczyną były... jajka!”",
+        "Lisa cierpiała na fobie lękowe przez cztery dekady. Tradycyjne testy alergiczne dały fałszywy wynik ujemny. Pewnego dnia przed wizytą zjadła tylko ugotowane jajko i doznała natychmiastowego ataku paniki.",
+        "Wegetariańska (Dużo jaj kurzych, odtłuszczone sery maziowe, płatki i rafinowane oleje nasienne).",
+        "Strict Quiet Carnivore (Tłuste czerwone mięso, wycięcie kurzych białek, jaj i nabiału na 30 dni).",
+        "Wrażliwość pozajelitowa: Odkryła rzadką nietolerancję albuminy jaj kurzych wywołującą potężne lęki i zapalenie mikrogleju."
+      )
+      else -> listOf(
+        "„Moja kora została dosłownie zalana naturalnym zasileniem. Cukier przestał kontrolować moje myśli w 12 dni.”",
+        "Deanna (64 lata) zmagała się z głęboką głodówką neuronalną, ciągłym objadaniem się i depresją kliniczną (skrajne 37 punktów w skali Becka). Była zbyt wyczerpana psychicznie, by liczyć makroskładniki.",
+        "Cukry rafinowane, chipsy ziemniaczane ze smażalni, fast food podjadany od 16:00 do nocy.",
+        "Quiet Paleo oparte na bezwzględnej eliminacji (mięso naturalne, woda bez podjadania między posiłkami).",
+        "Ketoza w 4 dni: Poziom ciał ketonowych BHB wzrósł do 2.1 mM, a depresja cofnęła się całkowicie (BDI spadł ze skrajnego 37 do 7)!"
+      )
+    }
+
+    CustomBorderCard(
+      shape = RoundedCornerShape(20.dp),
+      color = Color.White,
+      borderColor = DarkCardBorder,
+      borderWidth = 1.dp,
+      modifier = Modifier.fillMaxWidth()
+    ) {
+      Column(modifier = Modifier.padding(18.dp)) {
+        Text(
+          text = quote,
+          color = EnergyAmber,
+          fontSize = 13.sp,
+          fontWeight = FontWeight.ExtraBold,
+          fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+          lineHeight = 18.sp
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+          text = text,
+          fontSize = 12.sp,
+          color = CleanWhite,
+          lineHeight = 16.sp
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+          Column(modifier = Modifier.weight(1f)) {
+            Text("⚙️ SYGNATURA SAD (Stary Błąd):", fontSize = 10.sp, fontWeight = FontWeight.ExtraBold, color = BrainPink)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(oldDiet, fontSize = 11.sp, color = CleanWhite.copy(0.8f), lineHeight = 14.sp)
+          }
+          Column(modifier = Modifier.weight(1f)) {
+            Text("🌱 BAZA QUIET DIET (Rozwiązanie):", fontSize = 10.sp, fontWeight = FontWeight.ExtraBold, color = KetoneCyan)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(newDiet, fontSize = 11.sp, color = CleanWhite.copy(0.8f), lineHeight = 14.sp)
+          }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        StyledDivider()
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+          text = "🧬 BIOLOGICZNY MECHANIZM COFNIĘCIA CHOROBY:",
+          fontSize = 10.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = CleanWhite,
+          letterSpacing = 0.5.sp
+        )
+        Spacer(modifier = Modifier.height(3.dp))
+        Text(
+          text = bioImpact,
+          fontSize = 11.sp,
+          color = SoftGray,
+          lineHeight = 14.sp
+        )
+      }
+    }
+  }
+}
+
+@Composable
+fun MetabolicCrisisProgressionView() {
+  var selectedPhase by remember { mutableStateOf(0) }
+
+  Column {
+    Text(
+      text = "KROKI DEGRADACJI METABOLICZNEJ MÓZGU (Wybierz fazę)",
+      fontSize = 10.sp,
+      fontWeight = FontWeight.ExtraBold,
+      color = BrainPink,
+      letterSpacing = 0.5.sp
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+
+    Row(
+      modifier = Modifier.fillMaxWidth(),
+      horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+      val stages = listOf("Faza I\nNiestabilność", "Faza II\nUkryta Oporność", "Faza III\nZagłodzenie (T3D)")
+      stages.forEachIndexed { index, name ->
+        val isActive = selectedPhase == index
+        CustomBorderCard(
+          shape = RoundedCornerShape(12.dp),
+          color = if (isActive) BrainPink.copy(0.04f) else Color.White,
+          borderColor = if (isActive) BrainPink else DarkCardBorder,
+          borderWidth = 1.dp,
+          modifier = Modifier
+            .weight(1f)
+            .clickable { selectedPhase = index }
+        ) {
+          Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+          ) {
+            Text(
+              text = "0${index + 1}",
+              fontSize = 13.sp,
+              fontWeight = FontWeight.ExtraBold,
+              color = if (isActive) BrainPink else SoftGray
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+              text = name,
+              fontSize = 9.sp,
+              fontWeight = FontWeight.Bold,
+              color = CleanWhite,
+              textAlign = TextAlign.Center,
+              lineHeight = 11.sp
+            )
+          }
+        }
+      }
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    val (title, sub, description, alertText, recoveryKey) = when (selectedPhase) {
+      0 -> listOf(
+        "Faza I: Huśtawka Adrenalinowa (Metabolic Instability)",
+        "Początek drogi do chronicznej paniki",
+        "Wysokie spożycie rafinowanych cukrów i zbóż wywołuje strome piki glukozy. Trzustka w panice wyrzuca gigantyczne fale insuliny, by ubić toksyczny nadmiar cukru. Gdy poziom glukozy pikuje zbyt drastycznie, głodny mózg interpretuje to jako alarm śmierci głodowej i zalewa krew hormonami stresu: adrenaliną i kortyzolem.",
+        "OBJAW: Ataki paniki znikąd, shakiness (drżenie rąk i poty), rozbicie umysłowe, nagłe poczucie strachu i bezsenność.",
+        "ROZWIĄZANIE DR EDE: Quiet Paleo. Usunięcie rafinacji stabilizuje poziom glukozy obwodowej, dając natychmiastowe wyciszenie hormonów w ciągu 1-5 dni!"
+      )
+      1 -> listOf(
+        "Faza II: Cicha Epidemia (High Insulin, Normal Glucose)",
+        "Mecz o metaboliczną odporność komórek trwa 10-20 lat",
+        "Neurony bronią się przed permanentną powodzią cukru i insuliny, wyłączając i blokując aktywne receptory. Powstaje ukryta insulinooporność. Wynik glukozy u lekarza wychodzi idealnie w normie, ale ukrytym kosztem jest to, że trzustka produkuje 5x-10x więcej insuliny, by ten stan utrzymać.",
+        "ZAGROŻENIE: IDE (Insulin Degrading Enzyme) rzuca wszystkie siły na utylizację nadmiaru insuliny i przestaje oczyszczać mózg ze złogów Amyloidu i Tau!",
+        "ROZWIĄZANIE DR EDE: Quiet Keto. Przejście na spalanie tłuszczu obniża poziom insuliny do jednocyfrowych liczb, zwalniając IDE do oczyszczenia synaps."
+      )
+      else -> listOf(
+        "Faza III: Mózgowa Cukrzyca (Cerebral Glucose Hypometabolism)",
+        "Neuron umiera z głodu w oceanie niewykorzystanego cukru",
+        "Permanentnie podwyższona insulina deaktywuje receptory na barierze krew-mózg. Insulina nie jest w stanie wniknąć do neuronów, by uruchomić spalanie glukozy. Pompa sodowo-potasowa w neuronach przestaje działać z braku ATP (potrzebuje 4 mld ATP na sekundę!). Mózg przechodzi cichy brownout i dosłownie kurczy się pod wpływem glukotoksyczności.",
+        "FAKT: Aż 81% pacjentów z Alzheimerem ma zaawansowaną insulinooporność (Cukrzyca Typu 3). Stany te wyprzedzają objawy utraty pamięci o 30 lat!",
+        "ROZWIĄZANIE DR EDE: Quiet Carnivore / Keto. Wątroba z lipidów produkuje ciała ketonowe (BHB), które swobodnie wnikają do neuronu omijając blokadę insuliny!"
+      )
+    }
+
+    CustomBorderCard(
+      shape = RoundedCornerShape(20.dp),
+      color = Color.White,
+      borderColor = DarkCardBorder,
+      borderWidth = 1.dp,
+      modifier = Modifier.fillMaxWidth()
+    ) {
+      Column(modifier = Modifier.padding(18.dp)) {
+        Text(text = title, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = CleanWhite)
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(text = sub, fontSize = 11.sp, color = BrainPink, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = description, fontSize = 12.sp, color = CleanWhite.copy(0.85f), lineHeight = 16.sp)
+        Spacer(modifier = Modifier.height(12.dp))
+
+        CustomBorderCard(
+          shape = RoundedCornerShape(10.dp),
+          color = BrainPink.copy(0.05f),
+          borderColor = BrainPink.copy(0.12f),
+          borderWidth = 1.dp,
+          modifier = Modifier.fillMaxWidth()
+        ) {
+          Text(
+            text = alertText,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = BrainPink,
+            lineHeight = 14.sp,
+            modifier = Modifier.padding(10.dp)
+          )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        CustomBorderCard(
+          shape = RoundedCornerShape(10.dp),
+          color = KetoneCyan.copy(0.05f),
+          borderColor = KetoneCyan.copy(0.12f),
+          borderWidth = 1.dp,
+          modifier = Modifier.fillMaxWidth()
+        ) {
+          Text(
+            text = recoveryKey,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = KetoneCyan,
+            lineHeight = 14.sp,
+            modifier = Modifier.padding(10.dp)
+          )
+        }
+      }
+    }
+  }
+}
+
+@Composable
+fun MythBusterInteractiveView() {
+  var activeMyth by remember { mutableStateOf(-1) }
+
+  val myths = listOf(
+    Pair("1. Borówki (Blueberries) stymulują pamięć i mózg", "DEKLASACJA MITU:\nWszystkie rzekome korzyści z borówek pochodzą z małych testów in vitro na wyizolowanych polifenolach. W żywym organizmie wchłanianie anthocyanins wynosi poniżej 1%, a wątroba natychmiast wychwytuje je i wydala jako niepotrzebne ksenobiotyki. Zdrowsza jest truskawka (7x więcej witaminy C i o połowę mniej cukru!). USDA usunął bazę danych ORAC w 2012 roku, przyznając, że to marketingowy mit!"),
+    Pair("2. Czerwone wino chroni serce resweratrolem", "DEKLASACJA MITU:\nAby uzyskać terapeutyczną dawkę resweratrolu wykazaną w badaniach klinicznych, musiałbyś pić... 500 butelek wina dziennie! Każda szklanka wina zalewa Twoją wątrobę i mózg neurotoksycznym alkoholem, który zmusza wątrobę do wstrzymania produkcji glukozy i spalania tłuszczu, wywołując potężny stres oksydacyjny."),
+    Pair("3. Pełnoziarniste pieczywo i zboża to podstawa", "DEKLASACJA MITU:\nMedykalizacja ziaren zbóż jako podstawy to błąd. Ziarna to uśpione zarodki traw, które chronią się chemiczną zbroją. Zawierają agresywne lektyny (np. WGA w pszenicy) oraz kwas fitynowy, które fizycznie dziurawią błonę jelitową i blokują wchłanianie cynku, żelaza, magnezu i miedzi potrzebnych do syntezy serotoniny i dopaminy."),
+    Pair("4. Sulforafan w surowym brokule chroni mózg", "DEKLASACJA MITU:\nSulforafan to silna toksyna obronna ( insecticide nazywana 'bombą musztardową'). Roślina trzyma jego składniki oddzielnie. Gdy gryziesz brokuł, na skutek zniszczenia komórek powstaje sulforafan, by uszkodzić przewód pokarmowy agresora. Organizm człowieka stara się go natychmiast wydalić, a rzekome korzyści to jedynie pobudzony do obrony układ detoksykacji wątroby!")
+  )
+
+  Column {
+    Text(
+      text = "OBALENIE MITÓW MARKETINGOWYCH (Kliknij, aby odkryć prawdę)",
+      fontSize = 10.sp,
+      fontWeight = FontWeight.ExtraBold,
+      color = EnergyAmber,
+      letterSpacing = 0.5.sp
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+
+    myths.forEachIndexed { index, pair ->
+      val isOpen = activeMyth == index
+      CustomBorderCard(
+        shape = RoundedCornerShape(12.dp),
+        color = if (isOpen) EnergyAmber.copy(0.03f) else Color.White,
+        borderColor = if (isOpen) EnergyAmber else DarkCardBorder,
+        borderWidth = 1.dp,
+        modifier = Modifier
+          .fillMaxWidth()
+          .clickable { activeMyth = if (isOpen) -1 else index }
+          .padding(vertical = 4.dp)
+      ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Text(
+              text = pair.first,
+              fontSize = 12.sp,
+              fontWeight = FontWeight.Bold,
+              color = if (isOpen) EnergyAmber else CleanWhite,
+              modifier = Modifier.weight(0.8f)
+            )
+            Text(
+              text = if (isOpen) "▲ ZAMKNIJ" else "▼ PRAWDA",
+              fontSize = 9.sp,
+              fontWeight = FontWeight.Bold,
+              color = SoftGray,
+              modifier = Modifier.weight(0.2f),
+              textAlign = TextAlign.End
+            )
+          }
+          if (isOpen) {
+            Spacer(modifier = Modifier.height(8.dp))
+            StyledDivider()
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+              text = pair.second,
+              fontSize = 11.sp,
+              color = CleanWhite.copy(0.85f),
+              lineHeight = 15.sp
+            )
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+fun SubtractionInteractiveCalculatorView() {
+  val checkList = remember {
+    mutableStateListOf(
+      Pair("Rafinowany cukier (Zapobieganie pikom glukozy)", false),
+      Pair("Płynne kalorie (Soki owocowe, koktajle, słodzona kawa)", false),
+      Pair("Zboża i gluten (Ochrona bariery jelitowej i minerałów)", false),
+      Pair("Alkool i wino (Koniec z zalewaniem wątroby)", false),
+      Pair("Olej rzepakowy/nasienny (Koniec niszczenia kardiolipiny)", false),
+      Pair("Podjadanie między posiłkami (Czas dla odpoczynku jelit)", false),
+      Pair("Przetworzona żywność 'Keto-friendly' ze słodzikami", false),
+      Pair("Nocne okno postu min. 16h (Samoczyszczenie neuronów)", false)
+    )
+  }
+
+  val removedCount = checkList.count { it.second }
+  val protectionScore = (removedCount / 8f) * 100
+
+  Column {
+    Text(
+      text = "UZDROWIENIE TO SUBTRAKCJA (Odejmij, aby ocalić mózg)",
+      fontSize = 10.sp,
+      fontWeight = FontWeight.ExtraBold,
+      color = EnergyAmber,
+      letterSpacing = 0.5.sp
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+
+    CustomBorderCard(
+      shape = RoundedCornerShape(20.dp),
+      color = Color.White,
+      borderColor = DarkCardBorder,
+      borderWidth = 1.dp,
+      modifier = Modifier.fillMaxWidth()
+    ) {
+      Column(modifier = Modifier.padding(18.dp)) {
+        Text(
+          text = "Prawdziwa Tarcza Ochronna Mózgu 🛡️",
+          fontSize = 14.sp,
+          fontWeight = FontWeight.Bold,
+          color = CleanWhite
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+          text = "Medycyna marketingowa radzi dodawać 'superfoods'. Dr. Georgia Ede uczy, że powrót do zdrowia to SUBTRAKCJA niszczących czynników. Zaznacz elementy do wycięcia:",
+          fontSize = 11.sp,
+          color = SoftGray,
+          lineHeight = 15.sp
+        )
+        Spacer(modifier = Modifier.height(14.dp))
+
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.SpaceBetween,
+          verticalAlignment = Alignment.CenterVertically
+        ) {
+          Text(
+            text = "Wskaźnik Regeneracji Mitochondriów:",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = CleanWhite
+          )
+          Text(
+            text = "${protectionScore.toInt()}%",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = if (protectionScore < 40) BrainPink else if (protectionScore < 80) EnergyAmber else KetoneCyan
+          )
+        }
+        Spacer(modifier = Modifier.height(6.dp))
+        LinearProgressIndicator(
+          progress = removedCount / 8f,
+          color = if (protectionScore < 40) BrainPink else if (protectionScore < 80) EnergyAmber else KetoneCyan,
+          trackColor = Color(0xFFF1F5F9),
+          modifier = Modifier
+            .fillMaxWidth()
+            .height(10.dp)
+            .clip(RoundedCornerShape(5.dp))
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        val feedback = when {
+          removedCount == 0 -> "Brak hamulców. Mózg znajduje się w stanie permanetnego chaosu i zablokowanej energii z glukozy."
+          removedCount <= 3 -> "Pierwsze komórki odzyskują tlen, ale wysoka podaż Omega-6 wciąż wywołuje rany mitochondrialne."
+          removedCount <= 6 -> "Świetna robota! Poziom zapaleń kynureninowych drastycznie spada. Neurony dostają potężny zastrzyk energii."
+          else -> "Pełny dobrostan! Osiągasz szczyt ochrony metabolicznej. Twoje mitochondria działają jak sprawny, tlenowy reaktor!"
+        }
+
+        CustomBorderCard(
+          shape = RoundedCornerShape(12.dp),
+          color = if (removedCount <= 3) BrainPink.copy(0.04f) else KetoneCyan.copy(0.04f),
+          borderColor = if (removedCount <= 3) BrainPink.copy(0.12f) else KetoneCyan.copy(0.12f),
+          borderWidth = 1.dp,
+          modifier = Modifier.fillMaxWidth()
+        ) {
+          Text(
+            text = "ODPOWIEDŹ METABOLICZNA:\n$feedback",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (removedCount <= 3) BrainPink else KetoneCyan,
+            lineHeight = 15.sp,
+            modifier = Modifier.padding(10.dp)
+          )
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
+        StyledDivider()
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // Checkbox layout
+        checkList.forEachIndexed { index, pair ->
+          val isChecked = pair.second
+          Row(
+            modifier = Modifier
+              .fillMaxWidth()
+              .clickable { checkList[index] = Pair(pair.first, !isChecked) }
+              .padding(vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            CustomBorderCard(
+              shape = RoundedCornerShape(4.dp),
+              color = if (isChecked) EnergyAmber else Color.White,
+              borderColor = if (isChecked) EnergyAmber else SoftGray,
+              borderWidth = 1.5.dp,
+              modifier = Modifier.size(18.dp)
+            ) {
+              if (isChecked) {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                  Text("✓", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                }
+              }
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+              text = pair.first,
+              fontSize = 12.sp,
+              color = if (isChecked) CleanWhite else CleanWhite.copy(0.75f),
+              fontWeight = if (isChecked) FontWeight.Bold else FontWeight.Normal
+            )
+          }
+        }
+      }
+    }
+  }
+}
+
