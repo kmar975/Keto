@@ -303,39 +303,39 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
       DetailSection(
         id = "bio_4",
         title = "4. Przekleństwo Glukozy i Blokada Insuliny",
-        subtitle = "Cerebral Glucose Hypometabolism",
+        subtitle = "Głodówka energetyczna mózgu przy zablokowaniu cukru",
         bulletPoints = listOf(
-          "Aby neurony mogły skutecznie przetrawzać glukozę, niezbędna jest wysoka wrażliwość receptorów dla insuliny (IR) znajdujących się na synapsach i obrzeżach bariery krew-mózg.",
-          "Chroniczna dominacja węglowodanów w diecie (chleby, kasze, cukry proste, nadmiar fruktozy) prowadzi do ogłuszenia i redukcji tych receptorów (tzw. down-regulation).",
-          "Wychwyt glukozy ulega zablokowaniu. Powstaje mózgowa insulinooporność: cukier zalega w krwi obwodowej, ale komórki mózgowe dosłownie umierają z głodu.",
-          "Dodatkowo wolne rodniki z nadmiaru cukru wchodzą w reakcje glikacji z białkami, generując zabójcze cząsteczki AGEs (karmelizacja hipokampa prowadząca do Alzheimera/Cukrzycy typu 3)."
+          "Aby komórki mózgowe mogły skutecznie przetwarzać glukozę, niezbędna jest wysoka wrażliwość receptorów dla insuliny znajdujących się na synapsach i obrzeżach bariery krew-mózg.",
+          "Chroniczna dominacja węglowodanów w diecie (chleby, kasze, cukry proste, nadmiar słodkiej fruktozy) prowadzi do ogłuszenia i zablokowania tych receptorów (organizm traci na nie wrażliwość).",
+          "Wychwyt glukozy ulega całkowitemu zablokowaniu. Powstaje mózgowa insulinooporność: cukier zalega w krwi obwodowej, ale niewrażliwe komórki mózgowe dosłownie umierają z głodu.",
+          "Dodatkowo wolne rodniki z nadmiaru cukru łączą się z białkami i 'karmelizują' je. Powstają toksyczne, uszkodzone cząsteczki (końcowe produkty zaawansowanej glikacji), które niszczą hipokamp i prowadzą do demencji (tzw. cukrzycy typu 3)."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Osoba ze świetnym cukrem we krwi może mieć potężną mózgową insulinooporność. Mózg woła o energię wzmagając stany lękowe, panikę i napady głodu mające wymusić wyrzut kortyzolu."
+        shockingTakeaway = "SZOKUJĄCY FAKT: Nawet osoba z idealnym poziomem cukru u lekarza może cierpieć na zaawansowaną oporność insulinową w mózgu. Głodny mózg rozpaczliwie krzyczy o energię, wywołując silne stany lękowe, panikę i wilczy głód."
       ),
       DetailSection(
         id = "bio_5",
         title = "5. Ketony jako Rewolucyjny Bypass",
-        subtitle = "Ominięcie Kompleksu I i ocalenie neuronów",
+        subtitle = "Ominięcie uszkodzonych ścieżek i ratunek dla komórek",
         bulletPoints = listOf(
-          "Podczas braku węglowodanów poziom insuliny spada, uwalniając lipolizę. Wątroba z lipidów produkuje ciała ketonowe: beta-hydroksymaślan (BHB) i acetooctan.",
-          "Przekształcenie glukozy w Acetyl-CoA wymaga aż 13 skomplikowanych reakcji enzymatycznych. Przekształcenie ketonu (BHB) w to samo paliwo wymaga jedynie 3 prostych kroków!",
-          "Większość patologii psychicznych (bipolar, schizofrenia, depresja lekooporna) wykazuje wrodzone lub nabyte uszkodzenia Kompleksu I w mitochondrialnym łańcuchu oddechowym.",
-          "Podczas gdy glukoza ma zablokowaną drogę przez uszkodzony Kompleks I, ketony (BHB) dostarczają elektrony przez FAD bezpośrednio do Kompleksu II, całkowicie omijając ten krytyczny problem!",
-          "Dodatkowo ketony nie potrzebują insuliny do wniknięcia i spalenia w komórkach mózgu, nasycając neurony stabilnym, czystym prądem."
+          "Podczas braku węglowodanów poziom hormonu insuliny spada, uwalniając proces spalania tłuszczów. Wątroba produkuje z nich zbawienne ciała ketonowe: naturalny ocalający mózg beta-hydroksymaślan oraz acetooctan.",
+          "Przekształcenie glukozy w podstawowe paliwo komórkowe wymaga aż 13 skomplikowanych reakcji chemicznych. Przekształcenie czystego ketonu w to samo paliwo wymaga zaledwie 3 prostych kroków!",
+          "Większość patologii psychicznych (choroba dwubiegunowa, schizofrenia, depresja lekooporna) cechuje się wrodzonym lub nabytym uszkodzeniem pierwszego generatora energii w mitochondriach (tzw. Kompleksu I).",
+          "Podczas gdy glukoza ma całkowicie zablokowaną drogę przez to uszkodzenie, ciała ketonowe dostarczają elektrony bezpośrednio do drugiego generatora (Kompleksu II), całkowicie omijając ten krytyczny problem!",
+          "Dodatkowo ciała ketonowe nie potrzebują insuliny, by wniknąć i zostać spalone w komórkach mózgu, nasycając neurony stabilną, czystą energią."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Ciała ketonowe działają jak doskonały instalator biologiczny, dając natychmiastowe paliwo umysłowi omijając uszkodzone i oporne na insulinę tory glukozy!"
+        shockingTakeaway = "SZOKUJĄCY FAKT: Ciała ketonowe działają jak biologiczny instalator omijający awarię elektrowni. Dostarczają czystego, bezpiecznego prądu wprost do głodujących komórek bez użycia insuliny!"
       ),
       DetailSection(
         id = "bio_6",
         title = "6. Porwanie Tryptofanu i Szlak Kynureninowy",
-        subtitle = "Jak neurozapalenie kradnie serotoninę i melatoninę",
+        subtitle = "Jak stany zapalne kradną serotoninę i melatoninę",
         bulletPoints = listOf(
-          "W normalnych warunkach mózg konwertuje tryptofan w serotoninę (nastrój) oraz melatoninę (głęboki sen).",
-          "Pod wpływem chronicznego zapalenia i wolnych rodników (wywołanych przez AGEs i kwas linolowy), tryptofan zostaje porwany ze szlaku serotoniny na neurotoksyczną odnogę szlaku kynureninowego (KYN).",
-          "Skutek to drastyczny niedobór serotoniny i melatoniny, połączony z uderzeniowym (nawet 100-krotnym!) wzrostem produkcji neurotoksycznego kwasu glutaminowego (glutamate).",
-          "Nadmiar glutaminianu dławi receptor NMDA (tzw. ekscytotoksyczność glutaminianu), powodując masową śmierć synaps, uszkodzenie mitochondriów i chroniczne lęki."
+          "W zdrowych warunkach mózg przekształca aminokwas tryptofan w hormon szczęścia (serotoninę) oraz hormon głębokiego snu (melatoninę).",
+          "Pod wpływem przewlekłego zapalenia i wolnych rodników (wywołanych przez cukry i oleje roślinne), tryptofan zostaje porwany ze szlaku szczęścia na szkodliwą, neurotoksyczną ścieżkę kynureninową.",
+          "Skutkuje to drastycznym niedoborem serotoniny i melatoniny, połączonym z uderzeniowym, gwałtownym wzrostem produkcji toksycznego kwasu glutaminowego w mózgu.",
+          "Nadmiar kwasu glutaminowego drażni i dławi odbiorniki pobudzenia nerwowego (receptory NMDA), powodując śmierć połączeń synaptycznych, uszkodzenie mitochondriów i chroniczne, silne lęki."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Stany lękowe i bezsenność w depresji to nie brak leków, lecz fizyczne porwanie tryptofanu pod wpływem diety prozapalnej (cukry i oleje nasienne)!"
+        shockingTakeaway = "SZOKUJĄCY FAKT: Ciągły lęk i bezsenność w depresji to nie brak tabletek w organizmie, lecz fizyczne porwanie tryptofanu pod wpływem jedzenia wywołującego stany zapalne (cukru i olejów nasiennych)!"
       )
     )
   }
@@ -345,64 +345,64 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
       DetailSection(
         id = "met_1",
         title = "1. Piana z Mleka: Epidemiologia Żywieniowa",
-        subtitle = "Ankiety FFQ to fundament z piasku",
+        subtitle = "Ankiety pamięciowe to fundament z piasku",
         bulletPoints = listOf(
-          "Większość wytycznych promujących unikanie tłuszczów zwierzęcych bazuje na badaniach obserwacyjnych korzystających z ankiet FFQ (Food Frequency Questionnaires).",
-          "Te kwestionariusze pytają ludzi np. 'ile razy zjadłeś porcję borówek, brukselki lub boczku w ciągu ostatnich 365 dni?'. Zakłada to perfekcyjną, nierealną pamięć u ludzi.",
-          "Dowiedziono, że badani oszukują w ankietach (ani. social desirability bias): o 30-50% zaniżają spożycie produktów określanych jako 'niezdrowe' (tłuszcz, mięso, chipsy), a zawyżają spożycie warzyw i sałatek.",
-          "Kwestionariusze zbierane są skrajnie rzadko (np. 4 razy w ciągu 20 lat). Naukowe modele matematyczne po prostu zakładają, że nawyki te były idealnie stałe."
+          "Większość zaleceń karzących unikać tłuszczów zwierzęcych bazuje na badaniach obserwacyjnych korzystających z niefachowych ankiet częstotliwości spożywania pokarmów.",
+          "Ankiety te pytają ludzi np.: 'ile razy zjadłeś porcję borówek, brukselki lub boczku w ciągu ostatnich 365 dni?'. Zakłada to perfekcyjną, wręcz niemożliwą pamięć u badanych.",
+          "Dowiedziono naukowo, że badani oszukują w ankietach (ze względu na chęć wypadnięcia dobrze przed badaczem): zaniżają spożycie masła, mięsa czy chipsów o połowę, a zawyżają spożycie sałatek.",
+          "Kwestionariusze zbierane są skrajnie rzadko (np. tylko 4 razy na przestrzeni 20 lat). Następnie modele matematyczne po prostu udają, że nawyki te były idealnie niezmienne przez całe życie."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Aż 46% osób przyznaje, że kłamie lub strzela w ankietach żywieniowych. Współczesna piramida żywieniowa spoczywa w całości na tych zawodnych sformułowaniach!"
+        shockingTakeaway = "SZOKUJĄCY FAKT: Niemal połowa badanych osób przyznaje, że kłamie lub po prostu zgaduje odpowiedzi w ankietach żywieniowych. Współczesna oficjalna piramida żywieniowa spoczywa na tak niewiarygodnych danych!"
       ),
       DetailSection(
         id = "met_2",
-        title = "2. Korelacja to NIE Przyczynowość",
-        subtitle = "Błędy precla i Healthy User Bias",
+        title = "2. Współwystępowanie to NIE Przyczynowość",
+        subtitle = "Błąd precla i uprzedzenie zdrowego stylu życia",
         bulletPoints = listOf(
-          "W epidemiologii nagminnie myli się korelację statystyczną z realnym związkiem przyczynowo-skutkowym. Klasyczny przykład to 'błąd precla'.",
-          "Jeśli badani jedzący słone precle w pubach mają częściej marskość wątroby, epidemiolog ogłosi, że to precle niszczą wątrobę, pomijając całkowicie potężne ilości alkoholu wypijanego z tymi preclami.",
-          "W badaniach nad czerwonym mięsem wystąpił potężny błąd zdrowego użytkownika (Healthy User Bias). W latach 80. mięso zostało oskarżone o powodowanie chorób.",
-          "W efekcie osoby z wyższych warstw, dbające o zdrowie, przestały jeść mięso. Z kolei osoby jedzące mięso częściej piły alkohol, paliły, nie ćwiczyły i jadły śmieciowe węglowodany.",
-          "Współczesna nauka oskarża mięso, ignorując fakt, że w tamtych latach jedzenie mięsa było po prostu markerem fatalnego stylu życia badanych osób."
+          "W statystykach żywieniowych nagminnie myli się zwykłe współwystępowanie z bezpośrednim związkiem przyczynowo-skutkowym. To klasyczny 'błąd słonego precla'.",
+          "Skoro klienci jedzący słone precle w barach częściej mają chorą wątrobę, badacz mógłby ogłosić, że precle niszczą wątrobę – ignorując fakt, że klienci popijali je ogromną ilością alkoholu.",
+          "W badaniach nad czerwonym mięsem wystąpiło ogromne uprzedzenie zwane błędem zdrowego użytkownika (Healthy User Bias). Ponieważ w latach 80. mięso zostało okrzyknięte szkodliwym, osoby dbające o zdrowie przestały je jeść.",
+          "Osoby dbające o siebie jadły mniej mięsa, ale też uprawiały sport, nie piły i nie paliły. Z kolei osoby jedzące mięso częściej paliły papierosy, piły alkohol, nie ćwiczyły i podjadały chipsy.",
+          "Współczesne badania oskarżają mięso, ignorując fakt, że w tamtych latach jedzenie czerwonego mięsa było po prostu oznaką gorszego ogólnego dbania o zdrowie."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Badania obserwacyjne potrafią tworzyć jedynie hipotezy naukowe, nigdy nie udowodnią, że tłuszcz nasycony bezpośrednio zatyka tętnice człowieka."
+        shockingTakeaway = "SZOKUJĄCY FAKT: Badania ankietowe potrafią tworzyć jedynie domysły naukowe. Nigdy nie udowodniły i nie udowodnią, że naturalny tłuszcz nasycony bezpośrednio zatyka tętnice człowieka."
       ),
       DetailSection(
         id = "met_3",
-        title = "3. Kryteria Bradforda Hilla: Co jest Nauka?",
-        subtitle = "Szum statystyczny w badaniach żywienia",
+        title = "3. Kryteria Bradforda Hilla: Co jest Prawdziwą Nauką?",
+        subtitle = "Szum statystyczny zamiast twardych dowodów",
         bulletPoints = listOf(
-          "W 1965 roku sir Austin Bradford Hill stworzył 9 kryteriów pozwalających rozróżnić korelację od przyczynowości. Najważniejsza jest siła powiązania (Relative Risk - RR).",
-          "W badaniach nad tytoniem i rakiem płuc ryzyko względne (RR) wynosiło od 10.0 do 30.0 (palacze chorują 1000%-3000% częściej). Związek jest jasny.",
-          "W rzetelnej metodologii naukowej przyjmuje się, że badanie obserwacyjne powinno wykazać RR powyżej 2.0 (wzrost ryzyka o 100%), aby brać je pod uwagę przyczynowo.",
-          "Większość harvardzkich nagłówków żywieniowych wykazuje RR na poziomie zaledwie 1.05 do 1.2 (rzekomy wzrost o 5%-20%), co w medycynie jest jedynie szumem pomiarowym."
+          "W 1965 roku wybitny badacz sir Austin Bradford Hill stworzył 9 kryteriów pozwalających odróżnić korelację od prawdziwego wpływu. Kluczowa jest siła powiązania statystycznego (tzw. Ryzyko Względne).",
+          "W badaniach nad wpływem palenia papierosów na raka płuc, ryzyko względne wynosiło od 10.0 do 30.0 (palacze chorują 10-30 razy częściej!). Związek przyczynowy jest bezdyskusyjny.",
+          "W rzetelnej nauce przyjmuje się, że badanie ankietowe powinno wykazać wzrost ryzyka przynajmniej o 100% (współczynnik powyżej 2.0), aby brać je poważnie pod uwagę.",
+          "Większość nagłówków straszących jedzeniem wykazuje wzrost ryzyka na poziomie zaledwie 5% do 20% (współczynnik 1.05 do 1.2), co w rzetelnej nauce jest zwykłym szumem pomiarowym i błędem statystycznym."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Ryzyko rzędu 1.15 jest statystycznie niemożliwe do oddzielenia od błędu ankiety, mimo to media prezentują je jako dowód na szkodliwość masła czy jaj."
+        shockingTakeaway = "SZOKUJĄCY FAKT: Ryzyko rzędu 1.15 jest matematycznie niemożliwe do oddzielenia od zwykłego błędu w ankiecie. Mimo to prasa przedstawia je jako twardy dowód na szkodliwość masła, czerwonego mięsa czy jajek!"
       ),
       DetailSection(
         id = "met_4",
         title = "4. Przebiegły Eksperyment Aniczkowa na Królikach",
-        subtitle = "Błąd roślinożercy i początki lipidowego terroru",
+        subtitle = "Błąd zmuszania roślinożercy do jedzenia mięsa",
         bulletPoints = listOf(
-          "W 1913 roku Nikołaj Aniczkow wywołał miażdżycę u królików, podając im w diecie potężne dawki wyizolowanego cholesterolu pochodzenia zwierzęcego.",
-          "To badanie stało się filarem teorii cholesterolowej zabraniającej jedzenia nasyconych tłuszczów.",
-          "Problem: Królik to ścisły roślinożerca. Jego układ pokarmowy, enzymy wątrobowe i metabolizm nie mają biochemicznych narzędzi do przetwarzania pokarmów zwierzęcych.",
-          "Gdy ten sam eksperyment powtórzono na świniach, szczurach, psach i innych organizmach wszystkożernych (jak człowiek), ich wątroby bez problemu zmetabolizowały cholesterol, a naczynia pozostały idealnie czyste."
+          "W 1913 roku badacz Nikołaj Aniczkow wywołał uszkodzenia naczyń u królików, podając im w jedzeniu ogromne dawki wyizolowanego czystego cholesterolu.",
+          "To stare badanie stało się głównym fundamentem teorii cholesterolowej grożącej nam chorobami serca po jajkach i maśle.",
+          "Zasadniczy błąd: Królik to ścisły roślinożerca! Jego wątroba, jelita i enzymy nie posiadają biochemicznych narzędzi do trawienia pokarmów odzwierzęcych.",
+          "Gdy dokładnie ten sam eksperyment powtórzono na świniach, szczurach, psach i innych organizmach wszystkożernych (takich jak człowiek), ich ciała bez problemu przyswoiły cholesterol, a ich naczynia pozostały idealnie czyste i zdrowe."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Krucjata przeciwko jajkom i tłuszczom nasyconym bierze swój początek z faktu, że roślinożerny królik zachorował po jedzeniu pokarmu dla drapieżników!"
+        shockingTakeaway = "SZOKUJĄCY FAKT: Cała współczesna walka z masłem i jajkami wywodzi się z badania, w którym roślinożerny królik po prostu rozchorował się po podaniu mu jedzenia przeznaczonego wyłącznie dla drapieżników!"
       ),
       DetailSection(
         id = "met_5",
-        title = "5. Ciemna Strona Antyoksydantów i Baza ORAC",
-        subtitle = "Hormeza, ksenobiotyki i fiasko probówki",
+        title = "5. Ciemna Strona Antyoksydantów i Wybielanie Roślin",
+        subtitle = "Hormeza, naturalna obrona roślin i fiasko testów w próbówkach",
         bulletPoints = listOf(
-          "Przez lata wmawiano nam cudowne działanie antyoksydantów roślinnych. Słynny ranking ORAC (zdolność pochłaniania wolnych rodników) napędzał rynek superfoods.",
-          "W 2012 roku Departament Rolnictwa USA (USDA) oficjalnie wycofał i usunął bazę danych ORAC, przyznając, że wyniki z probówek mają się nijak do ludzkiego organizmu.",
-          "Co gorsza, badania kliniczne (RCT), gdzie podawano megadawki antyoksydantów (witaminy C, E, beta-karoten), zarejestrowały u ludzi wzrost śmiertelności i raka!",
-          "Rośliny bronią się przed zjedzeniem za pomocą toksyn (ksenobiotyków, polifenoli). Twoja wątroba dąży do ich eliminacji.",
-          "Rzekome korzyści ('stymulacja') wynikają z reakcji obronnej ciała na te łagodne trucizny roślinne, a nie z ich bezpośredniego działania oczyszczającego."
+          "Przez lata wmawiano nam zbawienne działanie antyoksydantów roślinnych. Słynny ranking zdolności pochłaniania wolnych rodników (testy ORAC) napędzał potężny biznes suplementów.",
+          "W 2012 roku Departament Rolnictwa USA (USDA) oficjalnie wycofał tę bazę danych, przyznając publicznie, że testy w próbówkach nie mają żadnego przełożenia na zdrowie żywego człowieka.",
+          "Co gorsza, duże, wiarygodne badania kliniczne (RCT) na ludziach wykazały, że sztuczne podawanie dużych dawek witamin C, E i beta-karotenu zwiększyło ryzyko raka i ogólną śmiertelność!",
+          "Rośliny bronią się przed zjedzeniem przez owady i ssaki za pomocą chemicznych toksyn (substancji obcych dla organizmu, tzw. ksenobiotyków). Nasza wątroba dąży do ich jak najszybszego usunięcia.",
+          "Ewentualne korzyści (wrażenie stymulacji) wynikają z tego, że organizm mobilizuje siły obronne, by usunąć te delikatne roślinne trucizny, a nie z ich bezpośredniego działania oczyszczającego."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Mózg nie potrzebuje bombardowania ksenobiotykami roślinnymi. Pragnie stabilnego, biologicznie najczystszego paliwa (ketonów) i minerałów z tłuszczów zwierzęcych."
+        shockingTakeaway = "SZOKUJĄCY FAKT: Nasz mózg nie potrzebuje bomb w postaci substancji obcych z roślin. Pragnie stabilnego, czystego paliwa w postaci ketonów oraz łatwo przyswajalnych minerałów z tłuszczów zwierzęcych."
       )
     )
   }
@@ -411,64 +411,64 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
     listOf(
       DetailSection(
         id = "clin_1",
-        title = "1. ZABURZENIA LĘKOWE (Anxiety)",
-        subtitle = "Jak ketony odbudowują spokój neuronów",
+        title = "1. ZABURZENIA LĘKOWE (Stany lękowe i panika)",
+        subtitle = "Jak ciała ketonowe odbudowują spokój i wyciszają nerwy podświadome",
         bulletPoints = listOf(
-          "Stany lękowe wynikają z nadreaktywności jądra migdałowatego (amygdala), które na chroniczne niedobory energii (ATP) odpowiada sygnałami zagrożenia.",
-          "Ketony (BHB) stymulują ekspresję enzymu GAD, który gwałtownie konwertuje kwas glutaminowy (toksyczny neuroprzekaźnik pobudzający, lękotwórczy) do uspokajającego GABA.",
-          "Dieta Keto oraz Carnivore usuwa ksenobiotyki roślinne i nadmiar glutenu, które niszczą spójność jelitową, zapobiegając uwalnianiu zapalnych lipopolisacharydów (LPS).",
-          "Samo Paleo często dopuszcza ziarna i orzechy bogate w kwas fitynowy, przez co blokuje mineralizację, dlatego stany lękowe najlepiej wycisza ścisłe Quiet Keto lub Carnivore."
+          "Stany lękowe wynikają z nadmiernej pobudliwości jądra migdałowatego (to część mózgu odpowiedzialna za wyczuwanie zagrożenia), które przy brakach podstawowej energii rzuca ciało w tryb alarmowy.",
+          "Ciała ketonowe stymulują pracę enzymów komórkowych, które błyskawicznie zamieniają toksyczny i pobudzający kwas glutaminowy (wywołujący lęk) w bardzo uspokajający prąd (kwas gamma-aminomasłowy wyciszający głowę).",
+          "Diety eliminacyjne usuwają z jadłospisu chemiczne związki obronne roślin oraz nadmiar zbóż z glutenem, które dziurawią delikatną barierę jelitową, chroniąc przed przedostaniem się toksycznych substancji bakteryjnych do krwiobiegu.",
+          "Standardowa dieta dopuszczająca orzechy czy zboża często blokuje wchłanianie minerałów, dlatego silny lęk najlepiej wycisza czyste biologicznie jedzenie oparte na dozwolonych tłuszczach zwierzęcych i eliminacji czynników drażniących."
         ),
-        shockingTakeaway = "WSKAZÓWKA DR EDE: Przy mocnych stanach lękowych nie bój się eliminacji warzyw. Quiet Carnivore w 2-3 tygodnie potrafi wygasić 90% lęków obwodowych!"
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Przy silnych stanach lękowych nie obawiaj się czasowego odrzucenia warzyw i owoców. Radykalna rezygnacja z roślin na okres 2-3 tygodni potrafi uspokoić i wygasić niemal wszystkie przewlekłe lęki obwodowe!"
       ),
       DetailSection(
         id = "clin_2",
-        title = "2. DEPRESJA I MGŁA MÓZGOWA (Depression & Fog)",
-        subtitle = "Przeciwzapalna tarcza mitochondriów",
+        title = "2. DEPRESJA I MGŁA MÓZGOWA",
+        subtitle = "Mitochondrialna tarcza chroniąca przed zapaleniem komórek",
         bulletPoints = listOf(
-          "Współczesna psychiatria uznaje depresję kliniczną za stan zapalny tkanki nerwowej (Neuroinflammation).",
-          "Komórki glejowe obciążone cukrem generują niszczące cytokiny. Ketony blokują inflamasom NLRP3, wygaszając kaskadę zapalną w mózgu.",
-          "Cholesterol i tłuszcze nasycone dostarczane w Carnivore i Keto ratują osłonki mielinowe oligodendrocytów, umożliwiając szybki transport sygnałów i likwidując apatię.",
-          "Regularne zjazdy insulinowe po glukozie wywołują poranne wyrzuty kortyzolu (stresu), podsycając płaczliwość i brak napędu. Stała ketoza omija te wahania pętli hormonów."
+          "Współczesna nauka uważa depresję kliniczną za fizyczny stan zapalny delikatnej tkanki nerwowej w mózgu.",
+          "Komórki mózgowe przeciążone ciągłymi wahaniami cukru i insuliny zaczynają uwalniać niszczące substancje zapalne. Ciała ketonowe blokują te procesy u samego źródła, wygaszając pożar w głowie.",
+          "Zdrowy tłuszcz zwierzęcy oraz naturalny cholesterol są niezbędne do odbudowy otoczek izolujących nerwy, co pozwala na sprawny i bezbłędny przepływ informacji, likwidując zniecierpliwienie i chroniczną apatię.",
+          "Ciągłe spadki i piki cukru po zjedzeniu węglowodanów zmuszają ciało do nagłych wyrzutów hormonów stresu (adrenaliny i kortyzolu) o poranku, podsycając płaczliwość i lęk. Stała ketoza całkowicie ułatwia stabilizację emocjonalną."
         ),
-        shockingTakeaway = "WSKAZÓWKA DR EDE: Depresja lekooporna rewelacyjnie odpowiada na dietę Keto opartą na czerwonym mięsie, jajach i zdrowych lipidach zwierzęcych."
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Depresja, na którą nie działają żadne tradycyjne leki, rewelacyjnie poddaje się terapii dietą ketogenną opartą na czerwonym mięsie, jajach i zdrowym maśle klarowanym."
       ),
       DetailSection(
         id = "clin_3",
-        title = "3. CHOROBA DWUBIEGUNOWA (ChAD)",
-        subtitle = "Stabilizacja ładunku błony neuronu",
+        title = "3. CHOROBA DWUBIEGUNOWA (Ciągłe huśtawki nastroju)",
+        subtitle = "Przywrócenie stabilności elektrycznej synaps",
         bulletPoints = listOf(
-          "Choroba dwubiegunowa cechuje się niestabilnością poziomu elektrolitów (sodu i wapnia) po obu stronach błony neuronu, co sprzyja stanom manii i depresji.",
-          "Większość stabilizatorów nastroju (lit, kwas walproinowy) działa właśnie na pompy sodowo-potasowe oraz kanały wapniowe.",
-          "Ciała ketonowe działają naturalnie identycznie jak te leki: nasycając neurony ATP, umożliwiają bezwysiłkową pracę pomp sodowo-potasowych (Na+/K+-ATP-aza) i stabilizują elektrykę neuronów.",
-          "Charakterystyczna dla ChAD dysfunkcja Kompleksu I w mitochondrialnym łańcuchu zostaje ominięta przez ketony bezpośrednio do Kompleksu II.",
-          "Duża literatura naukowa (w tym pionierskie badania dr. Chrisa Palmera z Harvardu) opisuje spektakularne, trwałe remisje ChAD po wdrożeniu Quiet Keto."
+          "Choroba dwubiegunowa odznacza się głębokimi zaburzeniami poziomu elektrolitów na błonach komórek nerwowych, co popycha mózg od stanów skrajnej manii i pobudzenia do potwornej depresji.",
+          "Większość tradycyjnych leków stabilizujących nastrój (np. preparaty litu) działa właśnie na naprawę pomp sodowo-potasowych w komórkach.",
+          "Ciała ketonowe działają naturalnie w identyczny sposób jak te leki: nasycają mózg stabilną energią, umożliwiają lekką i bezwysiłkową pracę pomp komórkowych i stabilizują elektryczność mózgu.",
+          "Uszkodzenia głównego generatora energii w komórkach zostają całkowicie ominięte, ponieważ ciała ketonowe trafiają bezpośrednio do drugiego, w pełni sprawnego reaktora pomocniczego.",
+          "Wybitni badacze z Uniwersytetu Harvarda opisują spektakularne, całkowite cofnięcie i remisje choroby dwubiegunowej u pacjentów żywiących się według zasad czystej diety ketogennej."
         ),
-        shockingTakeaway = "WSKAZÓWKA DR EDE: ChAD wymaga precyzyjnej i ścisłej kontroli ciał ketonowych na poziomie minimum 1.5 - 2.5 mmol/l we krwi."
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Ciężkie wahania nastroju wymagają precyzyjnego utrzymywania stałego stanu ketozy (uzyskiwanego przez odcięcie cukru i napojów gazowanych), aby mózg cały czas miał doskonałe, alternatywne paliwo."
       ),
       DetailSection(
         id = "clin_4",
-        title = "4. ADHD I LABILNOŚĆ EMOCJONALNA",
-        subtitle = "Dopływ paliwa do płatów czołowych",
+        title = "4. ADHD I TRUDNOŚCI Z SKUPIENIEM (Nadpobudliwość)",
+        subtitle = "Zapewnienie stałego zasilania dla płatów czołowych",
         bulletPoints = listOf(
-          "Płaty czołowe osób z ADHD wykazują obniżoną aktywność metaboliczną (hypometabolism), co upośledza funkcje wykonawcze i kontrolę impulsów.",
-          "Jedzenie cukrów daje chwilowy wyrzut dopaminy, po czym następuje gwałtowny spadek glukozy i wyrzut adrenaliny, owocujący agresją, drażliwością i brakiem uwagi.",
-          "Quiet Paleo (Krok 1) eliminuje sztuczne barwniki, konserwanty, cukier i nabiał, co drastycznie zmniejsza nadpobudliwość u 50-70% pacjentów.",
-          "Quiet Keto lub Carnivore idą jeszcze dalej - zapewniają płatom czołowym stały, 24-godzinny poziom czystej energii i stabilizują dopaminowanie mózgu."
+          "Obszary mózgu odpowiedzialne za kontrolę impulsów i skupienie wykazują u pacjentów z nadpobudliwością drastycznie spowolniony metabolizm i brak stabilnej energii.",
+          "Słodkie jedzenie daje jedynie chwilowy, gwałtowny wyrzut dopaminy, po czym poziom energii drastycznie spada, zmuszając organizm do produkcji adrenaliny, co owocuje złością, agresją i rozkojarzeniem.",
+          "Pierwszy krok protokołu (dokładne wyeliminowanie barwników, słodzików, cukru białego i przetworzonego nabiału) zmniejsza nadpobudliwość u ponad połowy pacjentów bez użycia żadnej farmakologii.",
+          "Stabilna ketoza zapewnia mózgowi równe, 24-godzinne dostawy najczystszej energii komórkowej, trwale stabilizując poziom koncentracji."
         ),
-        shockingTakeaway = "WSKAZÓWKA DR EDE: Zanim podasz dziecku lub sobie silne leki stymulujące (jak ritalin), wypróbuj Quiet Paleo eliminując całkowicie cukier oraz gluten na 30 dni."
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Zanim zdecydujesz się podać dziecku lub sobie silne, uzależniające leki stymulujące podnoszące dopaminę, spróbuj przez 30 dni odrzucić cały cukier oraz gluten."
       ),
       DetailSection(
         id = "clin_5",
-        title = "5. SCHIZOFRENIA I CYKRZYCA TYPU 3",
-        subtitle = "Metaboliczne cofanie psychoz",
+        title = "5. SCHIZOFRENIA I CIĘŻKIE KRYZYSY METABOLICZNE MÓZGU",
+        subtitle = "Odżywianie komórek w najgłębszych stanach chorobowych",
         bulletPoints = listOf(
-          "Skrajne zaburzenia psychiczne, w tym schizofrenia, mocno korelują z insulinoopornością mózgową i niezdolnością neuronów do absorpcji glukozy.",
-          "Dr Georgia Ede leczyła z pełnym sukcesem pacjentów ze schizofrenią oporną na leki, wykorzystując wyłącznie terapeutyczne, dobrze skomponowane diety ketogenne.",
-          "Ominięcie zablokowanego receptorowo szlaku glukozy ratuje neurony przed śmiercią energetyczną i trwale uśmierza głosy oraz omamy.",
-          "Dodatkowo, wyeliminowanie wszystkich antyodżywczych substancji z roślin zapobiega autoimmunologicznym atakom na neuroreceptory."
+          "Ciężkie stany psychotyczne i schizofrenia są bezpośrednio połączone z potężną insulinoopornością mózgową – neurony tracą fizyczną fizjologiczną możliwość przyswajania glukozy.",
+          "Dr Georgia Ede leczyła z pełnym sukcesem pacjentów z diagnozą schizofrenii opornej na wszelkie dotychczasowe leki, stosując u nich wyłącznie dietę zmieniającą paliwo z cukru na tłuszcze zwierzęce.",
+          "Ominięcie zablokowanego szlaku spalania cukru ratuje neurony przed śmiercią energetyczną i trwale wycisza głosy lękowe oraz omamy zmysłowe.",
+          "Wycięcie drażniących i wywołujących stany zapalne substancji chemicznych z roślin uniemożliwia autoimmunologiczne ataki ciała na własne neurony odbiorcze."
         ),
-        shockingTakeaway = "WSKAZÓWKA DR EDE: Schizofrenia to patologia metaboliczna mózgu. Przywrócenie zasilania mitochondrialnego za pomocą ketonów wykazuje rewolucyjne działanie terapeutyczne."
+        shockingTakeaway = "WSKAZÓWKA DR EDE: Schizofrenia oraz głęboka depresja to fizyczna choroba metaboliczna głodującego mózgu. Przywrócenie stałych dostaw tlenowego paliwa podnosi komfort życia pacjentów w nieprawdopodobny sposób."
       )
     )
   }
@@ -480,60 +480,60 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
         title = "1. DOSKONAŁE SUPERPALIWA (Zezwolone)",
         subtitle = "Pokarmy o najwyższej gęstości odżywczej",
         bulletPoints = listOf(
-          "Mięsa przeżuwaczy (Wołowina, jagnięcina, dziczyzna, kozina): Królowie ludzkiego stołu. Dostarczają 100% przyswajalnego żelaza hemowego, cynku, kreatyny, karnityny oraz unikalnej witaminy B12.",
-          "Żółtka jajek: Bogactwo choliny (materiał budulcowy dla neuroprzekaźnika koncentracji i pamięci - acetylocholiny) oraz luteiny ocalającej siatkówkę.",
-          "Masło Ghee (Klarowane): Czysty tłuszcz nasycony pozbawiony kazeiny i laktozy. Zawiera maślan regenerujący nabłonek jelitowy.",
-          "Tłuste ryby dzikie (łosoś, makrela, szproty): Niezbędne źródła DHA (kwas dokozaheksaenowy), budującego 20% kory mózgowej i zapobiegającego demencji.",
-          "Awokado i oliwa z oliwek (extra virgin): Jedyne owoce/rośliny o ujemnej toksyczności, dostarczające stabilnych jednonienasyconych tłuszczów."
+          "Mięsa przeżuwaczy (Wołowina, jagnięcina, dziczyzna, kozina): Królowie ludzkiego stołu. Dostarczają w pełni przyswajalnego żelaza organicznego, cynku, kreatyny, karnityny oraz aktywnej biologicznie witaminy B12.",
+          "Żółtka jajek: Bogactwo choliny (materiał niezbędny do budowy ważnego neuroprzekaźnika koncentracji i dobrej pamięci - acetylocholiny) oraz luteiny ocalającej siatkówkę oka.",
+          "Masło klarowane (Ghee): Czysty tłuszcz nasycony całkowicie pozbawiony drażniących białek mlecznych (kazeiny) i laktozy. Zawiera maślan regenerujący nabłonek jelitowy.",
+          "Tłuste ryby dzikie (łosoś, makrela, szproty): Niezbędne źródła naturalnych kwasów tłuszczowych Omega-3, budujących znaczną część kory mózgowej i zapobiegających demencji starczej.",
+          "Awokado i oliwa z oliwek (tłoczona na zimno): Jedyne owoce i tłuszcze roślinne pozbawione toksyn obronnych, dostarczające stabilnych jednonienasyconych kwasów tłuszczowych."
         ),
-        shockingTakeaway = "SUGESTIA METABOLICZNA: Człowiek potrafi przeżyć całe życie jedząc wyłącznie wołowinę, sól i pijąc wodę. Nasz mózg ewoluował na tłuszczach zwierzęcych!"
+        shockingTakeaway = "SUGESTIA METABOLICZNA: Człowiek potrafi cieszyć się pełnym zdrowiem jedząc wyłącznie wysokiej jakości wołowinę, sól morską i pijąc wodę źródlaną. Nasz mózg ewoluował na przestrzeni setek tysięcy lat na tłuszczach zwierzęcych!"
       ),
       DetailSection(
         id = "food_2",
         title = "2. UKRYTE TOKSYNY ROŚLINNE (Unikaj lub Eliminuj)",
-        subtitle = "Naturalna broń biologiczna flory",
+        subtitle = "Naturalna broń chemiczna flory",
         bulletPoints = listOf(
-          "Szczawiany (Oxalates - szpinak, buraki, migdały): Tworzą igiełkowate kryształy szczawianu wapnia. Odkładają się w stawach, nerkach i tkance mózgoworuchowej stymulując mikroglej.",
-          "Lektyny (Lectins - gluten, fasole, orzechy, psiankowate): Aglutyniny rozrywające barierę jelitową (Leaky Gut), ułatwiając toksynom wniknięcie do osocza krwi.",
-          "Salicylany (Salicylates - zioła, przyprawy, owoce): Bardzo wiele osób ma silną nadwrażliwość psychiczną na salicylany. Wyzwala to lęki, nocne poty, bezsenność i nadpobudliwość u dzieci.",
-          "Kwas fitynowy (Phytates - zboża, orzechy, soja): Blokuje wchłanianie krytycznych dla mózgu minerałów: cynku, magnezu, żelaza i wapnia."
+          "Szczawiany (szpinak, buraki, migdały): Tworzą maleńkie, ostroróżne kryształki szczawianu wapnia. Odkładają się w stawach, nerkach i tkance nerwowej, drażniąc i prowokując stany zapalne w głowie.",
+          "Lektyny (czyli gluten w pszenicy, fasola, orzechy, warzywa psiankowate): Agresywne białka rozrywające delikatną barierę jelitową, ułatwiające nieoczyszczonym toksynom bezpośrednie wniknięcie do krwi obwodowej.",
+          "Salicylany (zioła, przyprawy korzenne, sztuczne aromaty): Bardzo wiele osób ma silną nadwrażliwość psychiczną na kwas salicylowy ukryty w roślinach. Wyzwala to lęki, nocne poty, bezsenność i potężną nadpobudliwość u małych dzieci.",
+          "Kwas fitynowy (zboża, orzechy, soja): Blokuje i uniemożliwia wchłanianie krytycznych dla zdrowia psychicznego minerałów: cynku, magnezu, żelaza i wapnia u ludzi."
         ),
-        shockingTakeaway = "SUGESTIA METABOLICZNA: Rośliny nie mogą uciekać przed drapieżnikiem. Ich jedyną obroną są wyrafunowane toksyny chemiczne celowane w układ pokarmowy i nerwy roślinożerców!"
+        shockingTakeaway = "SUGESTIA METABOLICZNA: Rośliny nie posiadają nóg, by uciekać przed drapieżnikami. Ich jedynym sposobem obrony są wyrafunowane toksyny chemiczne, które mają za zadanie uszkodzić przewód pokarmowy i układ nerwowy roślinożercy!"
       ),
       DetailSection(
         id = "food_3",
-        title = "3. RAFINOWANE OLEJE ROŚLINNE I CUKIER",
-        subtitle = "Mechanizm niszczenia mitochondriów",
+        title = "3. RAFINOWANE OLEJE ROŚLINNE I SŁODZONY CUKIER",
+        subtitle = "Główny mechanizm bezpośredniego niszczenia mitochondriów",
         bulletPoints = listOf(
-          "Oleje przemysłowe (rzepakowy, sojowy, słonecznikowy, kukurydziany) to nowość technologiczna. Powstają w drodze skomplikowanej rafinacji w 13 krokach za pomocą heksanu (petrochemicznego rozpuszczalnika), ługowania sodem i odwonienia parowego (powyżej 180°C), co zmienia wolne tłuszcze w truciznę.",
-          "Wspomniane oleje zawierają drastyczne ilości kwasu linolowego (Omega-6). Organizm człowieka potrzebuje aż 680 dni celowego unikania, by pozbyć się zaledwie połowy zmagazynowanego kwasu linolowego z tkanki tłuszczowej!",
-          "Wysokie spożycie margaryn i olejów nasiennych niszczy kardiolipinę – fosfolipid budujący wewnętrzną błonę mitochondriów, co wywołuje załamanie ETC i potężne przecieki wolnych rodników (ROS).",
-          "Z kolei cukier i fruktoza (oraz słodziki wywołujące neurotoksyczną nadwrażliwość NMDA) stale stymulują insulinę, potęgując obrzęki i proces glikacji neuronów."
+          "Oleje przemysłowe (rzepakowy, sojowy, słonecznikowy, kukurydziany) to nowoczesny wynalazek technologiczny. Powstają w drodze skomplikowanej rafinacji przy użyciu benzynowych rozpuszczalników, sody i pary wodnej o temperaturze powyżej 180°C, co zmienia kruche kwasy tłuszczowe w truciznę.",
+          "Wspomniane tanie oleje kuchenne zawierają nienaturalnie wysokie ilości kwasu linolowego. Organizm człowieka potrzebuje niemal dwóch lat rygorystycznego unikania tych tłuszczów, by pozbyć się zaledwie połowy zmagazynowanego kwasu linolowego z tkanki tłuszczowej!",
+          "Smażenie i spożywanie margaryn niszczy kardiolipinę – substancję budującą wewnętrzną membranę mitochondriów, co powoduje zatrzymanie mitochondrialnego łańcucha oddechowego i potężne wycieki wolnych rodników tlenowych.",
+          "Z kolei cukier rafinowany i syrop fruktozowy (oraz słodziki wywołujące neurotoksyczne pobudzenie mózgu) nieprzerwanie stymulują wyrzuty insuliny, potęgując obrzęki i niszczący proces glikacji neuronów."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT: Mózg i glej próbują spalać kwas linolowy jako awaryjne paliwo tłuszczowe, co drastycznie wzmaga stres oksydacyjny i uwalnia niszczycielskie produkty rozpadu (OXLAMs)."
+        shockingTakeaway = "SZOKUJĄCY FAKT: Nasze komórki nerwowe próbują rozpaczliwie spalać kwas linolowy z olejów smażalniczych jako paliwo awaryjne, co drastycznie zwiększa stres oksydacyjny i niszczy mózg od środka."
       ),
       DetailSection(
         id = "food_4",
-        title = "4. UPADEK MITÓW: Blueberries, Czekolada i Czerwone Wino",
-        subtitle = "Szokująca prawda o tzw. Antyoksydantach",
+        title = "4. UPADEK MITÓW: Borówki, Czekolada i Czerwone Wino",
+        subtitle = "Szokująca prawda o rzekomych zbawiennych 'superfood'",
         bulletPoints = listOf(
-          "Wielkie badania kliniczne (RCT) dowiodły, że suplementowanie rzekomych antyoksydantów (witaminy C i E, beta-karoten) nie tylko nie pomogło chorym, lecz zwiększyło rany rakowe i śmiertelność (beta-karoten u palaczy).",
-          "Słynne borówki (blueberries) mają znikomą przyswajalność polifenoli (anthocyanins). Truskawka (strawberry) deklasuje je pod każdym względem, zawierając 7 razy więcej witaminy C i tylko połowę cukru borówki!",
-          "Czerwone wino jako eliksir zdrowia to mit epidemiologiczny. Aby uzyskać terapeutyczną dawkę resweratrolu (polifenolu, będącego u roślin grzybobójczym pestycydem!), należałoby pić aż 500 butelek wina dziennie.",
-          "Brokułowy 'cud' czyli sulforafan to w rzeczywistości toksyczny insektycyd ('bomba musztardowa' chroniąca roślinę). Nie jest pokarmem, lecz ksenobiotykiem, który wątroba próbuje jak najszybciej wydalić z komórek."
+          "Wielkie badania kliniczne na ludziach ostatecznie dowiodły, że sztuczne podawanie dużych dawek witamin C, E czy beta-karotenu nie tylko nie poprawiło zdrowia chorych, lecz wręcz zwiększyło śmiertelność i ryzyko powstawania guzów.",
+          "Słynne czarne borówki mają znikomą przyswajalność polifenoli (poniżej jednego procenta). Zwykła truskawka deklasuje je pod każdym względem, zawierając 7 razy więcej naturalnej witaminy C i o połowę mniej cukru niż borówka!",
+          "Opowieści o czerwonym winie jako eliksirze młodości to mit statystyczny. Aby uzyskać terapeutyczną dawkę dobroczynnego resweratrolu (który u roślin służy jako toksyczny fungicyd chroniący przed grzybem), należałoby wypić aż 500 butelek wina codziennie.",
+          "Cud brokułowy czyli sulforafan to w rzeczywistości toksyna chroniąca warzywo przed owadami (tzw. insektycyd). Nie jest dla nas pożywieniem, lecz obcym ksenobiotykiem, który obciąża wątrobę i zmusza ciało do natychmiastowego wydalenia go."
         ),
-        shockingTakeaway = "SZOKUJĄCY FAKT FIZJOLOGICZNY: W 2012 roku Departament Rolnictwa USA (USDA) oficjalnie wycofał i usunął internetową bazę danych ORAC, przyznając publicznie, że testy antyoksydacyjne w próbówce (in vitro) nie wykazują żadnego przełożenia na zdrowie żywego człowieka!"
+        shockingTakeaway = "SZOKUJĄCY FAKT FIZJOLOGICZNY: W 2012 roku Departament Rolnictwa USA (USDA) oficjalnie wycofał i usunął internetową bazę danych zdolności antyoksydacyjnych ORAC, przyznając publicznie, że testy w szklanych próbówkach nie przekładają się na zdrowie człowieka!"
       ),
       DetailSection(
         id = "food_5",
-        title = "5. ROŻNICE MIĘDZY DIETAMI (Porównanie)",
-        subtitle = "Droga eliminacyjna: Paleo ➔ Keto ➔ Carnivore",
+        title = "5. RÓŻNICE MIĘDZY ETAPAMI (Porównanie)",
+        subtitle = "Trzystopniowa droga eliminacyjna: Krok po kroku",
         bulletPoints = listOf(
-          "Quiet Paleo (Krok 1): Dieta naturalna, bez zbóż, bez nabiału, bez cukru opartego na rafinacji. Dopuszcza warzywa, owoce i chude mięsa. Działa doskonale jako metaboliczny punkt wyjścia dla każdego.",
-          "Quiet Keto (Krok 2): Dieta wysokotłuszczowa, niskowęglowodanowa (do 20g-30g netto). Wycina owoce sadowe i sterylne skrobie. Wprowadza mózg w stałą ketozę, wygaszając lęki obwodowe.",
-          "Quiet Carnivore (Krok 3): Absolutne plant-free i egg/dairy-free. Najwyższy i najkrótszy stopień eliminacyjny dający ulgę w najgłębszych depresjach, schizofrenii i psychozach."
+          "Paleo Eliminacyjne (Krok 1): Dieta całkowicie naturalna, bez zbóż, bez nabiału, bez rafinowanego cukru. Dopuszcza zdrowe i bezpieczne warzywa, wybrane owoce i mięso. To idealny i bezpieczny punkt wyjścia dla każdego.",
+          "Keto Eliminacyjne (Krok 2): Dieta wysokotłuszczowa z mocno ograniczonymi węglowodanami (do 20g netto dziennie). Usuwa owoce wysokoskrobiowe, wprowadzając mózg w oczyszczający stan ketozy.",
+          "Czysty Carnivore (Krok 3): Dieta oparta wyłącznie na tłustym mięsie, soli i wodzie. Całkowicie wolna od roślin, jaj oraz mleka. Krótka, najwyższa forma terapii eliminacyjnej dająca ulgę w najgłębszych depresjach i schizofrenii."
         ),
-        shockingTakeaway = "REGUŁA DR EDE: Uzdrowienie mózgu to nie mądrość 'dodawania' cudownych owoców czy suplementów, lecz mądrość odejmowania i bezwzględnej SUBTRAKCJI niszczących substancji metabolicznych!"
+        shockingTakeaway = "REGUŁA DR EDE: Powrót do pełnego zdrowia psychicznego to nie mądrość 'dodawania' cudownych owoców, super-suplementów czy nowinek medycznych. To mądrość SUBTRAKCJI (czyli bezwzględnego odejmowania i eliminacji z diety czynników wywołujących stany zapalne)!"
       )
     )
   }
@@ -543,49 +543,49 @@ fun KetoBrainHandbookScreen(modifier: Modifier = Modifier) {
       DetailSection(
         id = "warn_1",
         title = "1. OSTRZEŻENIE O LEKACH (⚠️ Przeczytaj Koniecznie)",
-        subtitle = "Hipotensja, leki psychiatryczne i rola lekarza",
+        subtitle = "Spadki ciśnienia, leki psychiatryczne i niezbędna rola lekarza prowadzącego",
         bulletPoints = listOf(
-          "Gdy wchodzisz w ketozę, poziom insuliny spada, co powoduje intensywne usuwanie wody i sodu przez nerki (tzw. natriureza).",
-          "Osoby przyjmujące leki na nadciśnienie (np. betablokery, inhibitory ACE) mogą doświadczyć gwałtownych, groźnych dla zdrowia spadków ciśnienia (hipotensja). Dawkowanie tych leków musi być niezwłocznie dostosowane!",
-          "Mózg w ketozie staje się znacznie bardziej wrażliwy na leki neuroaktywne. Leki psychiatryczne (lit, depakine, benzodiazepiny, neuroleptyki) zaczynają działać znacznie silniej.",
-          "Poprawa wydolności mitochondriów sprawia, że dotychczasowa dawka leku może stać się toksyczna. Monitorowanie stężenia leków (szczególnie Litu) we krwi jest bezwzględnym nakazem!"
+          "Gdy wchodzisz w prawidłowy i głęboki stan ketozy (czyli spalania tłuszczu), poziom insuliny spada, co powoduje bardzo intensywne, naturalne pozbywanie się wody i sodu przez nerki (tzw. natriureza).",
+          "Osoby przyjmujące preparaty farmakologiczne na nadciśnienie tętnicze mogą doświadczyć gwałtownych, niebezpiecznych dla zdrowia spadków ciśnienia (hipotensja). Dawkowanie tych leków musi być niezwłocznie skonsultowane i dostosowane przez kardiologa!",
+          "Mózg zasilany ketonami staje się znacznie bardziej wrażliwy na wszelkie substancje psychotropowe. Leki psychiatryczne (lit, neuroleptyki, antydepresanty czy leki przeciwlękowe) zaczynają działać o wiele silniej na receptory nerwowe.",
+          "Poprawa sprawności energetycznej mitochondriów sprawia, że dotychczasowa dawka leku psychiatrycznego może okazać się toksyczna dla chorego. Monitorowanie poziomu substancji (szczególnie Litu) we krwi jest bezwzględnym nakazem lekarskim!"
         ),
-        shockingTakeaway = "⚠️ UWAGA: Dr Georgia Ede kładzie ogromny nacisk na to, by zmiana diety przy lekach psychotropowych odbywała się zawsze po konsultacji z lekarzem prowadzącym. Nigdy nie odstawiaj leków samowolnie!"
+        shockingTakeaway = "⚠️ UWAGA: Autorka, dr Georgia Ede, kładzie ogromny, bezwzględny nacisk na to, by zmiana diety przy zażywaniu silnych leków psychotropowych zawsze odbywała się pod okiem wykwalifikowanego lekarza psychiatry! Nigdy nie modyfikuj ani nie odstawiaj dawek leków samowolnie!"
       ),
       DetailSection(
         id = "warn_2",
-        title = "2. KETO GRYPA (Keto Flu) - Jak Uniknąć?",
-        subtitle = "Elektrolitowy spadek adaptacyjny",
+        title = "2. GRYPA WĘGLOWODANOWA - Jak Przetrwać?",
+        subtitle = "Przejściowy spadek elektrolitów w fazie przestawiania paliwa",
         bulletPoints = listOf(
-          "Keto grypa to zestaw przejściowych objawów trwających od 3 do 10 dni, wynikających ze spadku elektrolitów i zmiany enzymów szlaków energetycznych.",
-          "Objawy: silny ból głowy, osłabienie, skurcze mięśni, drżenie rąk, lęk, zaparcia/biegunki.",
-          "Rozwiązanie: Pij 1.5 - 2 litry osolonej wody dziennie (szczypta soli kłodawskiej / morskiej na szklankę).",
-          "Pij ciepły rosół ugotowany na kościach szpikowych (bone broth) bogaty w glicynę i minerały.",
-          "Suplementuj cytrynian magnezu (350-450mg magnezu przed snem) oraz uzupełniaj potas z dozwolonych źródeł."
+          "Tak zwana 'grypa ketonowa' to po prostu zestaw naturalnych, przejściowych objawów trwających od 3 do maksymalnie 10 dni, wynikających z nagłego wypłukania sodu, magnezu i wody.",
+          "Objawy: przejściowy, silny ból głowy, ogólne osłabienie mięśniowe, bolesne skurcze w łydkach, lekkie drżenie rąk, lęki, tymczasowe zaparcia lub biegunki.",
+          "Rozwiązanie główne: Obowiązkowo pij od 1.5 do 2 litrów dobrze osolonej wody dziennie (dodaj szczyptę dobrej soli morskiej lub kłodawskiej na każdą szklankę wody mineralnej).",
+          "Przygotuj i pij regularnie ciepły, tradycyjny rosół gotowany na kościach szpikowych bogaty w naturalną glicynę, kolagen i minerały.",
+          "Suplementuj łatwo przyswajalny magnez (np. cytrynian magnezu lub diglicynian w dawce 350-450mg czystych jonów wieczorem przed snem) oraz uzupełniaj potas z dozwolonych źródeł pokarmowych."
         ),
-        shockingTakeaway = "Rozwiązanie tkwi w soli! Większość objawów keto grypy to po prostu odwodnienie i spadek sodu we krwi, które można odwrócić w 15 minut szklanką słonej wody."
+        shockingTakeaway = "ZŁOTA RADA DR EDE: Rozwiązanie tkwi w zwykłej soli spożywczej! Ponad 90% objawów grypy adaptacyjnej to po prostu odwodnienie i spadek sodu, które można cofnąć w kilkanaście minut, popijając lekko słoną wodę."
       ),
       DetailSection(
         id = "warn_3",
-        title = "3. HARMONOGRAM ADAPTACJI (Timeline)",
-        subtitle = "Czego spodziewać się dzień po dniu i tydzień po tygodniu",
+        title = "3. HARMONOGRAM ADAPTACJI MÓZGU",
+        subtitle = "Czego dokładnie spodziewać się dzień po dniu i tydzień po tygodniu",
         bulletPoints = listOf(
-          "Tydzień 1 (Dni 1-7): Wypłukiwanie glikogenu z wątroby i mięśni. Szybki spadek wagi (głównie woda). Możliwe objawy keto-flu. Ustabilizowanie pierwszych skoków glukozowych.",
-          "Tydzień 2-4: Wątroba produkuje coraz więcej BHB. Mózg uczy się korzystać z ketonów. Wyraźny zanik porannych lęków i wieczornych napadów głodu.",
-          "Miesiąc 2-3: Pełna ketoadaptacja komórkowa. Dochodzi do mitochondrialnej biogenezy (tworzenie nowych, sprawnych elektrowni w komórkach). Trwała eliminacja mgły mózgowej i pełny spokój nastroju."
+          "Tydzień pierwszy (Dni 1-7): Całkowite zużycie cukru (glikogenu) zmagazynowanego w wątrobie i mięśniach. Szybkie schodzenie obrzęków i utrata wagi (głównie woda). Możliwe objawy przejściowej grypy adaptacyjnej. Pierwsze stabilne, równe samopoczucie.",
+          "Tygodnie 2-4: Wątroba produkuje coraz większe i stabilniejsze ilości zbawiennych ciał ketonowych. Mózg uczy się efektywnie czerpać z nich energię. Następuje całkowity zanik porannych lęków, wahań energii oraz wieczornych napadów wilczego głodu na słodycze.",
+          "Miesiące 2-3: Pełna komórkowa adaptacja ketonowa. Dochodzi do biogenezy (czyli tworzenia zupełnie nowych, silnych elektrowni komórkowych we wszystkich neuronach). Trwała eliminacja mgły mózgowej i uzyskanie pełnego spokoju ducha."
         ),
-        shockingTakeaway = "Daj sobie czas: Adaptacja mózgu do optymalnego spalania tłuszczów to maraton, a nie sprint. Prawdziwe cuda psychiczne zaczynają się wokół 8-12 tygodnia!"
+        shockingTakeaway = "ZŁOTA ZASADA: Przestawienie mózgu na optymalne spalanie tłuszczów to długodystansowy maraton, a nie szybki sprint. Prawdziwe, najgłębsze uzdrowienie psychiczne i stabilizacja emocji rozpoczynają się zwykle między 8 a 12 tygodniem!"
       ),
       DetailSection(
         id = "warn_4",
-        title = "4. KROKI ELIMINACJI WEDŁUG DR. EDE",
-        subtitle = "Quiet Paleo -> Quiet Keto -> Quiet Carnivore",
+        title = "4. TRZY ETAPY METABOLICZNEGO ODŻYWIANIA",
+        subtitle = "Droga stopniowego wyciszania stanów zapalnych w organizmie",
         bulletPoints = listOf(
-          "Krok 1 (Quiet Paleo): Eliminacja zbóż, glutenu, nabiału pasteryzowanego i cukru. Skupienie na świeżym mięsie i bezpiecznych roślinach.",
-          "Krok 2 (Quiet Keto): Przejście w stan stabilnej ketozy. Drastyczne ograniczenie węglowodanów, odcięcie owoców sadowych i warzyw o wysokiej zawartości toksyn obronnych.",
-          "Krok 3 (Quiet Carnivore): Najwyższa forma terapii eliminacyjnej. Wyklucza wszystkie rośliny bez wyjątku. Dieta mięso-sól-woda, ratująca pacjentów w najcięższych psychozach i depresjach."
+          "Etap 1 - Wyciszona Dieta Paleo (Quiet Paleo): Gruntowne wyeliminowanie wszelkich zbóż, glutenu, przetworzonego nabiału komercyjnego oraz cukru. Skupiamy się na świeżym mięsie i najbezpieczniejszych warzywach i owocach.",
+          "Etap 2 - Wyciszona Dieta Keto (Quiet Keto): Przejście w stan stabilnej i zbawiennej ketozy. Drastyczne ograniczenie węglowodanów, odrzucenie słodkich owoców sadowych i warzyw o wysokiej zawartości niebezpiecznych substancji obronnych roślin.",
+          "Etap 3 - Wyciszona Dieta Carnivore (Quiet Carnivore): Najważniejsza, terapeutyczna dieta eliminacyjna. Całkowicie wyklucza wszelkie pokarmy pochodzenia roślinnego. Jadłospis składający się wyłącznie z tłustego mięsa, soli i wody ratuje zdrowie pacjentów w najtrudniejszych kryzysach."
         ),
-        shockingTakeaway = "Zasada Dr Ede: Zacznij od Kroku 1 lub 2. Jeśli objawy psychiczne nie ustąpią w 100%, wejdź na Krok 3 na okres 30 dni, a potem powoli reintrodukuj składniki."
+        shockingTakeaway = "ZŁOTA REGUŁA DR EDE: Zacznij spokojnie od pierwszego lub drugiego etapu. Jeżeli po kilku tygodniach poczujesz, że objawy neuropsychiczne nie ustąpiły całkowicie, wejdź na trzeci etap (sam tłuszcz i mięso zwierzęce) na okres 30 dni, po czym powoli wprowadzaj z powrotem pojedyncze pokarmy (reintrodukcja), obserwując swoje samopoczucie."
       )
     )
   }
@@ -967,7 +967,7 @@ fun MetabolismSimulator(
       Spacer(modifier = Modifier.height(12.dp))
 
       MetricRow(
-        label = "Zagrożenie Stresem Oksydacyjnym (ROS):",
+        label = "Wolne Rodniki i Stres Oksydacyjny (ROS):",
         valueText = if (mode == SimulatorMode.GLUCOSE) "Krytyczne 85% !" else "Bezpieczne 12%",
         progress = rosProgress,
         color = if (mode == SimulatorMode.GLUCOSE) BrainPink else KetoneCyan
@@ -1811,48 +1811,39 @@ fun TrackScreen() {
             else -> {
               adviceTitle = "KIERUNEK: Quiet Keto do Quiet Paleo (Rozszerzenie Węglowodanów)"
               advicePhysiology = "Fizjologia: Organizm powraca do czerpania głównej energii z glukozy rosnącej w bezpiecznych źródłach bez nadmiernej hiperstymulacji trzustki. Receptory dla insuliny IR pozostają drożne i wrażliwe dzięki eliminacji cukrów rafinowanych."
-              adviceWarning = "Objawy/Pułapki: Błyskawiczny powrót do glutenu, zbóż, pieczywa i słodyczy. Wywoła to gwałtowny skok insulinowy, ogólny obrzęk (retencję wody), ból głowy i niemal natychmiastowe odcięcie dopływu glukozy do neuronów."
-              adviceSteps = "Protokół dr Ede: Wprowadzaj węglowodany gęste odżywczo o niskiej toksyczności z bazy Paleo: gotowane bataty, borówki, dynia piżmowa. Zawsze łącz je ze zdrowym tłuszczem nasyconym lub proteiną, co spłaszczy poposiłkową krzywą cukrową."
+              adviceWarning = "Objawy/Pułapki: Błyskawiczny powrót do glutenu, zbóż pszennych i słodzonych napojów, co natychmiast wywoła zaburzenia jelitowe oraz powtórne wahania glukozy i powrót lęków obwodowych."
+              adviceSteps = "Protokół dr Ede: Wprowadzaj wyłącznie węglowodany najwyższej jakości o ujemnej toksyczności (np. pieczone bataty, dynię lub ziemniaki), aby uniknąć gwałtownych skoków insuliny. Monitoruj glukozę na czczo i utrzymuj ją poniżej 85 mg/dl."
             }
           }
 
+          Spacer(modifier = Modifier.height(14.dp))
+
           Text(
             text = adviceTitle,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.ExtraBold,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Bold,
             color = EnergyAmber
           )
           Spacer(modifier = Modifier.height(8.dp))
-          Text(text = advicePhysiology, fontSize = 11.sp, color = CleanWhite, lineHeight = 15.sp)
-          Spacer(modifier = Modifier.height(6.dp))
-          Text(text = adviceWarning, fontSize = 11.sp, color = BrainPink, fontWeight = FontWeight.Bold, lineHeight = 15.sp)
-          Spacer(modifier = Modifier.height(6.dp))
-          Text(text = adviceSteps, fontSize = 11.sp, color = KetoneCyan, fontWeight = FontWeight.Medium, lineHeight = 15.sp)
-        }
-      }
-    }
-
-    // Medical Elimination Graphic Card (Infographic style)
-    item {
-      CustomBorderCard(
-        shape = RoundedCornerShape(24.dp),
-        color = BrainPink.copy(0.04f),
-        borderColor = BrainPink.copy(0.15f),
-        borderWidth = 1.dp
-      ) {
-        Column(modifier = Modifier.padding(18.dp)) {
           Text(
-            text = "🛡️ ZASADA INTEGRALNOŚCI METABOLICZNEJ",
-            fontSize = 11.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = BrainPink,
-            letterSpacing = 0.5.sp
+            text = advicePhysiology,
+            fontSize = 12.sp,
+            color = CleanWhite.copy(0.95f),
+            lineHeight = 16.sp
           )
           Spacer(modifier = Modifier.height(8.dp))
           Text(
-            text = "Ewolucyjnie, rośliny bronią się przed zjedzeniem za pomocą chemicznych inhibitorów i kwasów obronnych (np. szczawianów wyciągających minerały). Gdy bariera jelitowa jest nieszczelna, te czynniki bez trudu aktywują mikroglej do neurozapalenia. Im silniejsze u Ciebie stany lękowe, tym pilniej należy wejść na Krok 3 (Carnivore), aby w 100% wyciszyć te czynniki.",
+            text = "⚠️ " + adviceWarning,
             fontSize = 12.sp,
-            color = CleanWhite.copy(0.9f),
+            color = BrainPink,
+            lineHeight = 16.sp,
+            fontWeight = FontWeight.Medium
+          )
+          Spacer(modifier = Modifier.height(8.dp))
+          Text(
+            text = "📋 " + adviceSteps,
+            fontSize = 12.sp,
+            color = SoftGray,
             lineHeight = 16.sp
           )
         }
@@ -1876,72 +1867,72 @@ fun LabsScreen() {
   val labBiomarkers = remember {
     listOf(
       LabBiomarker(
-        name = "Insulina na czczo (Fasting Insulin)",
+        name = "Insulina na czczo (Poziom insuliny we krwi)",
         icon = "🧬",
-        optimalText = "2.0 – 5.0 uIU/ml",
-        warningText = "> 6.0 uIU/ml (Słabnie wrażliwość receptorów)",
-        markerDesc = "Niezwykle czuły, wczesny wskaźnik zdrowia metabolicznego. Tradycyjne laboratoria wadliwie uznają wynik do 25 uIU/ml za poprawny, co wg dr Ede jest krytycznym błędem dopuszczającym głodowanie neuronów.",
-        whyVital = "Gdy czcza insulina rośnie, receptory na synapsach są stale bombardowane i ulegają niszczeniu (down-regulation). Mózg traci dopływ energii, mimo obecności glukozy.",
-        actionHint = "Sugerowane działanie: Natychmiast wejdź w Krok 2 (Quiet Keto), aby dać odpocząć trzustce i wygenerować ketony omijające oporność."
+        optimalText = "2.0 – 5.0 mln mikrojednostek na mililitr (uIU/ml)",
+        warningText = "Powyżej 6.0 uIU/ml (Słabnie wrażliwość komórek)",
+        markerDesc = "Niezwykle czuły, najwcześniejszy wskaźnik zdrowia metabolicznego całego organizmu. Tradycyjne laboratoria wadliwie uznają wysoki wynik aż do 25 jednostek za poprawny, co zdaniem dr Ede jest krytycznym błędem medycznym maskującym powolne głodowanie komórek nerwowych.",
+        whyVital = "Gdy poziom insuliny rośnie, receptory na synapsach nerwowych są nieprzerwanie bombardowane i ulegają uszkodzeniu oraz ogłuszeniu. Mózg traci bezcenny dopływ energii, mimo dużej obecności cukru we krwi.",
+        actionHint = "Sugerowane działanie: Natychmiast przejdź na Drugi Krok (Wyciszoną Dietę Keto), aby dać odpocząć trzustce i wygenerować dobroczynne ciała ketonowe omijające oporność insulinową."
       ),
       LabBiomarker(
-        name = "Glukoza na czczo (Fasting Glucose)",
+        name = "Glukoza na czczo (Poziom cukru)",
         icon = "🩸",
-        optimalText = "70 – 85 mg/dl",
-        warningText = "86 – 99 mg/dl (Stan ukryty), >100 mg/dl (Ryzyko AGEs)",
-        markerDesc = "Obrazuje podstawową ilość cukru pętającego się w naczyniach krwionośnych w stanie spoczynku.",
-        whyVital = "Przewlekle wysoka glukoza powoduje niszczycielski proces glikacji – wiązania cukru z białkami i tłuszczami w mózgu. Powstają Advanced Glycation End-products (AGEs), które dosłownie karmelizują mielinę i niszczą hipokamp.",
-        actionHint = "Sugerowane działanie: Wyeliminuj 100% rafinowanych mąk, chleba i napojów słodzonych (przejdź na Quiet Paleo)."
+        optimalText = "70 – 85 miligramów na decylitr (mg/dl)",
+        warningText = "86 – 99 mg/dl (Ukryty stan przedcukrzycowy), powyżej 100 mg/dl (Szybkie niszczenie białek)",
+        markerDesc = "Obrazuje podstawową, bieżącą ilość cukru krążącego w naczyniach krwionośnych w stanie spoczynku po nocy.",
+        whyVital = "Przewlekle wysoka glukoza wywołuje niszczącą reakcję glikacji, czyli chemicznego wiązania cukru z białkami i tłuszczami w mózgu. Powstają wtedy toksyczne, uszkodzone białka (tzw. końcowe produkty zaawansowanej glikacji), które dosłownie karmelizują osłonki nerwowe i niszczą obszar pamięci (hipokamp) w mózgu.",
+        actionHint = "Sugerowane działanie: Wyeliminuj całkowicie ze swojej diety rafinowane mąki, białe pieczywo, drożdżówki oraz wszelkie słodzone napoje (przejdź na Pierwszy Krok, czyli Wyciszoną Dietę Paleo)."
       ),
       LabBiomarker(
-        name = "Wskaźnik HOMA-IR (Wrażliwość metaboliczna)",
+        name = "Wskaźnik oporności HOMA-IR (Wrażliwość komórek na insulinę)",
         icon = "📊",
-        optimalText = "< 1.0",
-        warningText = "1.0 – 1.9 (Wczesna oporność), >2.0 (Zaawansowana blokada)",
-        markerDesc = "Matematyczna relacja obliczana wzorem: (Glukoza * Insulina) / 405.",
-        whyVital = "HOMA-IR powyżej 1.9 to dowód na Cerebral Glucose Hypometabolism - stan, w którym komórki mózgowe głodują w morzu obfitości krwi. Jest to bezpośrednie podłoże stanów lękowych, bólów głowy i wczesnego stadium Alzheimera.",
-        actionHint = "Sugerowane działanie: Jeżeli masz HOMA-IR powyżej 1.9, potrzebujesz głębokiej naprawy energetycznej pod osłoną ketonów (Quiet Keto)."
+        optimalText = "Poniżej 1.0",
+        warningText = "1.0 – 1.9 (Wczesna oporność), powyżej 2.0 (Zaawansowana blokada komórkowa)",
+        markerDesc = "Matematyczny stosunek obliczany przez laboratoria na podstawie relacji poziomu cukru i insuliny na czczo.",
+        whyVital = "Wynik powyżej 1.9 to jasny dowód na mózgową głodówkę energetyczną – stan, w którym komórki mózgowe dosłownie umierają z głodu w morzu płynącej krwi przepełnionej cukrem. Jest to bezpośrednie podłoże przewlekłych stanów lękowych, nawracających bólów głowy i wczesnego stadium otępienia.",
+        actionHint = "Sugerowane działanie: Jeżeli Twój wskaźnik przekracza wartość 1.9, potrzebujesz głębokiej regeneracji energetycznej mózgu pod zbawienną osłoną alternatywnego paliwa (Drugi Krok - Wyciszona Dieta Keto)."
       ),
       LabBiomarker(
-        name = "Stosunek TG do HDL (Trójglicerydy / HDL)",
+        name = "Stosunek trójglicerydów do dobrego cholesterolu HDL",
         icon = "⚖️",
-        optimalText = "< 1.5",
-        warningText = "1.5 – 2.5 (Początek dyslipidemii), >2.5 (Krytyczny)",
-        markerDesc = "Ilość triglicerydów podzielona przez poziom dobrego cholesterolu HDL.",
-        whyVital = "Stosunek ten precyzyjnie opisuje architekturę cząsteczek cholesterolu. Niski wynik (<1.5) oznacza brak groźnych dla zdrowia małych gęstych LDL (sdLDL) oraz wyklucza stłuszczenie wątroby spowodowane fruktozą.",
-        actionHint = "Sugerowane działanie: Aby gwałtownie obniżyć trójglicerydy (TG) i podnieść HDL, należy wyciąć fruktozę oraz spożywać nasycone tłuszcze zwierzęce z żółtek jaj i masła klarowanego."
+        optimalText = "Poniżej 1.5",
+        warningText = "1.5 – 2.5 (Początek zaburzeń lipidowych), powyżej 2.5 (Stan krytyczny dla naczyń)",
+        markerDesc = "Ilość tłuszczów TG podzielona przez poziom dobrego cholesterolu HDL we krwi.",
+        whyVital = "Ten stosunek precyzyjnie opisuje strukturę i jakość krążącego cholesterolu. Wyklucza obecność niebezpiecznych, bardzo małych i gęstych cząsteczek LDL, które łatwo utleniają się w naczyniach, oraz bezpośrednio wskazuje na brak stłuszczenia wątroby spowodowanego spożywaniem słodkiej fruktozy.",
+        actionHint = "Sugerowane działanie: Aby gwałtownie obniżyć trójglicerydy i znacznie podnieść dobry cholesterol HDL, należy bezwzględnie usunąć z diety cukier owocowy oraz spożywać zdrowe tłuszcze zwierzęce z żółtek jaj i masła klarowanego."
       ),
       LabBiomarker(
-        name = "Kwas Moczowy (Uric Acid)",
+        name = "Kwas moczowy we krwi",
         icon = "🧪",
-        optimalText = "< 5.0 mg/dl",
-        warningText = "5.1 – 6.5 mg/dl (Zesztywnienie), >6.5 mg/dl (Zapalenie stawów)",
-        markerDesc = "Produkt uboczny metabolizmu puryn i rozpadu wolnego ATP.",
-        whyVital = "Wysoki kwas moczowy to chemiczny biomarker wyczerpania zapasów ATP w komórkach wątroby i mózgu (często z powodu fruktozy z soków owocowych) oraz marker chronicznej neuroinflamacji.",
-        actionHint = "Sugerowane działanie: Całkowity zakaz spożywania syropu glukozowo-fruktozowego oraz gotowych soków i owoców wysokocukrowych."
+        optimalText = "Poniżej 5.0 mg/dl",
+        warningText = "5.1 – 6.5 mg/dl (Zesztywnienie naczyń), powyżej 6.5 mg/dl (Ryzyko silnego zapalenia)",
+        markerDesc = "Produkt uboczny przemian metabolicznych i nadmiernego zużycia zasobów energetycznych komórki.",
+        whyVital = "Wysoki poziom kwasu moczowego to bezpośredni dowód na wyczerpanie rezerw energii (ATP) w komórkach wątroby i mózgu (bardzo często spowodowane piciem soków owocowych ze słodką fruktozą) oraz marker ukrytego mikrostanu zapalnego w układzie nerwowym.",
+        actionHint = "Sugerowane działanie: Wprowadź całkowity zakaz spożywania syropu glukozowo-fruktozowego, gotowych soków w kartonach oraz ogranicz słodkie owoce."
       ),
       LabBiomarker(
-        name = "Hemoglobina Glikowana (HbA1c)",
+        name = "Hemoglobina glikowana (HbA1c)",
         icon = "📈",
-        optimalText = "< 5.3 %",
-        warningText = "5.3% – 5.6% (Podniesiona), > 5.7% (Stan dziękicukrzycowy)",
-        markerDesc = "Wskaźnik obrazujący średni poziom glukozy w krążeniu z ostatnich 120 dni.",
-        whyVital = "HbA1c powyżej 5.3% oznacza przewlekłe podwyższenie cukru we krwi. Im wyższa wartość HbA1c, tym silniej zachodzi proces glikacji lipidów mielinowych w mózgu i degeneracja naczyń krwionośnych.",
-        actionHint = "Sugerowane działanie: Przejdź na Quiet Keto i obetnij dobową pulę węglowodanów netto poniżej 20g, by uregulować poziom HbA1c."
+        optimalText = "Poniżej 5.3 %",
+        warningText = "5.3% – 5.6% (Podniesiona), powyżej 5.7% (Stan przedcukrzycowy)",
+        markerDesc = "Wskaźnik pokazujący uśredniony poziom cukru w krwiobiegu z ostatnich około 3 do 4 miesięcy.",
+        whyVital = "Wynik powyżej 5.3% świadczy o przewlekłym, stałym przypalaniu naczyń krwionośnych przez cukier. Im wyższa wartość hemoglobiny glikowanej, tym silniej zachodzi proces niszczenia osłonek mielinowych ochronnych w mózgu i degeneracja drobnych naczyń.",
+        actionHint = "Sugerowane działanie: Przejdź na Wyciszoną Dietę Keto i ogranicz dobową pulę węglowodanów, aby trwale wyprostować poziom cukru z całego kwartału."
       ),
       LabBiomarker(
-        name = "hs-CRP (C-Reactive Protein o wysokiej czułości)",
+        name = "Białko ostrej fazy hs-CRP (Stan zapalny o wysokiej czułości)",
         icon = "🚨",
-        optimalText = "< 0.5 mg/l",
-        warningText = "0.5 – 1.0 mg/l (Przewlekły mikrostan), > 1.0 mg/l (Masywne zapalenie)",
-        markerDesc = "Klasyczny wątrobowy białkowy marker ogólnoustrojowego mikrozapalenia chronicznego.",
-        whyVital = "hs-CRP odzwierciedla tętniący poziom ogólnego stanu zapalnego. Przewlekłe zapalenie naczyń krwionośnych (nawet małe rzędu 0.8 mg/l) z łatwością przenika do mózgu, niszcząc barierę jelito-mózg i wywołując napady lęku.",
-        actionHint = "Sugerowane działanie: Wyeliminuj oleje roślinne (słonecznikowy, rzepakowy) będące źródłem kwasu linolowego omega-6 i wejdź na Quiet Carnivore."
+        optimalText = "Poniżej 0.5 mg/l",
+        warningText = "0.5 – 1.0 mg/l (Przewlekły mikrostan zapalny), powyżej 1.0 mg/l (Masywny pożar w ciele)",
+        markerDesc = "Niezwykle czuły marker produkowany przez wątrobę, wykrywający mikroskopijne ogniska stanu zapalnego.",
+        whyVital = "Podwyższone badanie hs-CRP odzwierciedla ciągłe tlenie się przewlekłego stanu zapalnego w naczyniach krwionośnych. Nawet niewielki stan zapalny (np. rzędu 0.8 mg/l) uszkadza barierę krew-mózg, torując drogę toksynom i prowadząc do napadów paniki, lęku oraz stanów depresyjnych.",
+        actionHint = "Sugerowane działanie: Wyeliminuj całkowicie tanie oleje roślinne (jak słonecznikowy czy rzepakowy), które są źródłem niszczącego kwasu linolowego, i wejdź na Trzeci Krok (Wyciszoną Dietę Carnivore)."
       )
     )
   }
 
-  var expandedMarkerName by remember { mutableStateOf<String?>("Insulina na czczo (Fasting Insulin)") }
+  var expandedMarkerName by remember { mutableStateOf<String?>("Insulina na czczo (Poziom insuliny we krwi)") }
 
   LazyColumn(
     modifier = Modifier
@@ -2368,7 +2359,7 @@ fun SuccessCaseStudiesView() {
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
           Column(modifier = Modifier.weight(1f)) {
-            Text("⚙️ SYGNATURA SAD (Stary Błąd):", fontSize = 10.sp, fontWeight = FontWeight.ExtraBold, color = BrainPink)
+            Text("⚙️ SYGNATURA STANDARDOWEJ DIETY (SAD — Stary Błąd):", fontSize = 10.sp, fontWeight = FontWeight.ExtraBold, color = BrainPink)
             Spacer(modifier = Modifier.height(2.dp))
             Text(oldDiet, fontSize = 11.sp, color = CleanWhite.copy(0.8f), lineHeight = 14.sp)
           }
